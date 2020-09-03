@@ -5,7 +5,7 @@ import sys
 from cli import CliProcessor
 from display import Display
 
-def main() -> None
+def main() -> None:
     cliProcessor = CliProcessor(sys.argv)
     if cliProcessor.successful():
         disp = Display(cliProcessor.displaySize())
