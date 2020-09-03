@@ -1,10 +1,7 @@
-from typing import List
-from time import sleep
-
 class Display:
     def __init__(self, size : (int, int)) -> None:
         self.__size : (int, int) = size
-        self.__grid : List[str] = []
+        self.__grid : typing.List[str] = []
         for row in range(self.__size[1]):
             colStr : str = ''
             for col in range(self.__size[0]):

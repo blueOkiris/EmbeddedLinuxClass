@@ -1,17 +1,15 @@
-from typing import List
-from platform import system
-from os import system as shell
-from threading import Thread
-from time import sleep
-
-from display import Display
+import platform
+import os
+import threading
+import typing
+import etchsketch.display as display
 
 class CliApplication:
     def __init__(self):
-        self.__onLinux : bool = system() != 'Windows'
+        self.__onLinux : bool = platform.system() != 'Windows'
         self.__key : str = ''
         self.__quit : bool = False
-        self.__inputThread : Thread = Thread(target = self.inputAsync)
+        self.__inputThread : threading.Thread = threading.Thread(target = self.inputAsync)
     
     def inputAsync(self):
         while not self.__quit:
@@ -20,43 +18,41 @@ class CliApplication:
             if self.__key == 'q':
                 self.__quit = True
     
-    def start(self, updateFunc, display : Display):
+    def start(self, updateFunc, disp : display.Display):
         self.__quit = False
         self.__inputThread.start()
 
         while not self.__quit:
             self.__clearCli()
-            updateFunc(self.__key, display)
+            updateFunc(self.__key, disp)
         
         self.__inputThread.join()
 
     def __readKey(self) -> str:
         if self.__onLinux:
-            from termios import tcgetattr, tcsetattr, TCSADRAIN
-            from tty import setraw
-            from sys import stdin
+            import termios, tty, sys
 
-            fd = stdin.fileno()
-            old_settings = tcgetattr(fd)
+            fd = sys.stdin.fileno()
+            old_settings = termios.tcgetattr(fd)
             try:
-                setraw(stdin.fileno())
-                ch = stdin.read(1)
+                tty.setraw(sys.stdin.fileno())
+                ch = sys.stdin.read(1)
             finally:
-                tcsetattr(fd, TCSADRAIN, old_settings)
+                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
             return ch
         else:
-            from msvcrt import getch
-            return getch()
+            import msvcrt
+            return msvcrt.getch()
     
     def __clearCli(self):
         if self.__onLinux:
-            shell('clear')
+            os.system('clear')
         else:
-            shell('cls')
+            os.system('cls')
 
 class CliProcessor:
-    def __init__(self, args : List[str]) -> None:
-        self.__args : List[str] = args
+    def __init__(self, args : typing.List[str]) -> None:
+        self.__args : typing.List[str] = args
         self.__displaySize : (int, int) = (8, 8)
         self.__success : bool = True
         
@@ -82,6 +78,7 @@ class CliProcessor:
                 print('Failed to parse height argument - ' + arg + '!')
         elif arg == '--help':
             self.__printHelp()
+            self.__success = False
         else:
             print('Unknown option - ' + arg)
             self.__printHelp()
@@ -93,4 +90,4 @@ class CliProcessor:
         print('Options:')
         print('  --width=#  --> sets the width of the display')
         print('  --height=# --> sets the height of the display')
-        print('  --help=#   --> display this message')
+        print('  --help     --> display this message')
