@@ -1,6 +1,6 @@
 import typing
-import etchsketch.cli as cli
-import etchsketch.display as display
+import window.app as app
+import window.display as display
 
 def testDisplay(disp : display.Display) -> None:
     disp.print()
@@ -11,10 +11,10 @@ def testDisplay(disp : display.Display) -> None:
     disp.print()
 
 def testBasicApp(argv : typing.List[str]) -> None:
-    cliProcessor = cli.CliProcessor(argv)
+    cliProcessor = app.CliProcessor(argv)
     if cliProcessor.successful():
         disp = display.Display(cliProcessor.displaySize())
-        app = cli.CliApplication()
+        app = app.CliApplication()
         app.start(simpleDraw, disp)
 
 def simpleDraw(key : str, disp : display.Display) -> None:

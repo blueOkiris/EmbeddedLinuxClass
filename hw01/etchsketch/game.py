@@ -1,5 +1,5 @@
 import typing
-import etchsketch.display as display
+import window.display as display
 
 class Game:
     def __init__(self):

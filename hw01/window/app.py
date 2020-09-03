@@ -2,7 +2,7 @@ import platform
 import os
 import threading
 import typing
-import etchsketch.display as display
+import window.display as display
 
 class CliApplication:
     def __init__(self) -> None:

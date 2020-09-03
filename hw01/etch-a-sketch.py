@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
 import sys
-import etchsketch.tests as tests
+import window.app as app
+import window.display as display
 import etchsketch.game as game
-import etchsketch.cli as cli
-import etchsketch.display as display
+import etchsketch.tests as tests
 
 def main():
     #tests.testBasicApp(sys.argv)
-    cliProcessor = cli.CliProcessor(sys.argv)
+    cliProcessor = app.CliProcessor(sys.argv)
     if cliProcessor.successful():
         disp = display.Display(cliProcessor.displaySize())
         etchGame = game.Game()
 
-        app = cli.CliApplication()
-        app.start(etchGame.update, disp)
+        application = app.CliApplication()
+        application.start(etchGame.update, disp)
 
 if __name__ == '__main__':
     main()
