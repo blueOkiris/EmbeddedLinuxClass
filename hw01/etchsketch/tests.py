@@ -2,7 +2,7 @@ import typing
 import etchsketch.cli as cli
 import etchsketch.display as display
 
-def testDisplay(disp : display.Display):
+def testDisplay(disp : display.Display) -> None:
     disp.print()
     for x in range(min(disp.size()[0], disp.size()[1])):
         disp.setPoint((x, x))
@@ -10,14 +10,14 @@ def testDisplay(disp : display.Display):
     disp.clear()
     disp.print()
 
-def testBasicApp(argv : typing.List[str]):
+def testBasicApp(argv : typing.List[str]) -> None:
     cliProcessor = cli.CliProcessor(argv)
     if cliProcessor.successful():
         disp = display.Display(cliProcessor.displaySize())
         app = cli.CliApplication()
         app.start(simpleDraw, disp)
 
-def simpleDraw(key : str, disp : display.Display):
+def simpleDraw(key : str, disp : display.Display) -> None:
     disp.clear()
     
     for col in range(disp.size()[0]):

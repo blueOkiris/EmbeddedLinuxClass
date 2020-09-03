@@ -5,20 +5,20 @@ import typing
 import etchsketch.display as display
 
 class CliApplication:
-    def __init__(self):
+    def __init__(self) -> None:
         self.__onLinux : bool = platform.system() != 'Windows'
         self.__key : str = ''
         self.__quit : bool = False
         self.__inputThread : threading.Thread = threading.Thread(target = self.inputAsync)
     
-    def inputAsync(self):
+    def inputAsync(self) -> None:
         while not self.__quit:
             self.__key = self.__readKey()
 
             if self.__key == 'q':
                 self.__quit = True
     
-    def start(self, updateFunc, disp : display.Display):
+    def start(self, updateFunc, disp : display.Display) -> None:
         self.__quit = False
         self.__inputThread.start()
 
@@ -85,7 +85,7 @@ class CliProcessor:
             
             self.__success = False
 
-    def __printHelp(self):
+    def __printHelp(self) -> None:
         print('./etch-sketch.py [OPTIONS]')
         print('Options:')
         print('  --width=#  --> sets the width of the display')
