@@ -1,23 +1,39 @@
 #!/usr/bin/env python3
 
-import sys
+from sys import argv
 
-from cli import CliProcessor
+from cli import CliProcessor, CliApplication
 from display import Display
 
 def main() -> None:
-    cliProcessor = CliProcessor(sys.argv)
+    cliProcessor = CliProcessor(argv)
     if cliProcessor.successful():
         disp = Display(cliProcessor.displaySize())
-        testDisplay(disp)
+        app = CliApplication()
+        app.start(simpleDraw, disp)
 
+def simpleDraw(key : str, disp : Display):
+    disp.clear()
+    
+    for col in range(disp.size()[0]):
+        disp.setPoint((col, 0))
+        disp.setPoint((col, disp.size()[1] - 1))
+    
+    for row in range(disp.size()[1] - 2):
+        disp.setPoint((0, row + 1))
+        disp.setPoint((disp.size()[0] - 1, row + 1))
+    
+    disp.print()
+
+"""
 def testDisplay(disp : Display):
-    print(disp.output())
+    disp.print()
     for x in range(min(disp.size()[0], disp.size()[1])):
         disp.setPoint((x, x))
-    print(disp.output())
+    disp.print()
     disp.clear()
-    print(disp.output())
-    
+    disp.print()
+"""
+
 if __name__ == '__main__':
     main()

@@ -1,4 +1,5 @@
 from typing import List
+from time import sleep
 
 class Display:
     def __init__(self, size : (int, int)) -> None:
@@ -10,12 +11,9 @@ class Display:
                 colStr += ' '
             self.__grid.append(colStr)
     
-    def output(self) -> str:
-        out : str = ''
+    def print(self) -> None:
         for row in range(self.__size[1]):
-            out += self.__grid[row]
-            out += '\n'
-        return out
+            print('\r' + self.__grid[row])
     
     def clearPoint(self, point : (int, int)) -> None:
         colStrLeft : str = self.__grid[point[1]][:point[0] - 1]
