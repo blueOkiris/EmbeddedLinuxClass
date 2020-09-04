@@ -1,6 +1,7 @@
 import typing
 import data.drawable as drawable
 
+# Basically a static class that is used to update the actual 'game'
 class Game:
     def __init__(self, startPos : (int, int)) -> None:
         self.__reset : bool = True

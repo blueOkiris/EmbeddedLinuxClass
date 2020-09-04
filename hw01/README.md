@@ -4,6 +4,12 @@
 
 A small etch-a-sketch game written in python
 
+## Dependencies
+
+Just the `getch` library
+
+Using pip: `pip install getch`
+
 ## Running
 
 To run:
@@ -37,3 +43,5 @@ Here is a class diagram for the system:
 And here is a rough sequence diagram for how it all connects and functions:
 
 ![sequence diagram](./docs/etch-a-sketch-seq.png)
+
+Note also that key press sequences, which aren't shown, are fairly simple and exist solely in the Game class. Basically when 'setKey' happens, key pressed booleans get set true, and when they get set false, it sets key-released booleans, which stay on until that input is handled. So when 'w' is pressed and released, the game class will move its cursor, draw the new cursor point, and then set the 'w' release to false
