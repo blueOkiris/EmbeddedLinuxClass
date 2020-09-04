@@ -1,4 +1,4 @@
-@startuml etch-a-sketch
+@startuml etch-a-sketch-class
 
 class Main {
     main(argv : List[str])
@@ -82,5 +82,93 @@ Main ....> DomainLayer.Game
 PresentationLayer.CliApplication ...> DataLayer.DrawBuffer
 PresentationLayer.CliApplication --> DomainLayer.Game
 DomainLayer.Game --> DataLayer.DrawBuffer
+
+@enduml
+
+@startuml etch-a-sketch-seq
+
+actor Player
+
+box PresentationLayer
+
+participant CliApplication
+participant Display
+
+endbox
+
+box DomainLayer
+
+participant Game
+
+end box
+
+box DataLayer
+
+entity DrawBuffer
+
+end box
+
+== Main Loop ==
+
+alt main thread
+
+loop until quit
+
+CliApplication -> Game : update(current draw buffer)
+Game -> DrawBuffer : set points, clear points, etc
+Game --> CliApplication : new draw buffer
+CliApplication -> Display : copyDrawBuffer(drawBuffer)
+
+loop all rows
+
+loop all columns
+
+Display -> DrawBuffer : getPoint((col, row))
+DrawBuffer --> Display : value at point
+
+end
+
+end
+
+CliApplication -> Display : print()
+Display --> Player : output
+
+end
+
+else key update thread
+
+loop until quit
+
+CliApplication -> Player : getch()
+Player --> CliApplication : key
+
+end
+
+end
+
+== Movement ==
+
+Player -> CliApplication : wasd pressed
+CliApplication -> Game : update(key, currBuff)
+Game -> Game : updateKeys - pressed set
+CliApplication -> Game : update(key, currBuff)
+Game -> Game : updateKeys - released set
+Game -> Game : do game logic stuff
+Game --> CliApplication : new buffer
+
+== Clearing ==
+
+Player -> CliApplication : e pressed
+CliApplication -> Game : update(key, currBuf)
+Game -> Game : updateKeys - pressed set
+CliApplication -> Game : update(key, currBuf)
+Game -> Game : updateKeys - released set
+Game -> DrawBuffer : clear()
+Game --> CliApplication : new (cleared) buffer
+
+== Quiting ==
+
+Player -> CliApplication : q pressed
+CliApplication -> CliApplication : quit = true
 
 @enduml
