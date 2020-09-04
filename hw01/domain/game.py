@@ -38,7 +38,7 @@ class Game:
         if self.__directionReleased[2] and self.__cursorPos[0] > 0:
             self.__cursorPos = (self.__cursorPos[0] - 1, self.__cursorPos[1])
             newBuff.setPoint(self.__cursorPos, True)
-        elif self.__directionReleased[3] and self.__cursorPos[0] < newBuff.size()[1] - 1:
+        elif self.__directionReleased[3] and self.__cursorPos[0] < newBuff.size()[0] - 1:
             self.__cursorPos = (self.__cursorPos[0] + 1, self.__cursorPos[1])
             newBuff.setPoint(self.__cursorPos, True)
         
