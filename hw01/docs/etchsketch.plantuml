@@ -1,0 +1,86 @@
+@startuml etch-a-sketch
+
+class Main {
+    main(argv : List[str])
+}
+
+namespace PresentationLayer {
+    class Display {
+        - size : Tuple[int, int]
+        - grid : List[str]
+
+        + Display(size : Tuple[int, int])
+        + print()
+        + copyDrawBuffer(buff : DrawBuffer)
+        + size() : Tuple[int, int]
+        + debugInfo() : str
+    }
+
+    class CliApplication {
+        - onLinux : bool
+        - key : str
+        - quit : bool
+        - inputThread : Thread
+
+        + CliApplication()
+        + inputAsync()
+        + start(updateThread, disp : Display)
+        - readKey() : str
+        - clearCli()
+    }
+
+    class CliProcessor {
+        - args : List[str]
+        - displaySize : Tuple[int, int]
+        - startPos : Tuple[int, int]
+        - success : bool
+        - startPosChanged : Tuple[bool, bool]
+
+        + CliProcessor(args : List[str])
+        + successful() : bool
+        + displaySize() : Tuple[int, int]
+        + startPosition() : Tuple[int, int]
+        - processArg(arg : str)
+        - printHelp()
+    }
+
+    CliApplication --> Display
+}
+
+namespace DomainLayer {
+    class Game {
+        - reset : bool
+        - startPos : Tuple[int, int]
+        - cursorPos : Tuple[int, int]
+        - directionPressed : List[bool]
+        - clearPressed : bool
+        - directionReleased : List[bool]
+        - clearReleased : bool
+        
+        + Game(startPos : Tuple[int, int])
+        + update(key : str, buff : DrawBuffer) : DrawBuffer
+        - updateKeys(key : str)
+    }
+}
+
+namespace DataLayer {
+    class DrawBuffer {
+        - size : Tuple[int, int]
+        - buff : List[List[bool]]
+
+        + size() : Tuple[int, int]
+        + setPoint(point : Tuple[int, int], value : bool)
+        + getPoint(point : Tuple[int, int]) : bool
+        + clear()
+    }
+}
+
+Main ..> PresentationLayer.CliProcessor
+Main ..> PresentationLayer.CliApplication
+Main ...> PresentationLayer.Display
+Main ....> DomainLayer.Game
+PresentationLayer.CliApplication ...> DataLayer.DrawBuffer
+PresentationLayer.CliApplication --> DomainLayer.Game
+DomainLayer.Game --> DataLayer.DrawBuffer
+
+@enduml
