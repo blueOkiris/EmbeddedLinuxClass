@@ -49,7 +49,6 @@ class CliDisplay:
             self.__clearCli()
             self.copyDrawBuffer(application.getBuffer())
             self.print()
-            time.sleep(0.1)
 
         self.__inp.quit()
     
