@@ -6,13 +6,29 @@ import data.drawable as drawable
 import domain.app as app
 import presentation.inp as inp
 
+class Display:
+    def __init(self, size : (int, int)) -> None:
+        pass
+
+    def start(self, application : app.Application) -> None:
+        pass
+
+    def print(self) -> None:
+        pass
+
+    def copyDrawBuffer(self, buff : drawable.DrawBuffer) -> None:
+        pass
+
+    def size(self) -> (int, int):
+        return (0, 0)
+
 """
 The purpose of this class is to handle the drawing code
 Currently it uses the cli, but could be repurposed
 to draw to other displays.
 Functionally, it abstracts a display output
 """
-class CliDisplay:
+class CliDisplay(Display):
     def __init__(self, size : (int, int)) -> None:
         self.__onLinux : bool = platform.system() != 'Windows'
         self.__size : (int, int) = size
@@ -23,7 +39,7 @@ class CliDisplay:
                 colStr += ' '
             self.__grid.append(colStr)
         self.__quit : bool = False
-        self.__inp : inp.CliInputHandler = inp.CliInputHandler()
+        self.__inp : inp.InputHandler = inp.CliInputHandler()
     
     # Handle cross-platform clearing of terminal
     def __clearCli(self) -> None:

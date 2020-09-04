@@ -2,6 +2,19 @@ import getch
 import multiprocessing
 import time
 
+class InputHandler:
+    def __init__(self) -> None:
+        pass
+
+    def getKey(self) -> str:
+        return ''
+    
+    def start(self) -> None:
+        pass
+
+    def quit(self) -> None:
+        pass
+
 # Loop in a separate process, adding to the queue when a key is pressed
 def cliUpdateInput(queue : multiprocessing.Queue):
     quit : bool = False
@@ -14,7 +27,7 @@ def cliUpdateInput(queue : multiprocessing.Queue):
         time.sleep(0.005)
 
 # This just serves to set up and start the input loop (and give it a queue)
-class CliInputHandler:
+class CliInputHandler(InputHandler):
     def __init__(self) -> None:
         self.__queue : multiprocessing.Queue = multiprocessing.Queue()
         self.__updateThread : multiprocessing.Process = multiprocessing.Process(target = cliUpdateInput, args = (self.__queue,))
