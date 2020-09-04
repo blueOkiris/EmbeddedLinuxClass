@@ -55,13 +55,13 @@ class Display:
     
     def print(self) -> None:
         for row in range(self.__size[1]):
-            print(self.__grid[row])
+            print(' ' + self.__grid[row])
     
     # Copy the data layer's draw buffer into memory so it can be printed
     def copyDrawBuffer(self, buff : drawable.DrawBuffer) -> None:
         for row in range(min(self.size()[1], buff.size()[1])):
             for col in range(min(self.size()[0], buff.size()[0])):
-                leftSide : str = self.__grid[row][0:col - 1]
+                leftSide : str = self.__grid[row][0:col]
                 rightSide : str = self.__grid[row][col + 1:]
                 if buff.getPoint((col, row)):
                     self.__grid[row] = leftSide + '#' + rightSide
