@@ -4,6 +4,13 @@ import threading
 import typing
 import window.display as display
 
+"""
+This class creates the main processing loop
+It also creates a thread for offloading key presses
+
+In particular, this allows for an application-like system
+but in cli
+"""
 class CliApplication:
     def __init__(self) -> None:
         self.__onLinux : bool = platform.system() != 'Windows'
@@ -11,6 +18,7 @@ class CliApplication:
         self.__quit : bool = False
         self.__inputThread : threading.Thread = threading.Thread(target = self.inputAsync)
     
+    # The separate thread that constantly receives key presses
     def inputAsync(self) -> None:
         while not self.__quit:
             self.__key = self.__readKey()
@@ -18,10 +26,12 @@ class CliApplication:
             if self.__key == 'q':
                 self.__quit = True
     
+    # Call the update func every loop with display
     def start(self, updateFunc, disp : display.Display) -> None:
         self.__quit = False
         self.__inputThread.start()
 
+        # Main processing loop
         while not self.__quit:
             self.__clearCli()
             updateFunc(self.__key, disp)
@@ -30,6 +40,7 @@ class CliApplication:
         
         self.__inputThread.join()
 
+    # Handle cross-platform getch()
     def __readKey(self) -> str:
         if self.__onLinux:
             import termios, tty, sys
@@ -46,12 +57,14 @@ class CliApplication:
             import msvcrt
             return msvcrt.getch()
     
+    # Handle cross-platform clearing of terminal
     def __clearCli(self):
         if self.__onLinux:
             os.system('clear')
         else:
             os.system('cls')
 
+# This class processes arguments
 class CliProcessor:
     def __init__(self, args : typing.List[str]) -> None:
         self.__args : typing.List[str] = args
@@ -77,6 +90,11 @@ class CliProcessor:
     def startPosition(self) -> (int, int):
         return self.__startPos
     
+    """
+    Alter settings if argument is given.
+    'Fail' if an unknown command is given
+    or if there's a parsing error
+    """
     def __processArg(self, arg : str) -> None:
         if arg.startswith('--width='):
             try:
@@ -113,6 +131,7 @@ class CliProcessor:
             
             self.__success = False
 
+    # Just the help menu
     def __printHelp(self) -> None:
         print('./etch-sketch.py [OPTIONS]')
         print('Options:')

@@ -7,12 +7,18 @@ import etchsketch.game as game
 import etchsketch.tests as tests
 
 def main():
-    #tests.testBasicApp(sys.argv)
+    # Create a instance of the processor to handle cli args
     cliProcessor = app.CliProcessor(sys.argv)
+    
     if cliProcessor.successful():
         disp = display.Display(cliProcessor.displaySize())
         etchGame = game.Game(cliProcessor.startPosition())
 
+        """
+        Start the app loop using 
+         1) the 'Game' class's update function and 
+         2) our created display
+        """
         application = app.CliApplication()
         application.start(etchGame.update, disp)
 

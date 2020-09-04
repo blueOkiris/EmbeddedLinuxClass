@@ -13,11 +13,17 @@ class Game:
 
     def update(self, key : str, disp : display.Display) -> None:   
         if self.__reset:
+            # Clear display, and reset cursor pos
             disp.clear()
             self.__cursorPos = self.__startPos
             self.__reset = False
             disp.setPoint(self.__cursorPos)
         
+        """
+        Update the cursor position
+        (and draw the next piece of line)
+        based on release trigger.
+        """
         self.__updateKeys(key)
         if self.__directionReleased[0] and self.__cursorPos[1] > 0:
             self.__cursorPos = (self.__cursorPos[0], self.__cursorPos[1] - 1)
@@ -33,9 +39,16 @@ class Game:
             self.__cursorPos = (self.__cursorPos[0] + 1, self.__cursorPos[1])
             disp.setPoint(self.__cursorPos)
         
+        # Similar to above, but with resetting the screen
         if self.__clearReleased:
             self.__reset = True
     
+    """
+    We want to receive press & release,
+    so basically we check if last loop, a key was pressed,
+    and if it's not pressed,
+    then now we can handle a 'released' event
+    """
     def __updateKeys(self, key : str) -> None:
         self.__directionReleased[0] = self.__directionPressed[0] and key != 'w'
         self.__directionReleased[1] = self.__directionPressed[1] and key != 's'

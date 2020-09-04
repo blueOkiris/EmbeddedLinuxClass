@@ -2,6 +2,11 @@ import typing
 import window.app as app
 import window.display as display
 
+"""
+These are just for getting things working.
+They can be ignored
+"""
+
 def testDisplay(disp : display.Display) -> None:
     disp.print()
     for x in range(min(disp.size()[0], disp.size()[1])):
