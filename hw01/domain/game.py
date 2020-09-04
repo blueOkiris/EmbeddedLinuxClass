@@ -1,5 +1,5 @@
 import typing
-import presentation.display as display
+import data.drawable as drawable
 
 class Game:
     def __init__(self, startPos : (int, int)) -> None:
@@ -11,13 +11,15 @@ class Game:
         self.__directionReleased : List[bool] = [ False, False, False, False ]
         self.__clearReleased : bool = False
 
-    def update(self, key : str, disp : display.Display) -> None:   
+    def update(self, key : str, currBuff : drawable.DrawBuffer) -> drawable.DrawBuffer:
+        newBuff : drawable.DrawBuffer = currBuff
+
         if self.__reset:
             # Clear display, and reset cursor pos
-            disp.clear()
+            newBuff.clear()
             self.__cursorPos = self.__startPos
             self.__reset = False
-            disp.setPoint(self.__cursorPos)
+            newBuff.setPoint(self.__cursorPos, True)
         
         """
         Update the cursor position
@@ -27,21 +29,23 @@ class Game:
         self.__updateKeys(key)
         if self.__directionReleased[0] and self.__cursorPos[1] > 0:
             self.__cursorPos = (self.__cursorPos[0], self.__cursorPos[1] - 1)
-            disp.setPoint(self.__cursorPos)
-        elif self.__directionReleased[1] and self.__cursorPos[1] < disp.size()[1] - 1:
+            newBuff.setPoint(self.__cursorPos, True)
+        elif self.__directionReleased[1] and self.__cursorPos[1] < newBuff.size()[1] - 1:
             self.__cursorPos = (self.__cursorPos[0], self.__cursorPos[1] + 1)
-            disp.setPoint(self.__cursorPos)
+            newBuff.setPoint(self.__cursorPos, True)
         
         if self.__directionReleased[2] and self.__cursorPos[0] > 0:
             self.__cursorPos = (self.__cursorPos[0] - 1, self.__cursorPos[1])
-            disp.setPoint(self.__cursorPos)
-        elif self.__directionReleased[3] and self.__cursorPos[0] < disp.size()[1] - 1:
+            newBuff.setPoint(self.__cursorPos, True)
+        elif self.__directionReleased[3] and self.__cursorPos[0] < newBuff.size()[1] - 1:
             self.__cursorPos = (self.__cursorPos[0] + 1, self.__cursorPos[1])
-            disp.setPoint(self.__cursorPos)
+            newBuff.setPoint(self.__cursorPos, True)
         
         # Similar to above, but with resetting the screen
         if self.__clearReleased:
             self.__reset = True
+        
+        return newBuff
     
     """
     We want to receive press & release,

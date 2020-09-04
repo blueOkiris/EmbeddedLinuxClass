@@ -3,6 +3,7 @@ import os
 import threading
 import typing
 import presentation.display as display
+import data.drawable as drawable
 
 """
 This class creates the main processing loop
@@ -31,10 +32,13 @@ class CliApplication:
         self.__quit = False
         self.__inputThread.start()
 
+        dispBuff : drawable.DrawBuffer = drawable.DrawBuffer(disp.size())
+
         # Main processing loop
         while not self.__quit:
             self.__clearCli()
-            updateFunc(self.__key, disp)
+            dispBuff = updateFunc(self.__key, dispBuff)
+            disp.copyDrawBuffer(dispBuff)
             disp.print()
             self.__key = ''
         
