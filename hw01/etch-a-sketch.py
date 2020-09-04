@@ -11,7 +11,7 @@ def main():
     cliProcessor = app.CliProcessor(sys.argv)
     if cliProcessor.successful():
         disp = display.Display(cliProcessor.displaySize())
-        etchGame = game.Game()
+        etchGame = game.Game(cliProcessor.startPosition())
 
         application = app.CliApplication()
         application.start(etchGame.update, disp)

@@ -2,8 +2,9 @@ import typing
 import window.display as display
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self, startPos : (int, int)) -> None:
         self.__reset : bool = True
+        self.__startPos : (int, int) = startPos
         self.__cursorPos : (int, int) = (0, 0)
         self.__directionPressed : List[bool] = [ False, False, False, False ]
         self.__clearPressed : bool = False
@@ -13,7 +14,7 @@ class Game:
     def update(self, key : str, disp : display.Display) -> None:   
         if self.__reset:
             disp.clear()
-            self.__cursorPos = (int(disp.size()[0] / 2), int(disp.size()[1] / 2))
+            self.__cursorPos = self.__startPos
             self.__reset = False
             disp.setPoint(self.__cursorPos)
         
