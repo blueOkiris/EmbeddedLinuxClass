@@ -34,6 +34,8 @@ View controls and cli options:
    ./etch-a-sketch.py --help
    ```
 
+   To see command line options and also the controls for the game
+
 ## Documentation
 
 Here is a class diagram for the system:
