@@ -2,7 +2,7 @@ import platform
 import os
 import threading
 import typing
-import window.display as display
+import presentation.display as display
 
 """
 This class creates the main processing loop

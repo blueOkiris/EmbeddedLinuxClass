@@ -1,5 +1,5 @@
 import typing
-import window.display as display
+import presentation.display as display
 
 class Game:
     def __init__(self, startPos : (int, int)) -> None:

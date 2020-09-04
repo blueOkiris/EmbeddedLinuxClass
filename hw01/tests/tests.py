@@ -1,6 +1,6 @@
 import typing
-import window.app as app
-import window.display as display
+import presentation.app as app
+import presentation.display as display
 
 """
 These are just for getting things working.

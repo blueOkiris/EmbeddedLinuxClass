@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 
 import sys
-import window.app as app
-import window.display as display
-import etchsketch.game as game
-import etchsketch.tests as tests
+import presentation.app as app
+import presentation.display as display
+import domain.game as game
 
 def main():
     # Create a instance of the processor to handle cli args
