@@ -14,8 +14,8 @@ def testBasicApp(argv : typing.List[str]) -> None:
     cliProcessor = app.CliProcessor(argv)
     if cliProcessor.successful():
         disp = display.Display(cliProcessor.displaySize())
-        app = app.CliApplication()
-        app.start(simpleDraw, disp)
+        application = app.CliApplication()
+        application.start(simpleDraw, disp)
 
 def simpleDraw(key : str, disp : display.Display) -> None:
     disp.clear()

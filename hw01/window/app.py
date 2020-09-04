@@ -25,6 +25,8 @@ class CliApplication:
         while not self.__quit:
             self.__clearCli()
             updateFunc(self.__key, disp)
+            disp.print()
+            self.__key = ''
         
         self.__inputThread.join()
 
@@ -91,3 +93,7 @@ class CliProcessor:
         print('  --width=#  --> sets the width of the display')
         print('  --height=# --> sets the height of the display')
         print('  --help     --> display this message')
+        print('Game control:')
+        print('  w, a, s, d --> up, down, left, and right, respectively')
+        print('  e          --> reset cursor position and clear')
+        print('  q          --> quit the etch-a-sketch program')
