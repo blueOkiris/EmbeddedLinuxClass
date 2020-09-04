@@ -12,7 +12,7 @@ Currently it uses the cli, but could be repurposed
 to draw to other displays.
 Functionally, it abstracts a display output
 """
-class Display:
+class CliDisplay:
     def __init__(self, size : (int, int)) -> None:
         self.__onLinux : bool = platform.system() != 'Windows'
         self.__size : (int, int) = size
@@ -23,7 +23,7 @@ class Display:
                 colStr += ' '
             self.__grid.append(colStr)
         self.__quit : bool = False
-        self.__inp : inp.InputHandler = inp.InputHandler()
+        self.__inp : inp.CliInputHandler = inp.CliInputHandler()
     
     # Handle cross-platform clearing of terminal
     def __clearCli(self) -> None:

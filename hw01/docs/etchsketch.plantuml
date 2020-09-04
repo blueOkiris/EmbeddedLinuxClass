@@ -5,14 +5,14 @@ class Program {
 }
 
 namespace PresentationLayer {
-    class Display {
+    class CliDisplay {
         - onLinux : bool
         - size : Tuple[int, int]
         - grid : List[str]
         - quit : bool
-        - inpt : InputHandler
+        - inpt : CliInputHandler
 
-        + Display(size : Tuple[int, int])
+        + CliDisplay(size : Tuple[int, int])
         + start(application : Application)
         + print()
         + copyDrawBuffer(buff : DrawBuffer)
@@ -36,19 +36,19 @@ namespace PresentationLayer {
         - printHelp()
     }
 
-    class InputHandler {
+    class CliInputHandler {
         - queue : Queue
         - updateThread : Process
 
         + {static} updateInput(queue : Queue)
 
-        + InputHandler()
+        + CliInputHandler()
         + getKey() : str
         + start()
         + quit()
     }
 
-    Display ..> InputHandler
+    CliDisplay ..> CliInputHandler
 }
 
 namespace DomainLayer {
@@ -106,9 +106,9 @@ namespace DataLayer {
 Program ..> PresentationLayer.CliProcessor
 Program ...> DomainLayer.Game
 Program ...> DomainLayer.Application
-Program ..> PresentationLayer.Display
-PresentationLayer.Display ---> DomainLayer.Application
-PresentationLayer.Display ---> DataLayer.DrawBuffer
+Program ..> PresentationLayer.CliDisplay
+PresentationLayer.CliDisplay ---> DomainLayer.Application
+PresentationLayer.CliDisplay ---> DataLayer.DrawBuffer
 DomainLayer.Application ..> DataLayer.AppState
 DomainLayer.Application ..> DataLayer.DrawBuffer
 DomainLayer.Game ..> DataLayer.DrawBuffer
@@ -122,8 +122,8 @@ actor Player
 participant Program
 
 box PresentationLayer
-participant InputHandler
-participant Display
+participant CliInputHandler
+participant CliDisplay
 end box
 
 box DomainLayer
@@ -143,61 +143,61 @@ entity Queue
 alt main thread
 
 Player -> Program : execute
-Program -> Display : start(application)
-Display -> InputHandler : start()
-InputHandler -> Queue : Queue()
-Display -> Application : start()
+Program -> CliDisplay : start(application)
+CliDisplay -> CliInputHandler : start()
+CliInputHandler -> Queue : Queue()
+CliDisplay -> Application : start()
 Application -> Queue : Queue()
 
 loop !application.hasQuit()
 
-Display -> InputHandler : getKey()
-InputHandler -> Queue : get()
-Queue --> InputHandler : key value or ''
-InputHandler --> Display : key val or ''
-Display -> Application : setKey(key)
+CliDisplay -> CliInputHandler : getKey()
+CliInputHandler -> Queue : get()
+Queue --> CliInputHandler : key value or ''
+CliInputHandler --> CliDisplay : key val or ''
+CliDisplay -> Application : setKey(key)
 Application -> Queue : get()
 Queue --> Application : app state
 Application -> AppState : state key = key
 Application -> Queue : put(app state)
 
 alt key == 'q'
-Display -> Application : quit()
+CliDisplay -> Application : quit()
 Application -> Queue : get()
 Queue --> Application : app state
 Application -> AppState : state quit = True
 Application -> Queue : put(app state)
 end
 
-Display -> Display : clearCli()
-Display -> Application : getBuffer()
+CliDisplay -> CliDisplay : clearCli()
+CliDisplay -> Application : getBuffer()
 Application -> Queue : get()
 Queue --> Application : app state
 Application -> AppState : state handled = True
 Application -> Queue : put(app state)
-Application --> Display : state buffer
-Display -> Display : copyDrawBuffer
+Application --> CliDisplay : state buffer
+CliDisplay -> CliDisplay : copyDrawBuffer
 
 loop all rows
 loop all columns
-Display -> DrawBuffer : getPoint((col, row))
-DrawBuffer --> Display : value at point
+CliDisplay -> DrawBuffer : getPoint((col, row))
+DrawBuffer --> CliDisplay : value at point
 end
 end
 
-Display -> Display : print()
-Display --> Player : output
+CliDisplay -> CliDisplay : print()
+CliDisplay --> Player : output
 
 end
 
-else InputHandler process
+else CliInputHandler process
 
-InputHandler -> InputHandler : start update process
+CliInputHandler -> CliInputHandler : start update process
 
 loop key != 'q'
 
-InputHandler -> InputHandler : getch()
-InputHandler -> Queue : put(key)
+CliInputHandler -> CliInputHandler : getch()
+CliInputHandler -> Queue : put(key)
 
 end
 

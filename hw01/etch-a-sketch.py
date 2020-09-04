@@ -19,7 +19,7 @@ def main():
         """
         etchGame = game.Game(cliProcessor.startPosition())
         application = app.Application(cliProcessor.displaySize(), etchGame.update)
-        disp = display.Display(cliProcessor.displaySize())
+        disp = display.CliDisplay(cliProcessor.displaySize())
         disp.start(application)
 
 if __name__ == '__main__':
