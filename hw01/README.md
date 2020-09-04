@@ -27,3 +27,13 @@ View controls and cli options:
    ```
    ./etch-a-sketch.py --help
    ```
+
+## Documentation
+
+Here is a class diagram for the system:
+
+![class diagram](./docs/etch-a-sketch-class.png)
+
+And here is a rough sequence diagram for how it all connects and functions:
+
+![sequence diagram](./docs/etch-a-sketch-seq.png)
