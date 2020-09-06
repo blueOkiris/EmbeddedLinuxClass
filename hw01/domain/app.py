@@ -28,6 +28,11 @@ class Application:
     
     def start(self) -> None:
         self.__updateThread.start()
+        
+    def handledBuffer(self):
+        state : queuestate.AppState = self.__queue.get()
+        state.buffer.shouldUpdate = False
+        self.__queue.put(state)
 
     def quit(self) -> None:
         state : queuestate.AppState = self.__queue.get()

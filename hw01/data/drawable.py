@@ -8,6 +8,7 @@ class DrawBuffer:
     def __init__(self, size : (int, int)) -> None:
         self.__buff : List[List[bool]] = []
         self.__size : (int, int) = size
+        self.shouldUpdate : bool = False
 
         # Populate buffer
         for row in range(self.__size[1]):

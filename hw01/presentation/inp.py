@@ -24,7 +24,7 @@ def cliUpdateInput(queue : multiprocessing.Queue):
 
         if key == 'q':
             quit = True
-        time.sleep(0.005)
+        time.sleep(0.05)
 
 # This just serves to set up and start the input loop (and give it a queue)
 class CliInputHandler(InputHandler):

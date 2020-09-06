@@ -6,4 +6,4 @@ class AppState:
         self.key : str = ''
         self.buffer : drawable.DrawBuffer = drawable.DrawBuffer(bufferSize)
         self.updateFunc = updateFunc
-        self.shouldQuit = False
+        self.shouldQuit : bool = False

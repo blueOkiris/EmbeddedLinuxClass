@@ -61,10 +61,13 @@ class CliDisplay(Display):
             application.setKey(key)
             if key == 'q':
                 application.quit()
-
-            self.__clearCli()
-            self.copyDrawBuffer(application.getBuffer())
-            self.print()
+            
+            buff : drawable.DrawBuffer = application.getBuffer()
+            if buff.shouldUpdate:
+                application.handledBuffer()
+                self.__clearCli()
+                self.copyDrawBuffer(buff)
+                self.print()
 
         self.__inp.quit()
     
