@@ -1,6 +1,8 @@
 #pragma once
 
-#include <string>
+#include <vector>
+#include <utility>
+#include <GpioLine.hpp>
 
 namespace beagleaccess {
     enum class LedIndex {
@@ -13,24 +15,13 @@ namespace beagleaccess {
         LedIndex::Usr2, LedIndex::Usr3
     };
 
-    class Led {
+    class LedCtrl {
         private:
-            LedIndex _index;
-            
-            static void _writeState(
-                const LedIndex &ind, const unsigned int &state
-            );
-            static std::string _readState(const LedIndex &ind);
-            static std::string _ledBrightnessFolder(const LedIndex &ind);
-            
+            static std::pair<GpioChip, unsigned int> _ledLine(LedIndex ind);
         public:
-            Led(LedIndex ind);
-            
-            static void allOff();
-
-            LedIndex index();
-            void on();
-            void off();
-            bool isOn();
+            static void init();
+            static void turnOn(LedIndex ind);
+            static void turnOff(LedIndex ind);
+            static void shutDown();
     };
 }

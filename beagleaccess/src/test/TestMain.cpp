@@ -11,52 +11,46 @@
 #include <AccessLed.hpp>
 #include <GpioLine.hpp>
 
+using namespace beagleaccess;
+
 void testLedOn();
-void testLedBlink();
 void testBlinkAllLeds();
 void testRawGpio(char *chipName, unsigned int line, unsigned int value);
 void testGpio();
 
 int main() {
     //testLedOn();
-    //testLedBlink();
-    //testBlinkLeds();
+    testBlinkAllLeds();
     //testRawGpio((char *) "/dev/gpiochip1", 22, 1);
-    testGpio();
-}
-
-void testLedBlink() {
-    std::cout << "Single Led Blink Test" << std::endl;
-    beagleaccess::Led led(beagleaccess::LedIndex::Usr0);
-    led.off();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    led.on();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    led.off();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    //testGpio();
 }
 
 void testLedOn() {
     std::cout << "Single Led On Test" << std::endl;
-    beagleaccess::Led led(beagleaccess::LedIndex::Usr1);
-    led.on();
+    LedCtrl::init();
+    LedCtrl::turnOn(LedIndex::Usr1);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    LedCtrl::turnOff(LedIndex::Usr1);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    LedCtrl::shutDown();
 }
 
 void testBlinkAllLeds() {
     std::cout << "Led Blink through All Test" << std::endl;
-    beagleaccess::Led::allOff();
-    for(const auto index : beagleaccess::AllLedIndices) {
-        beagleaccess::Led led(index);
-        led.on();
+    LedCtrl::init();
+    for(const auto ind : AllLedIndices) {
+        LedCtrl::turnOn(ind);
         std::this_thread::sleep_for(std::chrono::seconds(1));
-        led.off();
+        LedCtrl::turnOff(ind);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
+    LedCtrl::shutDown();
 }
 
 void testGpio() {
     std::cout << "Single Gpio CLASS Test" << std::endl;
-    beagleaccess::GpioLine ledLine;
-    ledLine.open(beagleaccess::GpioChip::Chip1, 22);
+    GpioLine ledLine;
+    ledLine.open(GpioChip::Chip1, 22);
     ledLine.set(1);
     std::this_thread::sleep_for(std::chrono::seconds(1));
     ledLine.set(0);
