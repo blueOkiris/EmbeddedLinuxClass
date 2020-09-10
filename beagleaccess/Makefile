@@ -5,7 +5,7 @@ SRCFLDRS := src
 INCFLDRS := include
 
 CPPC :=     g++
-CFLAGS :=   -O2 -Wall
+CPPFLAGS := -O2 -Wall -std=c++17
 
 # Auto-gen settings
 SRC :=      $(foreach folder,$(SRCFLDRS),$(wildcard $(folder)/*.cpp))
@@ -17,12 +17,15 @@ OBJS :=     $(foreach file,$(SRC),obj/$(notdir $(basename $(file))).o)
 lib$(LIBNAME).a : $(SRC) $(HFILES)
 	mkdir -p obj
 	$(foreach file,$(SRC),\
-		$(CPPC) $(INC) $(CFLAGS) -c $(file) -o obj/$(notdir $(basename $(file))).o\
+		$(CPPC) $(INC) $(CPPFLAGS) -c $(file) -o obj/$(notdir $(basename $(file))).o;\
 	)
 	ar rcs lib$(LIBNAME).a $(OBJS)
 
 test-access : lib$(LIBNAME).a src/test/TestMain.cpp
-	$(CPPC) $(INC) -L. $(CFLAGS) -o test-access src/test/TestMain.cpp -l$(LIBNAME)
+	$(CPPC) $(INC) -L. $(CPPFLAGS) -o test-access src/test/TestMain.cpp -l$(LIBNAME)
+
+.PHONY : all
+all : lib$(LIBNAME).a test-access
 
 .PHONY : clean
 clean :
