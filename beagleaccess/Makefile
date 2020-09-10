@@ -21,11 +21,11 @@ lib$(LIBNAME).a : $(SRC) $(HFILES)
 	)
 	ar rcs lib$(LIBNAME).a $(OBJS)
 
-test : lib$(LIBNAME).a src/test/TestMain.cpp
-	$(CPPC) $(INC) -L. $(CFLAGS) -o test src/test/TestMain.cpp -l$(LIBNAME)
+test-access : lib$(LIBNAME).a src/test/TestMain.cpp
+	$(CPPC) $(INC) -L. $(CFLAGS) -o test-access src/test/TestMain.cpp -l$(LIBNAME)
 
 .PHONY : clean
 clean :
 	rm -rf lib$(LIBNAME).a
 	rm -rf obj/
-	rm -rf test
+	rm -rf test-access
