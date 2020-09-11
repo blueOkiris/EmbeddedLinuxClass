@@ -1,23 +1,32 @@
 # Changeable settings
-LIBNAME :=  beagleaccess
+LIBNAME :=   beagleaccess
 
-SRCFLDRS := src
-INCFLDRS := include
+SRCFLDRS :=  src
+CSRCFLDRS := src/c
+INCFLDRS :=  include
+CINCFLDRS := include/c
 
-CPPC :=     g++
-CPPFLAGS := -O2 -Wall -std=c++17
+CPPC :=      g++
+CC :=        gcc
+CPPFLAGS :=  -O2 -Wall -std=c++17
+CFLAGS :=    -O2 -Wall
 
 # Auto-gen settings
-SRC :=      $(foreach folder,$(SRCFLDRS),$(wildcard $(folder)/*.cpp))
-HFILES :=   $(foreach folder,$(INCFLDRS),$(wildcard $(folder)/*.hpp))
-INC :=      $(addprefix -I,$(INCFLDRS))
-OBJS :=     $(foreach file,$(SRC),obj/$(notdir $(basename $(file))).o)
+SRC :=       $(foreach folder,$(SRCFLDRS),$(wildcard $(folder)/*.cpp))
+CSRC :=      $(foreach folder,$(CSRCFLDRS),$(wildcard $(folder)/*.c))
+HFILES :=    $(foreach folder,$(INCFLDRS),$(wildcard $(folder)/*.hpp))
+CHFILES :=   $(foreach folder,$(CINCFLDRS),$(wildcard $(folder)/*.h))
+INC :=       $(addprefix -I,$(INCFLDRS)) $(addprefix -I,$(CINCFLDRS))
+OBJS :=      $(foreach file,$(SRC),obj/$(notdir $(basename $(file))).o) $(foreach file,$(CSRC),obj/$(notdir $(basename $(file))).o)
 
 # Build targets
-lib$(LIBNAME).a : $(SRC) $(HFILES)
+lib$(LIBNAME).a : $(SRC) $(HFILES) $(CSRC) $(CHFILES)
 	mkdir -p obj
 	$(foreach file,$(SRC),\
 		$(CPPC) $(INC) $(CPPFLAGS) -c $(file) -o obj/$(notdir $(basename $(file))).o;\
+	)
+	$(foreach file,$(CSRC),\
+		$(CC) $(INC) $(CFLAGS) -c $(file) -o obj/$(notdir $(basename $(file))).o;\
 	)
 	ar rcs lib$(LIBNAME).a $(OBJS)
 
