@@ -1,6 +1,7 @@
 #pragma once
 
 #include <linux/gpio.h>
+#include <utility>
 #include <string>
 
 namespace beagleaccess {
@@ -14,16 +15,22 @@ namespace beagleaccess {
         GpioChip::Chip2, GpioChip::Chip3
     };
 
+    typedef std::pair<GpioChip, unsigned int> GpioIndex;
+
     class GpioLine {
         private:
             struct gpiohandle_request _req;
             struct gpiohandle_data _data;
-
-            static std::string _chipStr(const GpioChip &chip);
+            GpioIndex _index;
+            bool _isOutput;
 
         public:
-            void open(GpioChip chip, unsigned int line);
+            static std::string chipStr(const GpioChip &chip);
+
+            void open(GpioIndex ind, bool isOutput);
             void set(unsigned int value);
+            unsigned int get();
             void close();
+            GpioIndex index();
     };
 }

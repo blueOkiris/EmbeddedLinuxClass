@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <utility>
 #include <GpioLine.hpp>
 
 namespace beagleaccess {
@@ -17,7 +15,7 @@ namespace beagleaccess {
 
     class LedCtrl {
         private:
-            static std::pair<GpioChip, unsigned int> _ledLine(LedIndex ind);
+            static GpioIndex _ledLine(LedIndex ind);
         public:
             static void init();
             static void turnOn(LedIndex ind);

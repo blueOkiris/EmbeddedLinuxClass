@@ -6,7 +6,9 @@
 
 using namespace beagleaccess;
 
-void GpioLine::open(GpioChip chip, unsigned int line) {
+void GpioLine::open(GpioIndex ind, bool isOutput) {
+    _isOutput = isOutput;
+
     auto blankReq = malloc(sizeof(struct gpiohandle_request));
     auto blankData = malloc(sizeof(struct gpiohandle_data));
     memcpy(&_req, blankReq, sizeof(struct gpiohandle_request));
@@ -14,18 +16,51 @@ void GpioLine::open(GpioChip chip, unsigned int line) {
     free(blankReq);
     free(blankData);
 
-    gpio_open_output_line(&_req, &_data, _chipStr(chip).c_str(), line);
+    if(_isOutput) {
+        gpio_open_output_line(
+            &_req, &_data, chipStr(ind.first).c_str(), ind.second
+        );
+    } else {
+        gpio_open_input_line(
+            &_req, &_data, chipStr(ind.first).c_str(), ind.second
+        );
+    }
+
+    _index = ind;
+}
+
+unsigned int GpioLine::get() {
+    if(!_isOutput) {
+        return gpio_read_line(&_req, &_data);
+    } else {
+        std::cout
+            << "GpioLine at ( " << chipStr(_index.first) << ", "
+            << _index.second
+            << " ) already initialized as output. Cannot call get.";
+        return 0;
+    }
 }
 
 void GpioLine::set(unsigned int value) {
-    gpio_write_line(&_req, &_data, value);
+    if(_isOutput) {
+        gpio_write_line(&_req, &_data, value);
+    } else {
+        std::cout
+            << "GpioLine at ( " << chipStr(_index.first) << ", "
+            << _index.second
+            << " ) already initialized as input. Cannot call set.";
+    }
 }
 
 void GpioLine::close() {
     gpio_close_chip(&_req);
 }
 
-std::string GpioLine::_chipStr(const GpioChip &chip) {
+GpioIndex GpioLine::index() {
+    return _index;
+}
+
+std::string GpioLine::chipStr(const GpioChip &chip) {
     switch(chip) {
         case GpioChip::Chip0:
             return "/dev/gpiochip0";

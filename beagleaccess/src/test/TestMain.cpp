@@ -8,13 +8,16 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <iostream>
-#include <AccessLed.hpp>
+#include <utility>
 #include <GpioLine.hpp>
+#include <AccessLed.hpp>
+#include <Button.hpp>
 
 using namespace beagleaccess;
 
 void testLedOn();
 void testBlinkAllLeds();
+void testButton();
 void testRawGpio(char *chipName, unsigned int line, unsigned int value);
 void testGpio();
 
@@ -25,14 +28,15 @@ int main() {
     //testGpio();
 }
 
-void testLedOn() {
-    std::cout << "Single Led On Test" << std::endl;
-    LedCtrl::init();
-    LedCtrl::turnOn(LedIndex::Usr1);
-    std::this_thread::sleep_for(std::chrono::milliseconds(250));
-    LedCtrl::turnOff(LedIndex::Usr1);
-    std::this_thread::sleep_for(std::chrono::milliseconds(250));
-    LedCtrl::shutDown();
+void testButton() {
+    std::cout << "Single button test" << std::endl;
+    auto buttonInd = std::make_pair(GpioChip::Chip0, 0);
+    while(true) {
+        ButtonCtl::initAt(buttonInd);  // P8_25 - AD0
+        std::cout << "Button is on: " << ButtonCtl::isPressed(buttonInd);
+        ButtonCtl::shutDownAt(buttonInd);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 }
 
 void testBlinkAllLeds() {
@@ -49,10 +53,20 @@ void testBlinkAllLeds() {
     LedCtrl::shutDown();
 }
 
+void testLedOn() {
+    std::cout << "Single Led On Test" << std::endl;
+    LedCtrl::init();
+    LedCtrl::turnOn(LedIndex::Usr1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    LedCtrl::turnOff(LedIndex::Usr1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    LedCtrl::shutDown();
+}
+
 void testGpio() {
     std::cout << "Single Gpio CLASS Test" << std::endl;
     GpioLine ledLine;
-    ledLine.open(GpioChip::Chip1, 22);
+    ledLine.open(std::make_pair(GpioChip::Chip1, 22), true);
     ledLine.set(1);
     std::this_thread::sleep_for(std::chrono::seconds(1));
     ledLine.set(0);

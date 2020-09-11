@@ -32,6 +32,36 @@ void gpio_open_output_line(
     close(chip_file);
 }
 
+void gpio_open_input_line(
+        struct gpiohandle_request *req, struct gpiohandle_data *data,
+        const char *chip_name, unsigned int line) {
+    int chip_file, ret;
+
+    chip_file = open(chip_name, 0);
+    if(chip_file == -1) {
+        printf("Failed to open gpiochip #1\n");
+        return;
+    }
+    
+    req->lineoffsets[0] = line;
+    req->flags = GPIOHANDLE_REQUEST_INPUT;
+    memcpy(req->default_values, data, sizeof(req->default_values));
+    strcpy(req->consumer_label, "gpio");
+    req->lines = 1;
+
+    ret = ioctl(chip_file, GPIO_GET_LINEHANDLE_IOCTL, req);
+    if(ret == -1) {
+       printf("Failed to issue get line handle.\n");
+    }
+
+    close(chip_file);
+}
+
+unsigned int gpio_read_line(
+        struct gpiohandle_request *req, struct gpiohandle_data *data) {
+    return 0;
+}
+
 void gpio_write_line(
         struct gpiohandle_request *req, struct gpiohandle_data *data,
         unsigned int value) {

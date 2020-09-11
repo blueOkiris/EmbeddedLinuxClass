@@ -34,7 +34,7 @@ void LedCtrl::init() {
 
     for(const auto ind : AllLedIndices) {
         const auto lineInfo = _ledLine(ind);
-        userLeds_g[static_cast<int>(ind)].open(lineInfo.first, lineInfo.second);
+        userLeds_g[static_cast<int>(ind)].open(lineInfo, true);
         userLeds_g[static_cast<int>(ind)].set(0);
     }
 }
