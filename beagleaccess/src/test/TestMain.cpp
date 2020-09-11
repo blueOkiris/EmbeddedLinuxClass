@@ -29,20 +29,22 @@ void testLedOn() {
     std::cout << "Single Led On Test" << std::endl;
     LedCtrl::init();
     LedCtrl::turnOn(LedIndex::Usr1);
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
     LedCtrl::turnOff(LedIndex::Usr1);
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
     LedCtrl::shutDown();
 }
 
 void testBlinkAllLeds() {
     std::cout << "Led Blink through All Test" << std::endl;
     LedCtrl::init();
-    for(const auto ind : AllLedIndices) {
-        LedCtrl::turnOn(ind);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        LedCtrl::turnOff(ind);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+    while(true) {
+        for(const auto ind : AllLedIndices) {
+            LedCtrl::turnOn(ind);
+            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+            LedCtrl::turnOff(ind);
+            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        }
     }
     LedCtrl::shutDown();
 }
