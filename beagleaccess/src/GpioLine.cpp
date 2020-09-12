@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <cstring>
 #include <GpioLine.hpp>
 #include <gpio.h>
 
@@ -8,25 +7,13 @@ using namespace beagleaccess;
 
 void GpioLine::open(GpioIndex ind, bool isOutput) {
     _isOutput = isOutput;
-
-    auto blankReq = malloc(sizeof(struct gpiohandle_request));
-    auto blankData = malloc(sizeof(struct gpiohandle_data));
-    memcpy(&_req, blankReq, sizeof(struct gpiohandle_request));
-    memcpy(&_data, blankData, sizeof(struct gpiohandle_data));
-    free(blankReq);
-    free(blankData);
-
-    if(_isOutput) {
-        gpio_open_output_line(
-            &_req, &_data, chipStr(ind.first).c_str(), ind.second
-        );
-    } else {
-        gpio_open_input_line(
-            &_req, &_data, chipStr(ind.first).c_str(), ind.second
-        );
-    }
-
     _index = ind;
+    clear_gpio_handle_info(&_req, &_data);    
+    gpio_open_line(
+        &_req, &_data, 
+        _isOutput ? GPIOHANDLE_REQUEST_OUTPUT : GPIOHANDLE_REQUEST_INPUT, 
+        chipStr(ind.first).c_str(), ind.second
+    );
 }
 
 unsigned int GpioLine::get() {

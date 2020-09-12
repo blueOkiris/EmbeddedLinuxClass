@@ -23,17 +23,19 @@ void testGpio();
 
 int main() {
     //testLedOn();
-    testBlinkAllLeds();
+    //testBlinkAllLeds();
+    testButton();
     //testRawGpio((char *) "/dev/gpiochip1", 22, 1);
     //testGpio();
 }
 
 void testButton() {
     std::cout << "Single button test" << std::endl;
-    auto buttonInd = std::make_pair(GpioChip::Chip0, 0);
+    auto buttonInd = std::make_pair(GpioChip::Chip1, 29);
     while(true) {
-        ButtonCtl::initAt(buttonInd);  // P8_25 - AD0
-        std::cout << "Button is on: " << ButtonCtl::isPressed(buttonInd);
+        ButtonCtl::initAt(buttonInd, false); // P8_26
+        std::cout 
+            << "Button is on: " << ButtonCtl::isPressed(buttonInd) << std::endl;
         ButtonCtl::shutDownAt(buttonInd);
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }

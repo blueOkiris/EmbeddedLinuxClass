@@ -1,15 +1,16 @@
 #include <iostream>
 #include <vector>
+#include <utility>
 #include <GpioLine.hpp>
 #include <Button.hpp>
 
 using namespace beagleaccess;
 
-static std::vector<GpioLine> buttonLines_g;
+static std::vector<ButtonLine> buttonLines_g;
 
-void ButtonCtl::initAt(GpioIndex ind) {
+void ButtonCtl::initAt(GpioIndex ind, bool activeLow) {
     for(auto line : buttonLines_g) {
-        if(line.index() == ind) {
+        if(line.first.index() == ind) {
             std::cout
                 << "Button ( " << GpioLine::chipStr(ind.first)
                 << ", " << ind.second << " ) has already been initialized."
@@ -18,14 +19,18 @@ void ButtonCtl::initAt(GpioIndex ind) {
         }
     }
 
-    buttonLines_g.push_back(GpioLine());
-    buttonLines_g.back().open(ind, false);
+    buttonLines_g.push_back(std::make_pair(GpioLine(), activeLow));
+    buttonLines_g.back().first.open(ind, false);
 }
 
 bool ButtonCtl::isPressed(GpioIndex ind) {
     for(auto line : buttonLines_g) {
-        if(line.index() == ind) {
-            return line.get() != 0;
+        if(line.first.index() == ind) {
+            if(line.second) {
+                return line.first.get() != 0;
+            } else {
+                return line.first.get() == 0;
+            }
         }
     }
 
@@ -37,8 +42,8 @@ bool ButtonCtl::isPressed(GpioIndex ind) {
 
 void ButtonCtl::shutDownAt(GpioIndex ind) {
     for(auto it = buttonLines_g.begin(); it != buttonLines_g.end(); ++it) {
-        if(it->index() == ind) {
-            it->close();
+        if(it->first.index() == ind) {
+            it->first.close();
             buttonLines_g.erase(it);
             return;
         }
