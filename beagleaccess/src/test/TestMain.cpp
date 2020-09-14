@@ -5,6 +5,8 @@
 #include <cstring>
 #include <sys/ioctl.h>
 #include <linux/gpio.h>
+#include <linux/spi/spidev.h>
+#include <linux/types.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <iostream>
@@ -20,20 +22,22 @@ void testBlinkAllLeds();
 void testButton();
 void testRawGpio(char *chipName, unsigned int line, unsigned int value);
 void testGpio();
+void testRawSpi();
 
 int main() {
     //testLedOn();
     //testBlinkAllLeds();
-    testButton();
+    //testButton();
     //testRawGpio((char *) "/dev/gpiochip1", 22, 1);
     //testGpio();
+    testRawSpi();
 }
 
 void testButton() {
     std::cout << "Single button test" << std::endl;
-    auto buttonInd = std::make_pair(GpioChip::Chip1, 29);
+    auto buttonInd = std::make_pair(GpioChip::Chip1, 29); // P8_26
     while(true) {
-        ButtonCtl::initAt(buttonInd, false); // P8_26
+        ButtonCtl::initAt(buttonInd, false);
         std::cout 
             << "Button is on: " << ButtonCtl::isPressed(buttonInd) << std::endl;
         ButtonCtl::shutDownAt(buttonInd);
@@ -120,4 +124,8 @@ void testRawGpio(char *chipName, unsigned int line, unsigned int value) {
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	close(req.fd);
+}
+
+void testRawSpi() {
+    
 }
