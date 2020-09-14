@@ -90,4 +90,6 @@ class CliDisplay(Display):
         return self.__size
     
     def debugInfo(self) -> str:
-        return 'Display size: (' + str(self.__size[0]) + ', ' + str(self.__size[1]) + ')'
+        return \
+            'Display size: (' + str(self.__size[0]) + ', ' \
+            + str(self.__size[1]) + ')'

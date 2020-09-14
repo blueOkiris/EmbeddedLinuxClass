@@ -18,13 +18,16 @@ def updateApplication(queue : multiprocessing.Queue) -> None:
 
         queue.put(appState)
 
-# Create an API for talking to the update process that generates draw buffers based on the inputted updateFunc
+# Create an API for talking to the update process
+# that generates draw buffers based on the inputted updateFunc
 class Application:
     def __init__(self, buffSize : (int, int), updateFunc) -> None:        
         self.__queue : multiprocessing.Queue = multiprocessing.Queue()
         state : queuestate.AppState = queuestate.AppState(buffSize, updateFunc)
         self.__queue.put(state)
-        self.__updateThread : multiprocessing.Process = multiprocessing.Process(target = updateApplication, args = (self.__queue,))
+        self.__updateThread : multiprocessing.Process = multiprocessing.Process(
+            target = updateApplication, args = (self.__queue,)
+        )
     
     def start(self) -> None:
         self.__updateThread.start()

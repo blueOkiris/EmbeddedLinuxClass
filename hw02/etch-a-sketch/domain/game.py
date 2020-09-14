@@ -12,7 +12,8 @@ class Game:
         self.__directionReleased : List[bool] = [ False, False, False, False ]
         self.__clearReleased : bool = False
 
-    def update(self, key : str, currBuff : drawable.DrawBuffer) -> drawable.DrawBuffer:
+    def update(self, key : str, currBuff : drawable.DrawBuffer) \
+            -> drawable.DrawBuffer:
         newBuff : drawable.DrawBuffer = currBuff
 
         if self.__reset:
@@ -33,16 +34,18 @@ class Game:
             self.__cursorPos = (self.__cursorPos[0], self.__cursorPos[1] - 1)
             newBuff.setPoint(self.__cursorPos, True)
             newBuff.shouldUpdate = True
-        elif self.__directionReleased[1] and self.__cursorPos[1] < newBuff.size()[1] - 1:
+        elif self.__directionReleased[1] \
+        and self.__cursorPos[1] < newBuff.size()[1] - 1:
             self.__cursorPos = (self.__cursorPos[0], self.__cursorPos[1] + 1)
             newBuff.setPoint(self.__cursorPos, True)
             newBuff.shouldUpdate = True
-        
-        if self.__directionReleased[2] and self.__cursorPos[0] > 0:
+        if self.__directionReleased[2] \
+        and self.__cursorPos[0] > 0:
             self.__cursorPos = (self.__cursorPos[0] - 1, self.__cursorPos[1])
             newBuff.setPoint(self.__cursorPos, True)
             newBuff.shouldUpdate = True
-        elif self.__directionReleased[3] and self.__cursorPos[0] < newBuff.size()[0] - 1:
+        elif self.__directionReleased[3] \
+        and self.__cursorPos[0] < newBuff.size()[0] - 1:
             self.__cursorPos = (self.__cursorPos[0] + 1, self.__cursorPos[1])
             newBuff.setPoint(self.__cursorPos, True)
             newBuff.shouldUpdate = True
@@ -67,5 +70,7 @@ class Game:
         self.__directionReleased[3] = self.__directionPressed[3] and key != 'd'
         self.__clearReleased = self.__clearPressed and key != 'e'
 
-        self.__directionPressed = [ key == 'w', key == 's', key == 'a', key == 'd']
+        self.__directionPressed = [
+            key == 'w', key == 's', key == 'a', key == 'd'
+        ]
         self.__clearPressed = key == 'e'
