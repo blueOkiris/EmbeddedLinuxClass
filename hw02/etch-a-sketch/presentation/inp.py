@@ -1,7 +1,10 @@
 import getch
 import multiprocessing
 import time
+import typing
+import gpiod
 
+# This just serves to set up and start the input loop (and give it a queue)
 class InputHandler:
     def __init__(self, updateFunc) -> None:
         self.__queue : multiprocessing.Queue = multiprocessing.Queue()
@@ -22,12 +25,19 @@ class InputHandler:
         self.__updateThread.join()
 
 class PushButtonInputHandler(InputHandler):
-    def __init__(self) -> None:
+    def __init__(self, btns : typing.List[typing.Tuple(str, int)]) -> None:
         super().__init__(PushButtonInputHandler.__pushButtonUpdateInput)
+        self.__queue.put(btns)
     
     # Loop in a separate process, adding to the queue when a key is pressed
     @staticmethod
     def __pushButtonUpdateInput(queue : multiprocessing.Queue):
+        btnsRaw = queue.get()
+        btn = []
+        for btnRaw in btnsRaw:
+            chip = gpiod.chip(btnRaw[0])
+            line = gpiod.get_line(btnRaw[1])
+
         quit : bool = False
         while not quit:
             key : str = getch.getch()
@@ -37,7 +47,6 @@ class PushButtonInputHandler(InputHandler):
                 quit = True
             time.sleep(0.05)
 
-# This just serves to set up and start the input loop (and give it a queue)
 class CliInputHandler(InputHandler):
     def __init__(self) -> None:
         super().__init__(CliInputHandler.__cliUpdateInput)
