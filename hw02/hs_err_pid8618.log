@@ -1,0 +1,609 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGILL (0x4) at pc=0xb412ed3c, pid=8618, tid=8619
+#
+# JRE version: OpenJDK Runtime Environment (11.0.8+10) (build 11.0.8+10-post-Debian-1deb10u1)
+# Java VM: OpenJDK Server VM (11.0.8+10-post-Debian-1deb10u1, mixed mode, serial gc, linux-)
+# Problematic frame:
+# J 76 c2 java.lang.invoke.LambdaForm$Name.replaceNames([Ljava/lang/invoke/LambdaForm$Name;[Ljava/lang/invoke/LambdaForm$Name;II)Ljava/lang/invoke/LambdaForm$Name; java.base@11.0.8 (174 bytes) @ 0xb412ed3c [0xb412ebf0+0x0000014c]
+#
+# No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   https://bugs.debian.org/openjdk-11
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: /home/debian/plantuml.jar docs/etchsketch.plantuml -o ./
+
+Host: rev 2 (v7l), 1 cores, 483M, Debian GNU/Linux 10 (buster)
+Time: Mon Sep 14 20:37:29 2020 UTC elapsed time: 3 seconds (0d 0h 0m 3s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0xb630e400):  JavaThread "main" [_thread_in_Java, id=8619, stack(0xb640a000,0xb645a000)]
+
+Stack: [0xb640a000,0xb645a000],  sp=0xb6456f28,  free space=307k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+J 76 c2 java.lang.invoke.LambdaForm$Name.replaceNames([Ljava/lang/invoke/LambdaForm$Name;[Ljava/lang/invoke/LambdaForm$Name;II)Ljava/lang/invoke/LambdaForm$Name; java.base@11.0.8 (174 bytes) @ 0xb412ed3c [0xb412ebf0+0x0000014c]
+j  java.lang.invoke.LambdaFormBuffer.endEdit()Ljava/lang/invoke/LambdaForm;+69 java.base@11.0.8
+j  java.lang.invoke.LambdaFormEditor.makeArgumentCombinationForm(ILjava/lang/invoke/MethodType;[IZZ)Ljava/lang/invoke/LambdaForm;+586 java.base@11.0.8
+j  java.lang.invoke.LambdaFormEditor.foldArgumentsForm(IZLjava/lang/invoke/MethodType;[I)Ljava/lang/invoke/LambdaForm;+106 java.base@11.0.8
+j  java.lang.invoke.MethodHandles.foldArguments(Ljava/lang/invoke/MethodHandle;ILjava/lang/invoke/MethodHandle;[I)Ljava/lang/invoke/MethodHandle;+60 java.base@11.0.8
+j  java.lang.invoke.StringConcatFactory$MethodHandleInlineCopyStrategy.generate(Ljava/lang/invoke/MethodType;Ljava/lang/invoke/StringConcatFactory$Recipe;)Ljava/lang/invoke/MethodHandle;+516 java.base@11.0.8
+j  java.lang.invoke.StringConcatFactory.generate(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/StringConcatFactory$Recipe;)Ljava/lang/invoke/MethodHandle;+101 java.base@11.0.8
+j  java.lang.invoke.StringConcatFactory.doStringConcat(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;ZLjava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;+507 java.base@11.0.8
+j  java.lang.invoke.StringConcatFactory.makeConcatWithConstants(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;+71 java.base@11.0.8
+j  java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+18 java.base@11.0.8
+j  java.lang.invoke.DelegatingMethodHandle$Holder.delegate(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+21 java.base@11.0.8
+j  java.lang.invoke.Invokers$Holder.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;+26 java.base@11.0.8
+j  java.lang.invoke.BootstrapMethodInvoker.invoke(Ljava/lang/Class;Ljava/lang/invoke/MethodHandle;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/Object;+134 java.base@11.0.8
+j  java.lang.invoke.CallSite.makeSite(Ljava/lang/invoke/MethodHandle;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/Object;Ljava/lang/Class;)Ljava/lang/invoke/CallSite;+8 java.base@11.0.8
+j  java.lang.invoke.MethodHandleNatives.linkCallSiteImpl(Ljava/lang/Class;Ljava/lang/invoke/MethodHandle;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/invoke/MemberName;+6 java.base@11.0.8
+j  java.lang.invoke.MethodHandleNatives.linkCallSite(Ljava/lang/Object;ILjava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/invoke/MemberName;+46 java.base@11.0.8
+v  ~StubRoutines::call_stub
+C  0x00000000
+
+
+siginfo: si_signo: 4 (SIGILL), si_code: 1 (ILL_ILLOPC), si_addr: 0xb412ed3c
+
+Register to memory mapping:
+
+  r0  = 0xffffffe7
+0xffffffe7 is an unknown value
+
+  r1  = 0xffffffff
+0xffffffff is an unknown value
+
+  r2  = 0xac7522f8
+0xac7522f8 is an oop: [Ljava.lang.invoke.LambdaForm$Name; 
+{0xac7522f8} - klass: 'java/lang/invoke/LambdaForm$Name'[]
+ - length: 33
+
+  r3  = 0x00000021
+0x00000021 is an unknown value
+
+  r4  = 0x00000001
+0x00000001 is an unknown value
+
+  r5  = 0x00000000
+0x0 is NULL
+
+  r6  = 0x00000001
+0x00000001 is an unknown value
+
+  r7  = 0xac75b3c0
+
+[error occurred during error reporting (printing register info), id 0xb, SIGSEGV (0xb) at pc=0xb6bf27a0]
+
+Registers:
+  r0  = 0xffffffe7
+  r1  = 0xffffffff
+  r2  = 0xac7522f8
+  r3  = 0x00000021
+  r4  = 0x00000001
+  r5  = 0x00000000
+  r6  = 0x00000001
+  r7  = 0xac75b3c0
+  r8  = 0xac75b3d0
+  r9  = 0xac2772d0
+  r10 = 0xb630e400
+  fp  = 0x00000010
+  r12 = 0x00000006
+  sp  = 0xb6456f28
+  lr  = 0xac75b2e0
+  pc  = 0xb412ed3c
+  cpsr = 0x80000010
+
+Top of Stack: (sp=0xb6456f28)
+0xb6456f28:   00000000 ac7522f8 ac75b370 ac75b2e0
+0xb6456f38:   ac35f56c 00000000 00000000 00000000
+0xb6456f48:   ac75afe8 00000009 ac75afc8 ac7522f8
+0xb6456f58:   00000021 00000006 00000001 b6456f64
+0xb6456f68:   ac2d68d0 b6456f94 b6456fbc b40ebee0
+0xb6456f78:   00000009 ac2d6900 00000000 00000009
+0xb6456f88:   00000000 ac7522f8 ac75b2e0 ac75afc8
+0xb6456f98:   b6456f98 ac578145 b6456fd8 ac578c80 
+
+Instructions: (pc=0xb412ed3c)
+0xb412ec3c:   e5923008 e1a0e001 e5911008 e3e08000
+0xb412ec4c:   e3e09000 e1a0b006 e1a0cfc6 e09b8008
+0xb412ec5c:   e0ac9009 e1a0b001 e1a0cfc1 e1550001
+0xb412ec6c:   2a000179 e058000b e0d9100c 2a000176
+0xb412ec7c:   e246c003 e156000c b3a0c480 e285b001
+0xb412ec8c:   e3009000 e3008000 e58d5018 ed9d7a14
+0xb412ec9c:   ed8d7a09 e58d4028 e58de00c e58d202c
+0xb412ecac:   e1a06007 e58d3030 e58dc034 e58db038
+0xb412ecbc:   ea0000a8 e2855002 e2877008 e2855001
+0xb412eccc:   e2877004 e59db02c e08b7007 e58d7004
+0xb412ecdc:   e59d7030 e1550007 2a00012d e59d8004
+0xb412ecec:   e598800c e1540008 0a000034 e3590000
+0xb412ecfc:   1a00001b e1a04106 e59d7020 e5979004
+0xb412ed0c:   e2847013 e3c7b007 e3560a40 8a0000ee
+0xb412ed1c:   e59a70d8 e59a40e0 e087800b e1580004
+0xb412ed2c:   2a0000e9 e3a04001 e58a80d8 e5874000
+0xb412ed3c:   f598f080 e5879004 f598f090 e5876008
+0xb412ed4c:   f598f0a0 e24b4008 e1a021a4 e2871008
+0xb412ed5c:   e59d5020 e2850008 ebff63dd e3009001
+0xb412ed6c:   e58d7020 e59d4020 e5944008 e59d5020
+0xb412ed7c:   e59d7004 e59d6014 e5955004 e597b00c
+0xb412ed8c:   e1560004 2a000112 e30762d0 e34a6c27
+0xb412ed9c:   e1550006 1a000117 e59d6000 e59d4020
+0xb412edac:   e0845006 e285400c e3075000 e34b53b0
+0xb412edbc:   e1a064a4 e3008000 e7c58006 e584b000
+0xb412edcc:   e59d6020 e596e008 e59d4014 e2848001
+0xb412eddc:   e302b000 e34bb6f6 e59bc000 e158000e
+0xb412edec:   ba00005b e3590000 1a000001 e59d4028
+0xb412edfc:   ea000050 e59a70d8 e59a50e0 e2874020
+0xb412ee0c:   e1540005 2a0000b6 e3085a98 e34a5c51
+0xb412ee1c:   e58a40d8 e5958070 e5878000 e3088a98
+0xb412ee2c:   e34a8c51 e5878004 e3008000 e3009000 
+
+
+Stack slot to memory mapping:
+stack at sp + 0 slots: 0x0 is NULL
+stack at sp + 1 slots: 0xac7522f8 is an oop: [Ljava.lang.invoke.LambdaForm$Name; 
+{0xac7522f8} - klass: 'java/lang/invoke/LambdaForm$Name'[]
+ - length: 33
+stack at sp + 2 slots: 0xac75b370 is an oop: java.util.ArrayList 
+{0xac75b370} - klass: 'java/util/ArrayList'
+stack at sp + 3 slots: 0xac75b2e0 is an oop: [Ljava.lang.invoke.LambdaForm$Name; 
+{0xac75b2e0} - klass: 'java/lang/invoke/LambdaForm$Name'[]
+ - length: 33
+stack at sp + 4 slots: 0xac35f56c is pointing into metadata
+stack at sp + 5 slots: 0x0 is NULL
+stack at sp + 6 slots: 0x0 is NULL
+stack at sp + 7 slots: 0x0 is NULL
+
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0xb63ee498, length=8, elements={
+0xb630e400, 0xb6371000, 0xb6374800, 0xb637e800,
+0xb6381000, 0xb6382800, 0xb63e8000, 0xb63ed400
+}
+
+Java Threads: ( => current thread )
+=>0xb630e400 JavaThread "main" [_thread_in_Java, id=8619, stack(0xb640a000,0xb645a000)]
+  0xb6371000 JavaThread "Reference Handler" daemon [_thread_blocked, id=8622, stack(0xac087000,0xac0d7000)]
+  0xb6374800 JavaThread "Finalizer" daemon [_thread_blocked, id=8623, stack(0xac037000,0xac087000)]
+  0xb637e800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=8624, stack(0xaba36000,0xaba86000)]
+  0xb6381000 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=8625, stack(0xab9b6000,0xaba36000)]
+  0xb6382800 JavaThread "Sweeper thread" daemon [_thread_blocked, id=8626, stack(0xab966000,0xab9b6000)]
+  0xb63e8000 JavaThread "Service Thread" daemon [_thread_blocked, id=8627, stack(0xab916000,0xab966000)]
+  0xb63ed400 JavaThread "Common-Cleaner" daemon [_thread_blocked, id=8629, stack(0xab844000,0xab894000)]
+
+Other Threads:
+  0xb636ac00 VMThread "VM Thread" [stack: 0xac0d9000,0xac159000] [id=8621]
+  0xb63e9800 WatcherThread [stack: 0xab896000,0xab916000] [id=8628]
+
+Threads with active compile tasks:
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ def new generation   total 2432K, used 1680K [0xac600000, 0xac8a0000, 0xaeea0000)
+  eden space 2176K,  65% used [0xac600000, 0xac764238, 0xac820000)
+  from space 256K, 100% used [0xac860000, 0xac8a0000, 0xac8a0000)
+  to   space 256K,   0% used [0xac820000, 0xac820000, 0xac860000)
+ tenured generation   total 5504K, used 861K [0xaeea0000, 0xaf400000, 0xb4000000)
+   the space 5504K,  15% used [0xaeea0000, 0xaef774f0, 0xaef77600, 0xaf400000)
+ Metaspace       used 4674K, capacity 4719K, committed 4760K, reserved 5424K
+
+Card table byte_map: [0xb406a000,0xb40a8000] _byte_map_base: 0xb3b07000
+
+Polling page: 0xb6f62000
+
+Metaspace:
+
+Usage:
+    4.61 MB capacity,     4.57 MB (>99%) used,    34.88 KB ( <1%) free+waste,     9.22 KB ( <1%) overhead. 
+
+Virtual space:
+      5.30 MB reserved,       4.65 MB ( 88%) committed 
+
+Chunk freelists:
+0 bytes
+
+MaxMetaspaceSize: unlimited
+
+
+CodeCache: size=32768Kb used=285Kb max_used=298Kb free=32482Kb
+ bounds [0xb40e8000, 0xb4268000, 0xb60e8000]
+ total_blobs=239 nmethods=84 adapters=108
+ compilation: enabled
+              stopped_count=0, restarted_count=0
+ full_count=0
+
+Compilation events (20 events):
+Event: 2.848 Thread 0xb6381000 nmethod 37 0xb4128e88 code [0xb4128f80, 0xb4128ffc]
+Event: 2.848 Thread 0xb6381000   38             java.lang.String::charAt (25 bytes)
+Event: 2.862 Thread 0xb6381000 nmethod 38 0xb4128c08 code [0xb4128d00, 0xb4128d8c]
+Event: 2.863 Thread 0xb6381000   39             java.lang.StringUTF16::charAt (11 bytes)
+Event: 2.877 Thread 0xb6381000 nmethod 39 0xb4128688 code [0xb4128780, 0xb41287fc]
+Event: 2.893 Thread 0xb6381000   45             java.lang.String::coder (15 bytes)
+Event: 2.895 Thread 0xb6381000 nmethod 45 0xb4127e88 code [0xb4127f80, 0xb4127fdc]
+Event: 2.914 Thread 0xb6381000   46             java.lang.StringUTF16::putChar (54 bytes)
+Event: 2.920 Thread 0xb6381000 nmethod 46 0xb412ca88 code [0xb412cb80, 0xb412cc3c]
+Event: 2.948 Thread 0xb6381000   49             java.lang.StringUTF16::indexOfCharUnsafe (30 bytes)
+Event: 2.968 Thread 0xb6381000 nmethod 49 0xb412a188 code [0xb412a280, 0xb412a38c]
+Event: 3.033 Thread 0xb6381000   61             jdk.internal.org.objectweb.asm.ByteVector::putUTF8 (142 bytes)
+Event: 3.162 Thread 0xb6381000 nmethod 61 0xb412bc08 code [0xb412bd20, 0xb412c0b8]
+Event: 3.283 Thread 0xb6381000   74             java.lang.String::hashCode (49 bytes)
+Event: 3.316 Thread 0xb6381000 nmethod 74 0xb412de08 code [0xb412df00, 0xb412e04c]
+Event: 3.330 Thread 0xb6381000   75             java.lang.StringUTF16::equals (44 bytes)
+Event: 3.362 Thread 0xb6381000 nmethod 75 0xb412db08 code [0xb412dc00, 0xb412dd7c]
+Event: 3.407 Thread 0xb6381000   76             java.lang.invoke.LambdaForm$Name::replaceNames (174 bytes)
+Event: 3.661 Thread 0xb6381000 nmethod 76 0xb412ea88 code [0xb412ebf0, 0xb412f370]
+Event: 3.661 Thread 0xb6381000   81             java.lang.invoke.LambdaForm$Name::useCount (42 bytes)
+
+GC Heap History (2 events):
+Event: 2.239 GC heap before
+{Heap before GC invocations=0 (full 0):
+ def new generation   total 2432K, used 2166K [0xac600000, 0xac8a0000, 0xaeea0000)
+  eden space 2176K,  99% used [0xac600000, 0xac81d9f8, 0xac820000)
+  from space 256K,   0% used [0xac820000, 0xac820000, 0xac860000)
+  to   space 256K,   0% used [0xac860000, 0xac860000, 0xac8a0000)
+ tenured generation   total 5504K, used 0K [0xaeea0000, 0xaf400000, 0xb4000000)
+   the space 5504K,   0% used [0xaeea0000, 0xaeea0000, 0xaeea0200, 0xaf400000)
+ Metaspace       used 3960K, capacity 4004K, committed 4120K, reserved 4400K
+}
+Event: 2.285 GC heap after
+{Heap after GC invocations=1 (full 0):
+ def new generation   total 2432K, used 256K [0xac600000, 0xac8a0000, 0xaeea0000)
+  eden space 2176K,   0% used [0xac600000, 0xac600000, 0xac820000)
+  from space 256K, 100% used [0xac860000, 0xac8a0000, 0xac8a0000)
+  to   space 256K,   0% used [0xac820000, 0xac820000, 0xac860000)
+ tenured generation   total 5504K, used 861K [0xaeea0000, 0xaf400000, 0xb4000000)
+   the space 5504K,  15% used [0xaeea0000, 0xaef774f0, 0xaef77600, 0xaf400000)
+ Metaspace       used 3960K, capacity 4004K, committed 4120K, reserved 4400K
+}
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (4 events):
+Event: 2.393 Thread 0xb630e400 Exception <a 'java/lang/ClassNotFoundException'{0xac654230}: sun/awt/resources/spi/awtProvider> (0xac654230) thrown at [src/hotspot/share/classfile/systemDictionary.cpp, line 231]
+Event: 3.264 Thread 0xb630e400 Exception <a 'java/io/FileNotFoundException'{0xac6ec470}> (0xac6ec470) thrown at [src/hotspot/share/prims/jni.cpp, line 615]
+Event: 3.590 Thread 0xb630e400 Exception <a 'java/lang/NoSuchMethodError'{0xac744f08}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)'> (0xac744f08) thrown at [src/hotspot/share/interpreter/linkResolver.cpp, line 773]
+Event: 3.657 Thread 0xb630e400 Exception <a 'java/lang/NoSuchMethodError'{0xac7534f0}: 'java.lang.Object java.lang.invoke.DirectMethodHandle$Holder.invokeStatic(java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)'> (0xac7534f0) thrown at [src/hotspot/share/interpreter/linkResolver.cpp, line 773]
+
+Events (20 events):
+Event: 3.215 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLIIL
+Event: 3.215 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLIIL done
+Event: 3.237 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLIILL
+Event: 3.237 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLIILL done
+Event: 3.262 loading class java/io/FileNotFoundException
+Event: 3.263 loading class java/io/FileNotFoundException done
+Event: 3.455 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLL
+Event: 3.455 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLL done
+Event: 3.499 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLLL
+Event: 3.500 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLLL done
+Event: 3.576 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLLLL
+Event: 3.581 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLLLL done
+Event: 3.589 loading class java/lang/NoSuchMethodError
+Event: 3.589 loading class java/lang/IncompatibleClassChangeError
+Event: 3.589 loading class java/lang/IncompatibleClassChangeError done
+Event: 3.590 loading class java/lang/NoSuchMethodError done
+Event: 3.597 loading class sun/reflect/misc/ReflectUtil
+Event: 3.598 loading class sun/reflect/misc/ReflectUtil done
+Event: 3.647 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLLLLL
+Event: 3.647 loading class java/lang/invoke/BoundMethodHandle$Species_LLLLLLLLLLLLL done
+
+
+Dynamic libraries:
+00403000-00404000 r-xp 00000000 b3:01 276487     /usr/lib/jvm/java-11-openjdk-armhf/bin/java
+00413000-00414000 r-xp 00000000 b3:01 276487     /usr/lib/jvm/java-11-openjdk-armhf/bin/java
+00414000-00415000 rwxp 00001000 b3:01 276487     /usr/lib/jvm/java-11-openjdk-armhf/bin/java
+00569000-006dc000 rwxp 00000000 00:00 0          [heap]
+ab569000-ab5c9000 rwxp 00000000 00:00 0 
+ab5c9000-ab669000 ---p 00000000 00:00 0 
+ab669000-ab6c5000 r-xp 00000000 b3:01 276540     /usr/lib/jvm/java-11-openjdk-armhf/lib/libawt.so
+ab6c5000-ab6d4000 ---p 0005c000 b3:01 276540     /usr/lib/jvm/java-11-openjdk-armhf/lib/libawt.so
+ab6d4000-ab6d5000 r-xp 0005b000 b3:01 276540     /usr/lib/jvm/java-11-openjdk-armhf/lib/libawt.so
+ab6d5000-ab6db000 rwxp 0005c000 b3:01 276540     /usr/lib/jvm/java-11-openjdk-armhf/lib/libawt.so
+ab6db000-ab700000 rwxp 00000000 00:00 0 
+ab700000-ab787000 rwxp 00000000 00:00 0 
+ab787000-ab800000 ---p 00000000 00:00 0 
+ab844000-ab847000 ---p 00000000 00:00 0 
+ab847000-ab894000 rwxp 00000000 00:00 0 
+ab894000-ab895000 ---p 00000000 00:00 0 
+ab895000-ab916000 rwxp 00000000 00:00 0 
+ab916000-ab919000 ---p 00000000 00:00 0 
+ab919000-ab966000 rwxp 00000000 00:00 0 
+ab966000-ab969000 ---p 00000000 00:00 0 
+ab969000-ab9b6000 rwxp 00000000 00:00 0 
+ab9b6000-ab9b9000 ---p 00000000 00:00 0 
+ab9b9000-aba36000 rwxp 00000000 00:00 0 
+aba36000-aba39000 ---p 00000000 00:00 0 
+aba39000-aba86000 rwxp 00000000 00:00 0 
+aba86000-abd00000 r-xp 0006b000 b3:01 26891      /usr/lib/locale/locale-archive
+abd00000-abf00000 r-xp 00000000 b3:01 26891      /usr/lib/locale/locale-archive
+abf00000-abf21000 rwxp 00000000 00:00 0 
+abf21000-ac000000 ---p 00000000 00:00 0 
+ac021000-ac026000 r-xp 00000000 b3:01 276541     /usr/lib/jvm/java-11-openjdk-armhf/lib/libawt_headless.so
+ac026000-ac035000 ---p 00005000 b3:01 276541     /usr/lib/jvm/java-11-openjdk-armhf/lib/libawt_headless.so
+ac035000-ac036000 r-xp 00004000 b3:01 276541     /usr/lib/jvm/java-11-openjdk-armhf/lib/libawt_headless.so
+ac036000-ac037000 rwxp 00005000 b3:01 276541     /usr/lib/jvm/java-11-openjdk-armhf/lib/libawt_headless.so
+ac037000-ac03a000 ---p 00000000 00:00 0 
+ac03a000-ac087000 rwxp 00000000 00:00 0 
+ac087000-ac08a000 ---p 00000000 00:00 0 
+ac08a000-ac0d7000 rwxp 00000000 00:00 0 
+ac0d7000-ac0d8000 ---p 00000000 00:00 0 
+ac0d8000-ac5fa000 rwxp 00000000 00:00 0 
+ac5fa000-ac600000 ---p 00000000 00:00 0 
+ac600000-ac8a0000 rwxp 00000000 00:00 0 
+ac8a0000-aeea0000 ---p 00000000 00:00 0 
+aeea0000-af400000 rwxp 00000000 00:00 0 
+af400000-b4000000 ---p 00000000 00:00 0 
+b4005000-b4014000 r-xp 00000000 b3:01 276563     /usr/lib/jvm/java-11-openjdk-armhf/lib/libnet.so
+b4014000-b4023000 ---p 0000f000 b3:01 276563     /usr/lib/jvm/java-11-openjdk-armhf/lib/libnet.so
+b4023000-b4024000 r-xp 0000e000 b3:01 276563     /usr/lib/jvm/java-11-openjdk-armhf/lib/libnet.so
+b4024000-b4025000 rwxp 0000f000 b3:01 276563     /usr/lib/jvm/java-11-openjdk-armhf/lib/libnet.so
+b4025000-b402f000 r-xp 00000000 b3:01 276564     /usr/lib/jvm/java-11-openjdk-armhf/lib/libnio.so
+b402f000-b403f000 ---p 0000a000 b3:01 276564     /usr/lib/jvm/java-11-openjdk-armhf/lib/libnio.so
+b403f000-b4040000 r-xp 0000a000 b3:01 276564     /usr/lib/jvm/java-11-openjdk-armhf/lib/libnio.so
+b4040000-b4041000 rwxp 0000b000 b3:01 276564     /usr/lib/jvm/java-11-openjdk-armhf/lib/libnio.so
+b4041000-b4044000 rwxp 00000000 00:00 0 
+b4044000-b406a000 ---p 00000000 00:00 0 
+b406a000-b406c000 rwxp 00000000 00:00 0 
+b406c000-b407e000 ---p 00000000 00:00 0 
+b407e000-b4081000 rwxp 00000000 00:00 0 
+b4081000-b40a7000 ---p 00000000 00:00 0 
+b40a7000-b40ab000 rwxp 00000000 00:00 0 
+b40ab000-b40e8000 ---p 00000000 00:00 0 
+b40e8000-b4268000 rwxp 00000000 00:00 0 
+b4268000-b60e8000 ---p 00000000 00:00 0 
+b60e8000-b60ed000 r-xp 00000000 b3:01 276572     /usr/lib/jvm/java-11-openjdk-armhf/lib/libzip.so
+b60ed000-b60fc000 ---p 00005000 b3:01 276572     /usr/lib/jvm/java-11-openjdk-armhf/lib/libzip.so
+b60fc000-b60fd000 r-xp 00004000 b3:01 276572     /usr/lib/jvm/java-11-openjdk-armhf/lib/libzip.so
+b60fd000-b60fe000 rwxp 00005000 b3:01 276572     /usr/lib/jvm/java-11-openjdk-armhf/lib/libzip.so
+b60fe000-b6105000 r-xp 00000000 b3:01 42183      /lib/arm-linux-gnueabihf/libnss_files-2.28.so
+b6105000-b6114000 ---p 00007000 b3:01 42183      /lib/arm-linux-gnueabihf/libnss_files-2.28.so
+b6114000-b6115000 r-xp 00006000 b3:01 42183      /lib/arm-linux-gnueabihf/libnss_files-2.28.so
+b6115000-b6116000 rwxp 00007000 b3:01 42183      /lib/arm-linux-gnueabihf/libnss_files-2.28.so
+b6116000-b611c000 rwxp 00000000 00:00 0 
+b6127000-b6293000 r-xs 00000000 b3:01 276573     /usr/lib/jvm/java-11-openjdk-armhf/lib/modules
+b6293000-b6296000 r-xp 00000000 b3:01 276555     /usr/lib/jvm/java-11-openjdk-armhf/lib/libjimage.so
+b6296000-b62a5000 ---p 00003000 b3:01 276555     /usr/lib/jvm/java-11-openjdk-armhf/lib/libjimage.so
+b62a5000-b62a6000 r-xp 00002000 b3:01 276555     /usr/lib/jvm/java-11-openjdk-armhf/lib/libjimage.so
+b62a6000-b62a7000 rwxp 00003000 b3:01 276555     /usr/lib/jvm/java-11-openjdk-armhf/lib/libjimage.so
+b62a7000-b62bf000 r-xp 00000000 b3:01 276551     /usr/lib/jvm/java-11-openjdk-armhf/lib/libjava.so
+b62bf000-b62cf000 ---p 00018000 b3:01 276551     /usr/lib/jvm/java-11-openjdk-armhf/lib/libjava.so
+b62cf000-b62d0000 r-xp 00018000 b3:01 276551     /usr/lib/jvm/java-11-openjdk-armhf/lib/libjava.so
+b62d0000-b62d1000 rwxp 00019000 b3:01 276551     /usr/lib/jvm/java-11-openjdk-armhf/lib/libjava.so
+b62d1000-b62d8000 r-xp 00000000 b3:01 276571     /usr/lib/jvm/java-11-openjdk-armhf/lib/libverify.so
+b62d8000-b62e8000 ---p 00007000 b3:01 276571     /usr/lib/jvm/java-11-openjdk-armhf/lib/libverify.so
+b62e8000-b62e9000 r-xp 00007000 b3:01 276571     /usr/lib/jvm/java-11-openjdk-armhf/lib/libverify.so
+b62e9000-b62ea000 rwxp 00008000 b3:01 276571     /usr/lib/jvm/java-11-openjdk-armhf/lib/libverify.so
+b62ea000-b62ef000 r-xp 00000000 b3:01 42126      /lib/arm-linux-gnueabihf/librt-2.28.so
+b62ef000-b62fe000 ---p 00005000 b3:01 42126      /lib/arm-linux-gnueabihf/librt-2.28.so
+b62fe000-b62ff000 r-xp 00004000 b3:01 42126      /lib/arm-linux-gnueabihf/librt-2.28.so
+b62ff000-b6300000 rwxp 00005000 b3:01 42126      /lib/arm-linux-gnueabihf/librt-2.28.so
+b6300000-b63f2000 rwxp 00000000 00:00 0 
+b63f2000-b6400000 ---p 00000000 00:00 0 
+b640a000-b640d000 ---p 00000000 00:00 0 
+b640d000-b645a000 rwxp 00000000 00:00 0 
+b645a000-b6472000 r-xp 00000000 b3:01 42272      /lib/arm-linux-gnueabihf/libgcc_s.so.1
+b6472000-b6481000 ---p 00018000 b3:01 42272      /lib/arm-linux-gnueabihf/libgcc_s.so.1
+b6481000-b6482000 r-xp 00017000 b3:01 42272      /lib/arm-linux-gnueabihf/libgcc_s.so.1
+b6482000-b6483000 rwxp 00018000 b3:01 42272      /lib/arm-linux-gnueabihf/libgcc_s.so.1
+b6483000-b64ed000 r-xp 00000000 b3:01 42179      /lib/arm-linux-gnueabihf/libm-2.28.so
+b64ed000-b64fc000 ---p 0006a000 b3:01 42179      /lib/arm-linux-gnueabihf/libm-2.28.so
+b64fc000-b64fd000 r-xp 00069000 b3:01 42179      /lib/arm-linux-gnueabihf/libm-2.28.so
+b64fd000-b64fe000 rwxp 0006a000 b3:01 42179      /lib/arm-linux-gnueabihf/libm-2.28.so
+b64fe000-b65f1000 r-xp 00000000 b3:01 26195      /usr/lib/arm-linux-gnueabihf/libstdc++.so.6.0.25
+b65f1000-b6600000 ---p 000f3000 b3:01 26195      /usr/lib/arm-linux-gnueabihf/libstdc++.so.6.0.25
+b6600000-b6605000 r-xp 000f2000 b3:01 26195      /usr/lib/arm-linux-gnueabihf/libstdc++.so.6.0.25
+b6605000-b6607000 rwxp 000f7000 b3:01 26195      /usr/lib/arm-linux-gnueabihf/libstdc++.so.6.0.25
+b6607000-b6609000 rwxp 00000000 00:00 0 
+b6609000-b6d38000 r-xp 00000000 b3:01 276578     /usr/lib/jvm/java-11-openjdk-armhf/lib/server/libjvm.so
+b6d38000-b6d47000 ---p 0072f000 b3:01 276578     /usr/lib/jvm/java-11-openjdk-armhf/lib/server/libjvm.so
+b6d47000-b6d88000 r-xp 0072e000 b3:01 276578     /usr/lib/jvm/java-11-openjdk-armhf/lib/server/libjvm.so
+b6d88000-b6da1000 rwxp 0076f000 b3:01 276578     /usr/lib/jvm/java-11-openjdk-armhf/lib/server/libjvm.so
+b6da1000-b6dcc000 rwxp 00000000 00:00 0 
+b6dcc000-b6eb0000 r-xp 00000000 b3:01 42224      /lib/arm-linux-gnueabihf/libc-2.28.so
+b6eb0000-b6ec0000 ---p 000e4000 b3:01 42224      /lib/arm-linux-gnueabihf/libc-2.28.so
+b6ec0000-b6ec2000 r-xp 000e4000 b3:01 42224      /lib/arm-linux-gnueabihf/libc-2.28.so
+b6ec2000-b6ec3000 rwxp 000e6000 b3:01 42224      /lib/arm-linux-gnueabihf/libc-2.28.so
+b6ec3000-b6ec6000 rwxp 00000000 00:00 0 
+b6ec6000-b6ec8000 r-xp 00000000 b3:01 42190      /lib/arm-linux-gnueabihf/libdl-2.28.so
+b6ec8000-b6ed7000 ---p 00002000 b3:01 42190      /lib/arm-linux-gnueabihf/libdl-2.28.so
+b6ed7000-b6ed8000 r-xp 00001000 b3:01 42190      /lib/arm-linux-gnueabihf/libdl-2.28.so
+b6ed8000-b6ed9000 rwxp 00002000 b3:01 42190      /lib/arm-linux-gnueabihf/libdl-2.28.so
+b6ed9000-b6ee3000 r-xp 00000000 b3:01 276535     /usr/lib/jvm/java-11-openjdk-armhf/lib/jli/libjli.so
+b6ee3000-b6ef2000 ---p 0000a000 b3:01 276535     /usr/lib/jvm/java-11-openjdk-armhf/lib/jli/libjli.so
+b6ef2000-b6ef3000 r-xp 00009000 b3:01 276535     /usr/lib/jvm/java-11-openjdk-armhf/lib/jli/libjli.so
+b6ef3000-b6ef4000 rwxp 0000a000 b3:01 276535     /usr/lib/jvm/java-11-openjdk-armhf/lib/jli/libjli.so
+b6ef4000-b6f06000 r-xp 00000000 b3:01 42185      /lib/arm-linux-gnueabihf/libpthread-2.28.so
+b6f06000-b6f15000 ---p 00012000 b3:01 42185      /lib/arm-linux-gnueabihf/libpthread-2.28.so
+b6f15000-b6f16000 r-xp 00011000 b3:01 42185      /lib/arm-linux-gnueabihf/libpthread-2.28.so
+b6f16000-b6f17000 rwxp 00012000 b3:01 42185      /lib/arm-linux-gnueabihf/libpthread-2.28.so
+b6f17000-b6f19000 rwxp 00000000 00:00 0 
+b6f19000-b6f2c000 r-xp 00000000 b3:01 42242      /lib/arm-linux-gnueabihf/libz.so.1.2.11
+b6f2c000-b6f3b000 ---p 00013000 b3:01 42242      /lib/arm-linux-gnueabihf/libz.so.1.2.11
+b6f3b000-b6f3c000 r-xp 00012000 b3:01 42242      /lib/arm-linux-gnueabihf/libz.so.1.2.11
+b6f3c000-b6f3d000 rwxp 00013000 b3:01 42242      /lib/arm-linux-gnueabihf/libz.so.1.2.11
+b6f3d000-b6f55000 r-xp 00000000 b3:01 42283      /lib/arm-linux-gnueabihf/ld-2.28.so
+b6f56000-b6f58000 rwxp 00000000 00:00 0 
+b6f58000-b6f5a000 r-xs 00007000 b3:01 387363     /usr/share/java/java-atk-wrapper.jar
+b6f5a000-b6f62000 rwxs 00000000 b3:01 387690     /tmp/hsperfdata_debian/8618
+b6f62000-b6f63000 r-xp 00000000 00:00 0 
+b6f63000-b6f65000 rwxp 00000000 00:00 0 
+b6f65000-b6f66000 r-xp 00018000 b3:01 42283      /lib/arm-linux-gnueabihf/ld-2.28.so
+b6f66000-b6f67000 rwxp 00019000 b3:01 42283      /lib/arm-linux-gnueabihf/ld-2.28.so
+bea81000-beaa2000 rw-p 00000000 00:00 0          [stack]
+beb0d000-beb0e000 r-xp 00000000 00:00 0          [sigpage]
+beb0e000-beb0f000 r--p 00000000 00:00 0          [vvar]
+beb0f000-beb10000 r-xp 00000000 00:00 0          [vdso]
+ffff0000-ffff1000 r-xp 00000000 00:00 0          [vectors]
+
+
+VM Arguments:
+java_command: /home/debian/plantuml.jar docs/etchsketch.plantuml -o ./
+java_class_path (initial): /home/debian/plantuml.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+   size_t InitialHeapSize                          = 8388608                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 127926272                                 {product} {ergonomic}
+   size_t MaxNewSize                               = 42598400                                  {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 131072                                    {product} {ergonomic}
+   size_t NewSize                                  = 2752512                                   {product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 0                                      {pd product} {ergonomic}
+   size_t OldSize                                  = 5636096                                   {product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 0                                      {pd product} {ergonomic}
+     bool UseSerialGC                              = true                                      {product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+PATH=/home/debian/.vscode-server/bin/e790b931385d72cf5669fcefc51cdf65990efa5d/bin:/home/debian/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+SHELL=/bin/bash
+LANG=en_US.UTF-8
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0x699f41], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGBUS: [libjvm.so+0x699f41], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGFPE: [libjvm.so+0x699f41], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGPIPE: [libjvm.so+0x5557d9], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGXFSZ: [libjvm.so+0x5557d9], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGILL: [libjvm.so+0x699f41], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGUSR2: [libjvm.so+0x5556f5], sa_mask[0]=00000000000000000000000000000000, sa_flags=SA_RESTART|SA_SIGINFO
+SIGHUP: [libjvm.so+0x555d95], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGINT: [libjvm.so+0x555d95], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGTERM: [libjvm.so+0x555d95], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+SIGQUIT: [libjvm.so+0x555d95], sa_mask[0]=11111111011111111101111111111110, sa_flags=SA_RESTART|SA_SIGINFO
+
+
+---------------  S Y S T E M  ---------------
+
+OS:PRETTY_NAME="Debian GNU/Linux 10 (buster)"
+NAME="Debian GNU/Linux"
+VERSION_ID="10"
+VERSION="10 (buster)"
+VERSION_CODENAME=buster
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+uname:Linux 4.19.94-ti-r51 #1buster SMP PREEMPT Wed Sep 9 17:13:58 UTC 2020 armv7l
+OS uptime: 0 days 1:23 hours
+libc:glibc 2.28 NPTL 2.28 
+rlimit (soft/hard): STACK 8192k/infinity , CORE 0k/infinity , NPROC 3421/3421 , NOFILE 1048576/1048576 , AS infinity/infinity , CPU infinity/infinity , DATA infinity/infinity , FSIZE infinity/infinity , MEMLOCK 65536k/65536k
+load average:1.61 1.32 1.36
+
+/proc/meminfo:
+MemTotal:         495008 kB
+MemFree:           76780 kB
+MemAvailable:     256176 kB
+Buffers:           27956 kB
+Cached:           137600 kB
+SwapCached:            0 kB
+Active:           250612 kB
+Inactive:         115664 kB
+Active(anon):     194760 kB
+Inactive(anon):     1404 kB
+Active(file):      55852 kB
+Inactive(file):   114260 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+HighTotal:             0 kB
+HighFree:              0 kB
+LowTotal:         495008 kB
+LowFree:           76780 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:             17312 kB
+Writeback:             0 kB
+AnonPages:        200728 kB
+Mapped:            30524 kB
+Shmem:              1592 kB
+Slab:              38608 kB
+SReclaimable:      20292 kB
+SUnreclaim:        18316 kB
+KernelStack:        1496 kB
+PageTables:         3280 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:      247504 kB
+Committed_AS:     746396 kB
+VmallocTotal:     516096 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+Percpu:              140 kB
+CmaTotal:          49152 kB
+CmaFree:            7044 kB
+
+/sys/kernel/mm/transparent_hugepage/enabled:
+  <Not Available>
+
+/sys/kernel/mm/transparent_hugepage/defrag (defrag/compaction efforts parameter):
+  <Not Available>
+
+
+/proc/sys/kernel/threads-max (system-wide limit on the number of threads):
+6842
+
+
+/proc/sys/vm/max_map_count (maximum number of memory map areas a process may have):
+65530
+
+
+/proc/sys/kernel/pid_max (system-wide limit on number of process identifiers):
+32768
+
+
+
+container (cgroup) information:
+container_type: cgroupv1
+cpu_cpuset_cpus: 0
+cpu_memory_nodes: 0
+active_processor_count: 1
+cpu_quota: -1
+cpu_period: 100000
+cpu_shares: -1
+memory_limit_in_bytes: -1
+memory_and_swap_limit_in_bytes: -1
+memory_soft_limit_in_bytes: -1
+memory_usage_in_bytes: 326295552
+memory_max_usage_in_bytes: 409182208
+
+Steal ticks since vm start: 0
+Steal ticks percentage since vm start:  0.000
+
+CPU:total 1 (initial active 1) (ARMv7), vfp, vfp3-32, simd
+
+/proc/cpuinfo:
+processor	: 0
+model name	: ARMv7 Processor rev 2 (v7l)
+BogoMIPS	: 995.32
+Features	: half thumb fastmult vfp edsp thumbee neon vfpv3 tls vfpd32 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x3
+CPU part	: 0xc08
+CPU revision	: 2
+
+Hardware	: Generic AM33XX (Flattened Device Tree)
+Revision	: 0000
+Serial		: 2319BBBK03E0
+
+Memory: 4k page, physical 495008k(76656k free), swap 0k(0k free)
+
+vm_info: OpenJDK Server VM (11.0.8+10-post-Debian-1deb10u1) for linux- JRE (11.0.8+10-post-Debian-1deb10u1), built on Jul 23 2020 14:58:04 by "unknown" with gcc 8.3.0
+
+END.

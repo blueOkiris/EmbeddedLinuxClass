@@ -19,8 +19,12 @@ def main():
         """
         
         etchGame : game.Game = game.Game(cliProcessor.startPosition())
-        application : app.Application = app.Application(cliProcessor.displaySize(), etchGame.update)
-        disp : display.Display = display.CliDisplay(cliProcessor.displaySize())
+        application : app.Application = app.Application(
+            cliProcessor.displaySize(), etchGame.update
+        )
+        disp : display.Display = display.CliDisplay(
+            cliProcessor.displaySize(), cliProcessor.inputHandlerFactory()
+        )
         disp.start(application)
 
         sys.stderr.close()

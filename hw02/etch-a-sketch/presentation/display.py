@@ -29,7 +29,7 @@ to draw to other displays.
 Functionally, it abstracts a display output
 """
 class CliDisplay(Display):
-    def __init__(self, size : (int, int)) -> None:
+    def __init__(self, size : (int, int), inpHand : inp.InputHandler) -> None:
         self.__onLinux : bool = platform.system() != 'Windows'
         self.__size : (int, int) = size
         self.__grid : typing.List[str] = []
@@ -39,7 +39,7 @@ class CliDisplay(Display):
                 colStr += ' '
             self.__grid.append(colStr)
         self.__quit : bool = False
-        self.__inp : inp.InputHandler = inp.CliInputHandler()
+        self.__inp : inp.InputHandler = inpHand
     
     # Handle cross-platform clearing of terminal
     def __clearCli(self) -> None:

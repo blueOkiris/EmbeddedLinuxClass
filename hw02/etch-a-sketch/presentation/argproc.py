@@ -1,4 +1,5 @@
 import typing
+import presentation.inp as inp
 
 # This class processes arguments
 class CliProcessor:
@@ -8,14 +9,17 @@ class CliProcessor:
         self.__startPos : (int, int) = (4, 4)
         self.__success : bool = True
         self.__startPosChanged : (bool, bool) = (False, False)
+        self.__inputHandler : str = 'pushbtn'
 
         for arg in self.__args[1:]:
             self.__processArg(arg)
 
         if not self.__startPosChanged[0]:
-            self.__startPos = (int(round(self.__displaySize[0] / 2)), self.__startPos[1])
+            self.__startPos = \
+                (int(round(self.__displaySize[0] / 2)), self.__startPos[1])
         if not self.__startPosChanged[1]:
-            self.__startPos = (self.__startPos[0], int(round(self.__displaySize[1] / 2)))
+            self.__startPos = \
+                (self.__startPos[0], int(round(self.__displaySize[1] / 2)))
     
     def successful(self) -> bool:
         return self.__success
@@ -25,6 +29,14 @@ class CliProcessor:
     
     def startPosition(self) -> (int, int):
         return self.__startPos
+    
+    def inputHandlerFactory(self) -> inp.InputHandler:
+        if self.__inputHandler == 'cli':
+            return inp.CliInputHandler()
+        elif self.__inputHandler == 'pushbtn':
+            return inp.PushButtonInputHandler()
+        else:
+            return None
     
     """
     Alter settings if argument is given.
@@ -58,6 +70,19 @@ class CliProcessor:
             except:
                 print('Failed to parse start y argument - ' + arg + '!')
                 self.__success = False
+        elif arg.startswith('--input='):
+            inputType = ''
+            try:
+                inputType : str = arg[8:]
+            except:
+                print('Failed to parse input argument - ' + arg + '!')
+                self.__success = False
+            
+            if inputType == 'cli' or inputType == 'pushbtn':
+                self.__inputHandler = inputType
+            else:
+                print('Unexpected input type given: ' + inputType)
+                self.__success = False
         elif arg == '--help':
             self.__printHelp()
             self.__success = False
@@ -71,12 +96,13 @@ class CliProcessor:
     def __printHelp(self) -> None:
         print('./etch-sketch.py [OPTIONS]')
         print('Options:')
-        print('  --width=#  --> sets the width of the display')
-        print('  --height=# --> sets the height of the display')
-        print('  --startx=# --> sets the starting x of the cursor')
-        print('  --starty=# --> sets the starting y of the cursor')
-        print('  --help     --> display this message')
+        print('  --width=#             --> sets the width of the display')
+        print('  --height=#            --> sets the height of the display')
+        print('  --startx=#            --> sets the starting x of the cursor')
+        print('  --starty=#            --> sets the starting y of the cursor')
+        print('  --input=[pushbtn|cli] --> sets input handler type')
+        print('  --help                --> display this message')
         print('Game control:')
-        print('  w, a, s, d --> up, down, left, and right, respectively')
-        print('  e          --> reset cursor position and clear')
-        print('  q          --> quit the etch-a-sketch program')
+        print('  w, a, s, d            --> up, down, left, and right')
+        print('  e                     --> reset cursor position and clear')
+        print('  q                     --> quit the etch-a-sketch program')
