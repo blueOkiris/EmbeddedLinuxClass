@@ -3,18 +3,17 @@ import data.drawable as drawable
 
 # Basically a static class that is used to update the actual 'game'
 class Game:
-    def __init__(self, startPos : (int, int)) -> None:
-        self.__reset : bool = True
-        self.__startPos : (int, int) = startPos
-        self.__cursorPos : (int, int) = (0, 0)
-        self.__directionPressed : List[bool] = [ False, False, False, False ]
-        self.__clearPressed : bool = False
-        self.__directionReleased : List[bool] = [ False, False, False, False ]
-        self.__clearReleased : bool = False
+    def __init__(self, startPos):
+        self.__reset = True
+        self.__startPos = startPos
+        self.__cursorPos = (0, 0)
+        self.__directionPressed = [ False, False, False, False ]
+        self.__clearPressed = False
+        self.__directionReleased = [ False, False, False, False ]
+        self.__clearReleased = False
 
-    def update(self, key : str, currBuff : drawable.DrawBuffer) \
-            -> drawable.DrawBuffer:
-        newBuff : drawable.DrawBuffer = currBuff
+    def update(self, key, currBuff):
+        newBuff = currBuff
 
         if self.__reset:
             # Clear display, and reset cursor pos
@@ -63,7 +62,7 @@ class Game:
     and if it's not pressed,
     then now we can handle a 'released' event
     """
-    def __updateKeys(self, key : str) -> None:
+    def __updateKeys(self, key):
         self.__directionReleased[0] = self.__directionPressed[0] and key != 'w'
         self.__directionReleased[1] = self.__directionPressed[1] and key != 's'
         self.__directionReleased[2] = self.__directionPressed[2] and key != 'a'

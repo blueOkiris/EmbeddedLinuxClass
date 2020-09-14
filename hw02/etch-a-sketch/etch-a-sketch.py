@@ -8,7 +8,7 @@ import domain.game as game
 
 def main():
     # Create a instance of the processor to handle cli args
-    cliProcessor : argproc.CliProcessor = argproc.CliProcessor(sys.argv)
+    cliProcessor = argproc.CliProcessor(sys.argv)
     
     if cliProcessor.successful():
         """
@@ -18,11 +18,11 @@ def main():
         4) Use the display to start the application and draw loops
         """
         
-        etchGame : game.Game = game.Game(cliProcessor.startPosition())
-        application : app.Application = app.Application(
+        etchGame = game.Game(cliProcessor.startPosition())
+        application = app.Application(
             cliProcessor.displaySize(), etchGame.update
         )
-        disp : display.Display = display.CliDisplay(
+        disp = display.CliDisplay(
             cliProcessor.displaySize(), cliProcessor.inputHandlerFactory()
         )
         disp.start(application)

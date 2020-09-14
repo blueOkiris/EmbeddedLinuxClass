@@ -7,19 +7,19 @@ import domain.app as app
 import presentation.inp as inp
 
 class Display:
-    def __init(self, size : (int, int)) -> None:
+    def __init(self, size):
         pass
 
-    def start(self, application : app.Application) -> None:
+    def start(self, application):
         pass
 
-    def print(self) -> None:
+    def print(self):
         pass
 
-    def copyDrawBuffer(self, buff : drawable.DrawBuffer) -> None:
+    def copyDrawBuffer(self, buff):
         pass
 
-    def size(self) -> (int, int):
+    def size(self):
         return (0, 0)
 
 """
@@ -29,20 +29,20 @@ to draw to other displays.
 Functionally, it abstracts a display output
 """
 class CliDisplay(Display):
-    def __init__(self, size : (int, int), inpHand : inp.InputHandler) -> None:
-        self.__onLinux : bool = platform.system() != 'Windows'
-        self.__size : (int, int) = size
-        self.__grid : typing.List[str] = []
+    def __init__(self, size, inpHand):
+        self.__onLinux = platform.system() != 'Windows'
+        self.__size = size
+        self.__grid = []
         for row in range(self.__size[1]):
-            colStr : str = ''
+            colStr = ''
             for col in range(self.__size[0]):
                 colStr += ' '
             self.__grid.append(colStr)
-        self.__quit : bool = False
-        self.__inp : inp.InputHandler = inpHand
+        self.__quit = False
+        self.__inp = inpHand
     
     # Handle cross-platform clearing of terminal
-    def __clearCli(self) -> None:
+    def __clearCli(self):
         if self.__onLinux:
             os.system('clear')
         else:
@@ -52,17 +52,17 @@ class CliDisplay(Display):
     Start the main draw loop (main render thread)
     Also start the application update process and key process
     """
-    def start(self, application : app.Application) -> None:
+    def start(self, application):
         self.__inp.start()
         application.start()
 
         while not application.hasQuit():
-            key : str = self.__inp.getKey()
+            key = self.__inp.getKey()
             application.setKey(key)
             if key == 'q':
                 application.quit()
             
-            buff : drawable.DrawBuffer = application.getBuffer()
+            buff = application.getBuffer()
             if buff.shouldUpdate:
                 application.handledBuffer()
                 self.__clearCli()
@@ -71,25 +71,25 @@ class CliDisplay(Display):
 
         self.__inp.quit()
     
-    def print(self) -> None:
+    def print(self):
         for row in range(self.__size[1]):
             print(' ' + self.__grid[row])
     
     # Copy the data layer's draw buffer into memory so it can be printed
-    def copyDrawBuffer(self, buff : drawable.DrawBuffer) -> None:
+    def copyDrawBuffer(self, buff):
         for row in range(min(self.size()[1], buff.size()[1])):
             for col in range(min(self.size()[0], buff.size()[0])):
-                leftSide : str = self.__grid[row][0:col]
-                rightSide : str = self.__grid[row][col + 1:]
+                leftSide = self.__grid[row][0:col]
+                rightSide = self.__grid[row][col + 1:]
                 if buff.getPoint((col, row)):
                     self.__grid[row] = leftSide + '#' + rightSide
                 else:
                     self.__grid[row] = leftSide + ' ' + rightSide
     
-    def size(self) -> (int, int):
+    def size(self):
         return self.__size
     
-    def debugInfo(self) -> str:
+    def debugInfo(self):
         return \
             'Display size: (' + str(self.__size[0]) + ', ' \
             + str(self.__size[1]) + ')'

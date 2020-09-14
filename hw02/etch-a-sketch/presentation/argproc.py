@@ -3,13 +3,13 @@ import presentation.inp as inp
 
 # This class processes arguments
 class CliProcessor:
-    def __init__(self, args : typing.List[str]) -> None:
-        self.__args : typing.List[str] = args
-        self.__displaySize : (int, int) = (8, 8)
-        self.__startPos : (int, int) = (4, 4)
-        self.__success : bool = True
-        self.__startPosChanged : (bool, bool) = (False, False)
-        self.__inputHandler : str = 'pushbtn'
+    def __init__(self, args):
+        self.__args = args
+        self.__displaySize = (8, 8)
+        self.__startPos = (4, 4)
+        self.__success = True
+        self.__startPosChanged = (False, False)
+        self.__inputHandler = 'pushbtn'
 
         for arg in self.__args[1:]:
             self.__processArg(arg)
@@ -21,16 +21,16 @@ class CliProcessor:
             self.__startPos = \
                 (self.__startPos[0], int(round(self.__displaySize[1] / 2)))
     
-    def successful(self) -> bool:
+    def successful(self):
         return self.__success
     
-    def displaySize(self) -> (int, int):
+    def displaySize(self):
         return self.__displaySize
     
-    def startPosition(self) -> (int, int):
+    def startPosition(self):
         return self.__startPos
     
-    def inputHandlerFactory(self) -> inp.InputHandler:
+    def inputHandlerFactory(self):
         if self.__inputHandler == 'cli':
             return inp.CliInputHandler()
         elif self.__inputHandler == 'pushbtn':
@@ -47,7 +47,7 @@ class CliProcessor:
     'Fail' if an unknown command is given
     or if there's a parsing error
     """
-    def __processArg(self, arg : str) -> None:
+    def __processArg(self, arg):
         if arg.startswith('--width='):
             try:
                 self.__displaySize = (int(arg[8:]), self.__displaySize[1])
@@ -77,7 +77,7 @@ class CliProcessor:
         elif arg.startswith('--input='):
             inputType = ''
             try:
-                inputType : str = arg[8:]
+                inputType = arg[8:]
             except:
                 print('Failed to parse input argument - ' + arg + '!')
                 self.__success = False
@@ -97,7 +97,7 @@ class CliProcessor:
             self.__success = False
 
     # Just the help menu
-    def __printHelp(self) -> None:
+    def __printHelp(self):
         print('./etch-sketch.py [OPTIONS]')
         print('Options:')
         print('  --width=#             --> sets the width of the display')
