@@ -27,31 +27,37 @@ class InputHandler:
 class PushButtonInputHandler(InputHandler):
     def __init__(self, btns):
         super().__init__(PushButtonInputHandler.__pushButtonUpdateInput)
-        self.__queue.put(btns)
+        self._InputHandler__queue.put(btns)
     
     # Loop in a separate process, adding to the queue when a key is pressed
     @staticmethod
     def __pushButtonUpdateInput(queue):
         btnsRaw = queue.get()
-        btn = []
-        for btnRaw in btnsRaw:
-            chip = gpiod.chip(btnRaw[0])
-            line = gpiod.get_line(btnRaw[1])
+        btns = {}
+        for btnKey in btnsRaw:
+            chip = gpiod.chip(btnsRaw[btnKey][0])
+            line = chip.get_line(btnsRaw[btnKey][1])
 
+            config = gpiod.line_request()
+            config.consumer = "Blink"
+            config.request_type = gpiod.line_request.DIRECTION_INPUT
+            line.request(config)
+
+            btns[btnKey] = line
+        
         quit = False
         while not quit:
-            key = getch.getch()
-            queue.put(key)
-
-            if key == 'q':
-                quit = True
+            for btnKey in btns:
+                if btns[btnKey].get_value() == 0:
+                    queue.put(btnKey)
+                    if btnKey == 'q':
+                        quit = True
             time.sleep(0.05)
 
 class CliInputHandler(InputHandler):
-    def __init__(self:
+    def __init__(self):
         super().__init__(CliInputHandler.__cliUpdateInput)
-
-    # Loop in a separate process, adding to the queue when a key is pressed
+    
     @staticmethod
     def __cliUpdateInput(queue):
         quit = False

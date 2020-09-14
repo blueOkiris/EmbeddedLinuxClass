@@ -35,9 +35,9 @@ class CliProcessor:
             return inp.CliInputHandler()
         elif self.__inputHandler == 'pushbtn':
             return inp.PushButtonInputHandler(
-                [
-                    ('gpiochip1', 29)
-                ]
+                {
+                    'q' : ('gpiochip1', 29)
+                }
             )
         else:
             return None

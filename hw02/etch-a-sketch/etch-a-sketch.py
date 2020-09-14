@@ -17,7 +17,6 @@ def main():
         3) Create a display
         4) Use the display to start the application and draw loops
         """
-        
         etchGame = game.Game(cliProcessor.startPosition())
         application = app.Application(
             cliProcessor.displaySize(), etchGame.update
