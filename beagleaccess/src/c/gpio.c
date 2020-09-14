@@ -14,7 +14,7 @@ void gpio_open_line(
 
     chip_file = open(chip_name, 0);
     if(chip_file == -1) {
-        printf("Failed to open gpiochip #1\n");
+        printf("Failed to open gpiochip %s\n", chip_name);
         return;
     }
     
