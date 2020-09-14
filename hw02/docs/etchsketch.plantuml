@@ -1,0 +1,238 @@
+@startuml etch-a-sketch-class
+
+class Program {
+    main(argv : List[str])
+}
+
+namespace PresentationLayer {
+    interface Display {
+        + Display(size : Tuple[int, int])
+        + start(application : Application)
+        + print()
+        + copyDrawBuffer(buff : DrawBuffer)
+        + size() : Tuple[int, int]
+    }
+
+    class CliDisplay {
+        - onLinux : bool
+        - size : Tuple[int, int]
+        - grid : List[str]
+        - quit : bool
+        - inpt : CliInputHandler
+
+        + CliDisplay(size : Tuple[int, int])
+        + start(application : Application)
+        + print()
+        + copyDrawBuffer(buff : DrawBuffer)
+        - clearCli()
+        + size() : Tuple[int, int]
+        + debugInfo() : str
+    }
+
+    class CliProcessor {
+        - args : List[str]
+        - displaySize : Tuple[int, int]
+        - startPos : Tuple[int, int]
+        - success : bool
+        - startPosChanged : Tuple[bool, bool]
+
+        + CliProcessor(args : List[str])
+        + successful() : bool
+        + displaySize() : Tuple[int, int]
+        + startPosition() : Tuple[int, int]
+        - processArg(arg : str)
+        - printHelp()
+    }
+
+    interface InputHandler {
+        + InputHandler()
+        + getKey() : str
+        + start()
+        + quit()
+    }
+
+    class CliInputHandler {
+        - queue : Queue
+        - updateThread : Process
+
+        + {static} updateInput(queue : Queue)
+
+        + CliInputHandler()
+        + getKey() : str
+        + start()
+        + quit()
+    }
+
+    CliDisplay .l.> InputHandler
+    CliDisplay -u-|> Display
+    CliInputHandler -u-|> InputHandler
+}
+
+namespace DomainLayer {
+    class Application {
+        - queue : Queue
+        - updateThread : Process
+
+        + {static} updateApplication(queue : Queue)
+
+        + Application()
+        + start()
+        + quit()
+        + setKey(key : str)
+        + hasQuit() : bool
+        + getBuffer() : DrawBuffer
+    }
+
+    class Game {
+        - reset : bool
+        - startPos : Tuple[int, int]
+        - cursorPos : Tuple[int, int]
+        - directionPressed : List[bool]
+        - clearPressed : bool
+        - directionReleased : List[bool]
+        - clearReleased : bool
+        
+        + Game(startPos : Tuple[int, int])
+        + update(key : str, buff : DrawBuffer) : DrawBuffer
+        - updateKeys(key : str)
+    }
+
+    Application -> Game
+}
+
+namespace DataLayer {
+    class DrawBuffer {
+        - size : Tuple[int, int]
+        - buff : List[List[bool]]
+
+        + size() : Tuple[int, int]
+        + setPoint(point : Tuple[int, int], value : bool)
+        + getPoint(point : Tuple[int, int]) : bool
+        + clear()
+    }
+
+    class AppState {
+        + handled : bool
+        + key : str
+        + buffer : DrawBuffer
+        + updateFunc
+        + shouldQuit : bool
+    }
+}
+
+Program ..> PresentationLayer.CliProcessor
+Program ...> DomainLayer.Game
+Program ...> DomainLayer.Application
+Program ..> PresentationLayer.Display
+PresentationLayer.Display -----> DomainLayer.Application
+PresentationLayer.Display -----> DataLayer.DrawBuffer
+DomainLayer.Application ..> DataLayer.AppState
+DomainLayer.Application ..> DataLayer.DrawBuffer
+DomainLayer.Game ..> DataLayer.DrawBuffer
+
+@enduml
+
+@startuml etch-a-sketch-seq
+
+actor Player
+
+participant Program
+
+box PresentationLayer
+participant InputHandler
+participant Display
+end box
+
+box DomainLayer
+participant Application
+participant Game
+end box
+
+box DataLayer
+entity DrawBuffer
+entity AppState
+end box
+
+entity Queue
+
+== Main Loop ==
+
+alt main thread
+
+Player -> Program : execute
+Program -> Display : start(application)
+Display -> InputHandler : start()
+InputHandler -> Queue : Queue()
+Display -> Application : start()
+Application -> Queue : Queue()
+
+loop !application.hasQuit()
+
+Display -> InputHandler : getKey()
+InputHandler -> Queue : get()
+Queue --> InputHandler : key value or ''
+InputHandler --> Display : key val or ''
+Display -> Application : setKey(key)
+Application -> Queue : get()
+Queue --> Application : app state
+Application -> AppState : state key = key
+Application -> Queue : put(app state)
+
+alt key == 'q'
+Display -> Application : quit()
+Application -> Queue : get()
+Queue --> Application : app state
+Application -> AppState : state quit = True
+Application -> Queue : put(app state)
+end
+
+Display -> Display : clear()
+Display -> Application : getBuffer()
+Application -> Queue : get()
+Queue --> Application : app state
+Application -> AppState : state handled = True
+Application -> Queue : put(app state)
+Application --> Display : state buffer
+Display -> Display : copyDrawBuffer
+
+loop all rows
+loop all columns
+Display -> DrawBuffer : getPoint((col, row))
+DrawBuffer --> Display : value at point
+end
+end
+
+Display -> Display : print()
+Display --> Player : output
+
+end
+
+else InputHandler process
+
+InputHandler -> InputHandler : start update process
+
+loop key != 'q'
+
+InputHandler -> InputHandler : getch()
+InputHandler -> Queue : put(key)
+
+end
+
+else Application process
+
+Application -> Queue : get()
+Queue --> Application : app state
+
+alt appState.handled:
+Application -> AppState : updateFunc(app state key, app state buffer)
+AppState -> Game : update
+Game -> DrawBuffer : set points on or off, clear, etc
+DrawBuffer --> Game : updated version
+Game --> AppState : updated buffer
+AppState --> AppState : updated buffer
+Application --> Queue : put(new app state)
+end
+
+end
+
+@enduml
