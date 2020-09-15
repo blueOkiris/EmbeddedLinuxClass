@@ -23,13 +23,12 @@ bone$ ./togglegpio.sh 60 0.1
 
 > and answer the following questions about gpio measurements.
 
-![basic sh](./images/basic-sh-scope.bmp)
 
 Each of the following questions is from the hw02 document:
 
 1. What's the min and max voltage?
 
-   3.36V
+   0 - 3.36V
 
 2. What period is it?
 
@@ -42,11 +41,11 @@ Each of the following questions is from the hw02 document:
 
 4. Why do they differ?
 
-Either because shell is really slow, or because it doesn't take period, it takes half-period
+   Either because shell is really slow, or because it doesn't take period, it takes half-period
 
 5. Run htop and see how much processor you are using.
 
-3.8% CPU
+   3.8% CPU
 
 6. Try different values for the sleep time (2nd argument). What's the shortest period you can get? Make a table of the values you try and the corresponding period and processor usage. Try using markdown tables: https://www.markdownguide.org/extended-syntax/#tables
 
@@ -86,52 +85,6 @@ From the doc:
 
 This program is in the `hw02/gpio-measure/c` python
 
-Scope output:
-
-
-
-1. What's the min and max voltage?
-
-
-
-2. What period is it?
-
-
-
-3. How close is it to 100ms?
-
-
-
-4. Why do they differ?
-
-
-
-5. Run htop and see how much processor you are using.
-
-
-
-6. Try different values for the sleep time (2nd argument). What's the shortest period you can get? Make a table of the values you try and the corresponding period and processor usage. Try using markdown tables: https://www.markdownguide.org/extended-syntax/#tables
-
-
-
-7. How stable is the period?
-
-
-
-8. Try launching something like vi. How stable is the period?
-
-
-
-9. Try cleaning up togglegpio.sh and removing unneeded lines. Does it impact the period?
-
-
-
-10. togglegpio uses bash (first line in file). Try using sh. Is the period shorter?
-
-
-
-11. What's the shortest period you can get?
-
 ### C
 
 From the doc:
@@ -140,9 +93,25 @@ From the doc:
 
 This program is in the `hw02/gpio-measure/c` folder
 
+### Results Table
+
+This is the output that I receive, specifically, this is the shell output
+
+![basic sh](./images/basic-sh-scope.bmp)
+
+| Program | Min Max Voltage | CPU %  | Period at 0.1 | Period at 0.01 | Period at 0.001 | Period at 0.0001 | Shortest Period | Stable |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| Shell | 0 - 3.36 | 3.8% | 242ms | 46.4ms | 43.6ms | 43.6ms | 43.6ms | < 0.1 ms |
+| Python - Sysfs | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| C - Sysfs | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Python - Gpiod | 0 - 3.36 | 40.6% | 102ms | 11.1ms | 1.2ms | 0.912ms | 0.516ms | ~1 ms |
+| C - Gpiod | 0 - 3.36 | 0.0% | 101ms | 10.2ms | 1.17ms | 0.264ms | 0.162ms | < 0.01 ms |
+
 ## gpiod
 
-Nothing is requested to be turned in for this
+Redid the scripts with c and python with gpiod. The results are in the table above.
+
+The files are in gpiod/c and gpiod/python
 
 ## Security
 

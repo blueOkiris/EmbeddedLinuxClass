@@ -6,11 +6,22 @@
 #include <fcntl.h>
 #include <string.h>
 
-// Configured for P8_26
+/*
+ * While this doesn't call the gpiod library,
+ * it does the exact same thing. Literally.
+ * 
+ * This is recreated based on the gpiod source
+ * So in essence it is still the gpiod library,
+ * just without direct function calls
+ */
+
+// Configured for P8_12
 const char *chip_name = "/dev/gpiochip1";
-const int line = 29;
+const int line = 28;
 
 int main(int argc, char **args) {
+    int period = atoi(args[1]);
+
     struct gpiohandle_request req;
     struct gpiohandle_data data;
     int chip_file, ret;
@@ -40,6 +51,8 @@ int main(int argc, char **args) {
         if(ioctl(req.fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data) < 0) {
             printf("Failed to issue set line.\n");
         }
+
+        usleep(period / 2);
     }
 
     close(req.fd);
