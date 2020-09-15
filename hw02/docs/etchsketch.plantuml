@@ -65,7 +65,8 @@ namespace PresentationLayer {
         + CliInputHandler()
     }
 
-    CliDisplay .l.> InputHandler
+    CliProcessor ..> InputHandler
+    CliDisplay -l-> InputHandler
     CliDisplay -u-|> Display
     CliInputHandler -u-|> InputHandler
     PushButtonInputHandler -u-|> InputHandler
