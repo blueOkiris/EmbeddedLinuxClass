@@ -58,7 +58,7 @@ namespace PresentationLayer {
     class PushButtonInputHandler {
         - {static} pushButtonUpdateInput(queue : Queue)
 
-        + ButtonInputHandler()
+        + PushButtonInputHandler(btns : Dict[Str, Tuple[int, str]])
         + getKey() : str
         + start()
         + quit()

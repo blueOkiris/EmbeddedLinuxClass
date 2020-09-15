@@ -52,7 +52,7 @@ class PushButtonInputHandler(InputHandler):
                     queue.put(btnKey)
                     if btnKey == 'q':
                         quit = True
-            time.sleep(0.05)
+                    time.sleep(0.15)
 
 class CliInputHandler(InputHandler):
     def __init__(self):
