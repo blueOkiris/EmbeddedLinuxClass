@@ -57,23 +57,12 @@ namespace PresentationLayer {
 
     class PushButtonInputHandler {
         - {static} pushButtonUpdateInput(queue : Queue)
-
         + PushButtonInputHandler(btns : Dict[Str, Tuple[int, str]])
-        + getKey() : str
-        + start()
-        + quit()
     }
 
     class CliInputHandler {
-        - queue : Queue
-        - updateThread : Process
-
         - {static} cliUpdateInput(queue : Queue)
-
         + CliInputHandler()
-        + getKey() : str
-        + start()
-        + quit()
     }
 
     CliDisplay .l.> InputHandler
