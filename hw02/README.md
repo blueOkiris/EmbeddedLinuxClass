@@ -100,7 +100,7 @@ This is the output that I receive, specifically, this is the shell output
 ![basic sh](./images/basic-sh-scope.bmp)
 
 | Program | Min Max Voltage | CPU %  | Period at 0.1 | Period at 0.01 | Period at 0.001 | Period at 0.0001 | Shortest Period | Stable |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | Shell | 0 - 3.36 | 3.8% | 242ms | 46.4ms | 43.6ms | 43.6ms | 43.6ms | < 0.1 ms |
 | Python - Sysfs | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | C - Sysfs | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
