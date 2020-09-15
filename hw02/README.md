@@ -102,8 +102,8 @@ This is the output that I receive, specifically, this is the shell output
 | Program | Min Max Voltage | CPU %  | Period at 0.1 | Period at 0.01 | Period at 0.001 | Period at 0.0001 | Shortest Period | Stable |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | Shell | 0 - 3.36 | 3.8% | 242ms | 46.4ms | 43.6ms | 43.6ms | 43.6ms | < 0.1 ms |
-| Python - Sysfs | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| C - Sysfs | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Python - Sysfs | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| C - Sysfs | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | Python - Gpiod | 0 - 3.36 | 40.6% | 102ms | 11.1ms | 1.2ms | 0.912ms | 0.516ms | ~1 ms |
 | C - Gpiod | 0 - 3.36 | 0.0% | 101ms | 10.2ms | 1.17ms | 0.264ms | 0.162ms | < 0.01 ms |
 
