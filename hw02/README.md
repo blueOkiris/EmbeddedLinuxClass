@@ -104,12 +104,12 @@ This is the output that I receive, specifically, this is the shell output
 | Shell | 0 - 3.36V | 3.8% | 242ms | 46.4ms | 43.6ms | 43.6ms | 43.6ms | < 0.1 ms |
 | Python - Sysfs | 0 - 3.36V | 1.3% | 102ms | 11.2ms | 2.02ms | 1.07ms | 0.6ms | 1ms |
 | C - Sysfs | 0 - 3.36V | 0.7% | 100ms | 10.5ms | 1.38ms | 0.464ms | 0.362ms | 0.05ms |
-| Python - Gpiod | 0 - 3.36V | 40.6% | 102ms | 11.1ms | 1.2ms | 0.912ms | 0.516ms | ~1 ms |
-| C - Gpiod | 0 - 3.36V | 0.0% | 101ms | 10.2ms | 1.17ms | 0.264ms | 0.162ms | < 0.01 ms |
-| Toggle 1 - 1 bit - C | 0 - 3.36V |  |  |  |  |  |  |  |
-| Toggle 1 - 1 bit - Python | 0 - 3.36V |  |  |  |  |  |  |  |
-| Toggle 1 - 2 bit - C | 0 - 3.36V |  |  |  |  |  |  |  |
-| Toggle 1 - 2 bit - Python | 0 - 3.36V |  |  |  |  |  |  |  |
+| My Gpiod - Python | 0 - 3.36V | 40.6% | 102ms | 11.1ms | 1.2ms | 0.912ms | 0.516ms | ~1 ms |
+| My Gpiod - C | 0 - 3.36V | 0.0% | 101ms | 10.2ms | 1.17ms | 0.264ms | 0.162ms | < 0.01 ms |
+| Toggle 1 - 1 bit - C | 0 - 3.36V | 96.2% | - | - | - | - | 0.0034ms | ~0.0001ms |
+| Toggle 1 - 1 bit - Python | 0 - 3.36V | 95% | - | - | - | - | 0.0038ms | 0.0001ms |
+| Toggle 1 - 2 bit - C | 0 - 3.36V | 95% | - | - | - | - | 0.190ms | 0.001ms |
+| Toggle 1 - 2 bit - Python | 0 - 3.36V |  | - | - | - | - | 0.346ms |  0.001ms |
 
 ## gpiod
 

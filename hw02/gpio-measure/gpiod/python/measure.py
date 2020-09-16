@@ -18,7 +18,7 @@ class GpioToggler:
 
         # Initialize gpiod
         config = gpiod.line_request()
-        config.consumer = "Blink"
+        config.consumer = 'Blink'
         config.request_type = gpiod.line_request.DIRECTION_OUTPUT
         self.__gpioPin[0].request(config)
 
@@ -65,5 +65,5 @@ def main(chipName, line):
         if key == 'q':
             shouldQuit = True
     
-if __name__ == "__main__":
+if __name__ == '__main__':
     main(gpioChipName, gpioLineOffset)
