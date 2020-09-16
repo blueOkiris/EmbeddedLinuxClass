@@ -109,7 +109,7 @@ This is the output that I receive, specifically, this is the shell output
 | Toggle 1 - 1 bit - C | 0 - 3.36V | 96.2% | - | - | - | - | 0.0034ms | ~0.0001ms |
 | Toggle 1 - 1 bit - Python | 0 - 3.36V | 95% | - | - | - | - | 0.0038ms | 0.0001ms |
 | Toggle 1 - 2 bit - C | 0 - 3.36V | 95% | - | - | - | - | 0.190ms | 0.001ms |
-| Toggle 1 - 2 bit - Python | 0 - 3.36V |  | - | - | - | - | 0.346ms |  0.001ms |
+| Toggle 1 - 2 bit - Python | 0 - 3.36V | 94% | - | - | - | - | 0.346ms |  0.001ms |
 
 ## gpiod
 
