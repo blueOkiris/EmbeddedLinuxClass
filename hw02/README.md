@@ -83,7 +83,7 @@ From the doc:
 
 > Write a python script to toggle a gpio pin. Answer the above questions for you Python script. Present the shell script and Python script results in a table for easy comparison.
 
-This program is in the `hw02/gpio-measure/c` python
+This program is in the `hw02/gpio-measure/sysfs/c` python
 
 ### C
 
@@ -91,7 +91,7 @@ From the doc:
 
 > Repeat the above using C. Modify togglegpio.c to use lseek() instead of opening and cloing the file. How much faster is it? Add your results to the table.
 
-This program is in the `hw02/gpio-measure/c` folder
+This program is in the `hw02/gpio-measure/sysfs/c` folder. It can be built with `make`
 
 ### Results Table
 
@@ -104,18 +104,56 @@ This is the output that I receive, specifically, this is the shell output
 | Shell | 0 - 3.36V | 3.8% | 242ms | 46.4ms | 43.6ms | 43.6ms | 43.6ms | < 0.1 ms |
 | Python - Sysfs | 0 - 3.36V | 1.3% | 102ms | 11.2ms | 2.02ms | 1.07ms | 0.6ms | 1ms |
 | C - Sysfs | 0 - 3.36V | 0.7% | 100ms | 10.5ms | 1.38ms | 0.464ms | 0.362ms | 0.05ms |
-| Python - Gpiod | 0 - 3.360 - 3.36V | 40.6% | 102ms | 11.1ms | 1.2ms | 0.912ms | 0.516ms | ~1 ms |
-| C - Gpiod | 0 - 3.360 - 3.36V | 0.0% | 101ms | 10.2ms | 1.17ms | 0.264ms | 0.162ms | < 0.01 ms |
+| Python - Gpiod | 0 - 3.36V | 40.6% | 102ms | 11.1ms | 1.2ms | 0.912ms | 0.516ms | ~1 ms |
+| C - Gpiod | 0 - 3.36V | 0.0% | 101ms | 10.2ms | 1.17ms | 0.264ms | 0.162ms | < 0.01 ms |
+| Toggle 1 - 1 bit - Shell | 0 - 3.36V |  |  |  |  |  |  |  |
+| Toggle 1 - 1 bit - C | 0 - 3.36V |  |  |  |  |  |  |  |
+| Toggle 1 - 1 bit - Python | 0 - 3.36V |  |  |  |  |  |  |  |
+| Toggle 1 - 2 bit - C | 0 - 3.36V |  |  |  |  |  |  |  |
+| Toggle 1 - 2 bit - Python | 0 - 3.36V |  |  |  |  |  |  |  |
 
 ## gpiod
 
 Redid the scripts with c and python with gpiod. The results are in the table above.
 
-The files are in gpiod/c and gpiod/python
+The new C program that is based on gpiod is in `hw02/gpio-measure/gpiod/c`. It can be built with `make`
+
+The new Python program that is based on gpiod is in `hw02/gpio-measure/gpio/python`
+
+Also tested using the toggle 1 examples in cloud9. Those results are also in the table except for shell, as shell was very strange.
+
+Here's two pictures to illustrate what I mean.
+
+The signal:
+
+![basic signal](./images/basic-signal.bmp)
+
+But it doesn't seem to repeat:
+
+![broken signal](./images/broken-signal.bmp)
+
+So I've just taken it out of the table as it's not meaningfully measurable.
 
 ## Security
 
 Nothing is requested to be turned in for this
+
+Here's my iptables though:
+
+```
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+ACCEPT     tcp  --  192.168.7.0/24       anywhere             tcp dpt:5267
+DROP       tcp  --  anywhere             anywhere             tcp dpt:5267
+ACCEPT     tcp  --  137.112.4.0/24       anywhere             tcp dpt:5267
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+# Warning: iptables-legacy tables present, use iptables-legacy to see them
+```
 
 ## Etch-a-Sketch
 
