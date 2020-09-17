@@ -53,6 +53,7 @@ class CliDisplay(Display):
     Also start the application update process and key process
     """
     def start(self, application):
+        time.sleep(1)
         self.__inp.start()
         application.start()
 

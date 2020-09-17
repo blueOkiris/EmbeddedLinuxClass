@@ -26,8 +26,12 @@ class InputHandler:
 
 class PushButtonInputHandler(InputHandler):
     def __init__(self, btns):
-        super().__init__(PushButtonInputHandler.__pushButtonUpdateInput)
+        self._InputHandler__queue = multiprocessing.Queue()
         self._InputHandler__queue.put(btns)
+        self._InputHandler__updateThread = multiprocessing.Process(
+            target = PushButtonInputHandler.__pushButtonUpdateInput,
+            args = (self._InputHandler__queue,)
+        )
     
     # Loop in a separate process, adding to the queue when a key is pressed
     @staticmethod
@@ -46,6 +50,7 @@ class PushButtonInputHandler(InputHandler):
             btns[btnKey] = line
         
         quit = False
+        hasProcessed = False
         while not quit:
             for btnKey in btns:
                 if btns[btnKey].get_value() == 0:
