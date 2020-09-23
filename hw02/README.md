@@ -1,3 +1,21 @@
+# hw02 grading
+
+| Points      | Description |
+| ----------- | ----------- |
+|  2 | Buttons and LEDs 
+|  7 | Etch-a-Sketch works
+|    | Measuring a gpio pin on an Oscilloscope 
+|  4 | Questions answered
+|  2 | Table complete
+|  2 | gpiod
+|    | Security
+|  1 | ssh port
+|  1 | iptables
+|  1 | fail2ban
+| 20 | **Total**
+
+*Very well done.  Nice and complete.*
+
 # HW02 Answers/Turn-in-ables
 
 ## Description
