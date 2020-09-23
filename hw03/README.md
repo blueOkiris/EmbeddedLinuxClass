@@ -21,7 +21,7 @@ The following instructions are from the hw03 document.
 
 3. Write a python program to read the temperature of each.
 
-   This program can be found in the folder `hw03/temp101/pyth/gettemps.py`
+   This program is `hw03/temp101/pyth/gettemps.py`
 
 4. Use the i2cset command to set the temperature limits THIGH and TLOW. Test that they are working.
 
@@ -61,6 +61,19 @@ The following instructions are from the hw03 document.
 
 5. Write a python program that sets the temperature limits on each TMP101 and waits for an interrupt on the ALERT pin, then pri
 
-   This program is in `hw03/temp101/pyth/threshtemps.py`
+   This program is `hw03/temp101/pyth/threshtemps.py`
 
 
+## TMP006
+
+> You also have a TMP006 i2c sensor in your kit. Wire it up and see what you can do with it.
+
+## Etch-a-sketch
+
+> Modify your etch-a-sketch program to use the bicolor LED matrix in your kit. The matrix will work off 3.3V.
+
+The program is `hw03/etch-a-sketch/etch-a-sketch.py`
+
+## Rotary encoders
+
+> Modify your Etch-a-Sketch to use two rotary encoders.
