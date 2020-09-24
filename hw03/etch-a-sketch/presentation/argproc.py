@@ -152,7 +152,7 @@ class CliProcessor:
             + '--> sets the starting x of the cursor'
         )
         print(
-            '  --starty=#                      ' \
+            '  --starty=#                    ' \
             + '--> sets the starting y of the cursor'
         )
         print('  --input=[pushbtn|cli|encoder] --> sets input handler type')
