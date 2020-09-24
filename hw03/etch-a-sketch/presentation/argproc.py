@@ -159,12 +159,12 @@ class CliProcessor:
         print('  --input=[cli|matrix]          --> sets input handler type')
         print('  --help                        --> display this message')
         print('Game control:')
-        print('  w, a, s, d                    --> up, down, left, and right')
+        print('  wasd, dir btns, encoders      --> up, down, left, and right')
         print(
-            '  e                             ' \
+            '  e or yellow btn               ' \
             + '--> reset cursor position and clear'
         )
         print(
-            '  q                             ' \
+            '  q or red btn                  ' \
             + '--> quit the etch-a-sketch program'
         )
