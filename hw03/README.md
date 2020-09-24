@@ -63,14 +63,6 @@ The following instructions are from the hw03 document.
 
    This program is `hw03/tmp101/threshtemps.py`
 
-## TMP006
-
-> You also have a TMP006 i2c sensor in your kit. Wire it up and see what you can do with it.
-
-I wrote a simple program that prints out the temperature from the device
-
-This port is `hw03/tmp006/gettemp.py`
-
 ## Etch-a-sketch
 
 > Modify your etch-a-sketch program to use the bicolor LED matrix in your kit. The matrix will work off 3.3V.

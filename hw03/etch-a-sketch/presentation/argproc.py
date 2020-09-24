@@ -139,13 +139,32 @@ class CliProcessor:
     def _printHelp(self):
         print('./etch-sketch.py [OPTIONS]')
         print('Options:')
-        print('  --width=#             --> sets the width of the display')
-        print('  --height=#            --> sets the height of the display')
-        print('  --startx=#            --> sets the starting x of the cursor')
-        print('  --starty=#            --> sets the starting y of the cursor')
-        print('  --input=[pushbtn|cli] --> sets input handler type')
-        print('  --help                --> display this message')
+        print(
+            '  --width=#                     ' \
+            + '--> sets the width of the display'
+        )
+        print(
+            '  --height=#                    ' \
+            + '--> sets the height of the display'
+        )
+        print(
+            '  --startx=#                    ' \
+            + '--> sets the starting x of the cursor'
+        )
+        print(
+            '  --starty=#                      ' \
+            + '--> sets the starting y of the cursor'
+        )
+        print('  --input=[pushbtn|cli|encoder] --> sets input handler type')
+        print('  --input=[cli|matrix]          --> sets input handler type')
+        print('  --help                        --> display this message')
         print('Game control:')
-        print('  w, a, s, d            --> up, down, left, and right')
-        print('  e                     --> reset cursor position and clear')
-        print('  q                     --> quit the etch-a-sketch program')
+        print('  w, a, s, d                    --> up, down, left, and right')
+        print(
+            '  e                             ' \
+            + '--> reset cursor position and clear'
+        )
+        print(
+            '  q                             ' \
+            + '--> quit the etch-a-sketch program'
+        )
