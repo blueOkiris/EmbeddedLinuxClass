@@ -156,7 +156,7 @@ class CliProcessor:
             + '--> sets the starting y of the cursor'
         )
         print('  --input=[pushbtn|cli|encoder] --> sets input handler type')
-        print('  --disp=[cli|matrix]           --> sets input handler type')
+        print('  --disp=[cli|matrix]           --> sets display type')
         print('  --help                        --> display this message')
         print('Game control:')
         print('  wasd, dir btns, encoders      --> up, down, left, and right')
