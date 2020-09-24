@@ -53,7 +53,7 @@ def main():
 
     # Wait for interrupts
     leftAlertPin = digitalio.DigitalInOut(board.P9_12)
-    rightAlertPin = digitalio.DigitalInOut(board.P9_23)
+    rightAlertPin = digitalio.DigitalInOut(board.P9_30)
     leftAlertPin.direction = digitalio.Direction.INPUT
     rightAlertPin.direction = digitalio.Direction.INPUT
 

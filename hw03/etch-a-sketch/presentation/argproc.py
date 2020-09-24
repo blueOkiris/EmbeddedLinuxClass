@@ -48,10 +48,13 @@ class CliProcessor:
         elif self._inputHandler == 'encoder':
             return inp.RotaryEncoderInputHandler(
                 {
-                    'q' : ('gpiochip1', 29),
-                    'e' : ('gpiochip0', 27)
+                    'e' : ('gpiochip1', 29), # P8_26
+                    'q' : ('gpiochip0', 27) # P8_17
                 },
-
+                {
+                    'hor' : 1,
+                    'vert' : 2
+                }
             )
         else:
             return None

@@ -48,6 +48,7 @@ class Display:
                 self.print()
 
         self._inp.quit()
+        self.clear()
 
     def size(self):
         return self._size
@@ -82,19 +83,19 @@ class Matrix8Display(Display):
         self._bus.write_byte_data(self._matrixAddr, 0xE7, 0)
 
         self.clear()
-    
+
     def print(self):
         drawBytes = []
+        # Start off with 8 empty rows (2-byte color)
+        for row in range(8):
+            drawBytes.append(0x00)
+            drawBytes.append(0x00)
+        # Fill in based on buffer, but rotated 90 degrees
         for row in range(8):
             # Get on or off
-            data = 0x00
             for col in range(8):
-                if self._Display__grid[row][col] == '#':
-                    data += 0x01 << col
-            
-            # We'll just set red
-            drawBytes.append(data)
-            drawBytes.append(0x00)
+                if self._Display__grid[7 - row][col] == '#':
+                    drawBytes[col * 2] |= 0x01 << row
         self._bus.write_i2c_block_data(self._matrixAddr, 0, drawBytes)
 
     def clear(self):
