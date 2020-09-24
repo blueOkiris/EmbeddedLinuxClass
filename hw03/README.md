@@ -67,9 +67,9 @@ The following instructions are from the hw03 document.
 
 > You also have a TMP006 i2c sensor in your kit. Wire it up and see what you can do with it.
 
-I decided to port my "threshtemps.py" program over, as it sets the threshold and reads the temp, so it kind of does everything.
+I wrote a simple program that prints out the temperature from the device
 
-This port is `hw03/tmp006/threshtemps.py`
+This port is `hw03/tmp006/gettemp.py`
 
 ## Etch-a-sketch
 
