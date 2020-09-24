@@ -22,42 +22,42 @@ def updateApplication(queue):
 # that generates draw buffers based on the inputted updateFunc
 class Application:
     def __init__(self, buffSize, updateFunc):        
-        self.__queue = multiprocessing.Queue()
+        self._queue = multiprocessing.Queue()
         state = queuestate.AppState(buffSize, updateFunc)
-        self.__queue.put(state)
-        self.__updateThread = multiprocessing.Process(
-            target = updateApplication, args = (self.__queue,)
+        self._queue.put(state)
+        self._updateThread = multiprocessing.Process(
+            target = updateApplication, args = (self._queue,)
         )
     
     def start(self):
-        self.__updateThread.start()
+        self._updateThread.start()
         
     def handledBuffer(self):
-        state = self.__queue.get()
+        state = self._queue.get()
         state.buffer.shouldUpdate = False
-        self.__queue.put(state)
+        self._queue.put(state)
 
     def quit(self):
-        state = self.__queue.get()
+        state = self._queue.get()
         state.shouldQuit = True
-        self.__queue.put(state)
-        self.__updateThread.join()
+        self._queue.put(state)
+        self._updateThread.join()
 
     def setKey(self, key):
-        state = self.__queue.get()
+        state = self._queue.get()
         state.key = key
-        self.__queue.put(state)
+        self._queue.put(state)
     
     def hasQuit(self):
-        state = self.__queue.get()
+        state = self._queue.get()
         quitBool = state.shouldQuit
-        self.__queue.put(state)
+        self._queue.put(state)
         return quitBool
     
     # Not only gets the buffer, but tells the update loop to get a new buffer
     def getBuffer(self):
-        state = self.__queue.get()
+        state = self._queue.get()
         state.handled = True
-        self.__queue.put(state)
+        self._queue.put(state)
         
         return state.buffer

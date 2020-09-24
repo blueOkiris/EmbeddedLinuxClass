@@ -21,9 +21,7 @@ def main():
         application = app.Application(
             cliProcessor.displaySize(), etchGame.update
         )
-        disp = display.CliDisplay(
-            cliProcessor.displaySize(), cliProcessor.inputHandlerFactory()
-        )
+        disp = cliProcessor.outputHandlerFactory()
         disp.start(application)
 
         sys.stderr.close()

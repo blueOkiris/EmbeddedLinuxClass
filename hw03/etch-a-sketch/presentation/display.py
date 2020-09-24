@@ -2,51 +2,28 @@ import threading
 import platform
 import os
 import time
+import smbus
 import data.drawable as drawable
 import domain.app as app
 import presentation.inp as inp
 
-class Display:
-    def __init(self, size):
-        pass
-
-    def start(self, application):
-        pass
-
-    def print(self):
-        pass
-
-    def copyDrawBuffer(self, buff):
-        pass
-
-    def size(self):
-        return (0, 0)
-
 """
 The purpose of this class is to handle the drawing code
-Currently it uses the cli, but could be repurposed
+Originally it used the cli, but could be repurposed
 to draw to other displays.
 Functionally, it abstracts a display output
 """
-class CliDisplay(Display):
+class Display:
     def __init__(self, size, inpHand):
-        self.__onLinux = platform.system() != 'Windows'
-        self.__size = size
+        self._size = size
         self.__grid = []
-        for row in range(self.__size[1]):
+        for row in range(self._size[1]):
             colStr = ''
-            for col in range(self.__size[0]):
+            for col in range(self._size[0]):
                 colStr += ' '
             self.__grid.append(colStr)
-        self.__quit = False
-        self.__inp = inpHand
-    
-    # Handle cross-platform clearing of terminal
-    def __clearCli(self):
-        if self.__onLinux:
-            os.system('clear')
-        else:
-            os.system('cls')
+        self._quit = False
+        self._inp = inpHand
 
     """
     Start the main draw loop (main render thread)
@@ -54,11 +31,11 @@ class CliDisplay(Display):
     """
     def start(self, application):
         time.sleep(1)
-        self.__inp.start()
+        self._inp.start()
         application.start()
 
         while not application.hasQuit():
-            key = self.__inp.getKey()
+            key = self._inp.getKey()
             application.setKey(key)
             if key == 'q':
                 application.quit()
@@ -66,16 +43,15 @@ class CliDisplay(Display):
             buff = application.getBuffer()
             if buff.shouldUpdate:
                 application.handledBuffer()
-                self.__clearCli()
+                self.clear()
                 self.copyDrawBuffer(buff)
                 self.print()
 
-        self.__inp.quit()
-    
-    def print(self):
-        for row in range(self.__size[1]):
-            print(' ' + self.__grid[row])
-    
+        self._inp.quit()
+
+    def size(self):
+        return self._size
+
     # Copy the data layer's draw buffer into memory so it can be printed
     def copyDrawBuffer(self, buff):
         for row in range(min(self.size()[1], buff.size()[1])):
@@ -87,10 +63,60 @@ class CliDisplay(Display):
                 else:
                     self.__grid[row] = leftSide + ' ' + rightSide
     
-    def size(self):
-        return self.__size
+    def print(self):
+        pass
+
+    def clear(self):
+        pass
     
-    def debugInfo(self):
-        return \
-            'Display size: (' + str(self.__size[0]) + ', ' \
-            + str(self.__size[1]) + ')'
+class Matrix8Display(Display):
+    def __init__(self, inpHand):
+        super().__init__((8, 8), inpHand)
+
+        self._bus = smbus.SMBus(2)
+        self._matrixAddr = 0x70
+
+        # Start oscillator, disp on & blink off, and full brightness
+        self._bus.write_byte_data(self._matrixAddr, 0x21, 0)
+        self._bus.write_byte_data(self._matrixAddr, 0x81, 0)
+        self._bus.write_byte_data(self._matrixAddr, 0xE7, 0)
+
+        self.clear()
+    
+    def print(self):
+        drawBytes = []
+        for row in range(8):
+            # Get on or off
+            data = 0x00
+            for col in range(8):
+                if self._Display__grid[row][col] == '#':
+                    data += 0x01 << col
+            
+            # We'll just set red
+            drawBytes.append(data)
+            drawBytes.append(0x00)
+        self._bus.write_i2c_block_data(self._matrixAddr, 0, drawBytes)
+
+    def clear(self):
+        clearBytes = []
+        for row in range(8):
+            clearBytes.append(0x00)
+            clearBytes.append(0x00)
+        self._bus.write_i2c_block_data(self._matrixAddr, 0, clearBytes)
+
+class CliDisplay(Display):
+    def __init__(self, size, inpHand):
+        super().__init__(size, inpHand)
+        self._onLinux = platform.system() != 'Windows'
+    
+    # Handle cross-platform clearing of terminal
+    def clear(self):
+        if self._onLinux:
+            os.system('clear')
+        else:
+            os.system('cls')
+    
+    def print(self):
+        for row in range(super().size()[1]):
+            print(' ' + self._Display__grid[row])
+    

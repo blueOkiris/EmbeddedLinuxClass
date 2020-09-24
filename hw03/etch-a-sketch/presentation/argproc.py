@@ -1,39 +1,40 @@
-import typing
 import presentation.inp as inp
+import presentation.display as display
 
 # This class processes arguments
 class CliProcessor:
     def __init__(self, args):
-        self.__args = args
-        self.__displaySize = (8, 8)
-        self.__startPos = (4, 4)
-        self.__success = True
-        self.__startPosChanged = (False, False)
-        self.__inputHandler = 'pushbtn'
+        self._args = args
+        self._displaySize = (8, 8)
+        self._startPos = (4, 4)
+        self._success = True
+        self._startPosChanged = (False, False)
+        self._inputHandler = 'encoder'
+        self._outputHandler = 'matrix'
 
-        for arg in self.__args[1:]:
-            self.__processArg(arg)
+        for arg in self._args[1:]:
+            self._processArg(arg)
 
-        if not self.__startPosChanged[0]:
-            self.__startPos = \
-                (int(round(self.__displaySize[0] / 2)), self.__startPos[1])
-        if not self.__startPosChanged[1]:
-            self.__startPos = \
-                (self.__startPos[0], int(round(self.__displaySize[1] / 2)))
+        if not self._startPosChanged[0]:
+            self._startPos = \
+                (int(round(self._displaySize[0] / 2)), self._startPos[1])
+        if not self._startPosChanged[1]:
+            self._startPos = \
+                (self._startPos[0], int(round(self._displaySize[1] / 2)))
     
     def successful(self):
-        return self.__success
+        return self._success
     
     def displaySize(self):
-        return self.__displaySize
+        return self._displaySize
     
     def startPosition(self):
-        return self.__startPos
+        return self._startPos
     
     def inputHandlerFactory(self):
-        if self.__inputHandler == 'cli':
+        if self._inputHandler == 'cli':
             return inp.CliInputHandler()
-        elif self.__inputHandler == 'pushbtn':
+        elif self._inputHandler == 'pushbtn':
             return inp.PushButtonInputHandler(
                 {
                     'q' : ('gpiochip1', 29),
@@ -44,65 +45,95 @@ class CliProcessor:
                     'd' : ('gpiochip1', 15)
                 }
             )
+        elif self._inputHandler == 'encoder':
+            return inp.RotaryEncoderInputHandler(
+                {
+                    'q' : ('gpiochip1', 29),
+                    'e' : ('gpiochip0', 27)
+                },
+
+            )
         else:
             return None
+    
+    def outputHandlerFactory(self):
+        if self._outputHandler == 'cli':
+            return display.CliDisplay(
+                self._displaySize, self.inputHandlerFactory()
+            )
+        elif self._outputHandler == 'matrix':
+            return display.Matrix8Display(self.inputHandlerFactory())
     
     """
     Alter settings if argument is given.
     'Fail' if an unknown command is given
     or if there's a parsing error
     """
-    def __processArg(self, arg):
+    def _processArg(self, arg):
         if arg.startswith('--width='):
             try:
-                self.__displaySize = (int(arg[8:]), self.__displaySize[1])
+                self._displaySize = (int(arg[8:]), self._displaySize[1])
             except:
                 print('Failed to parse width argument - ' + arg + '!')
-                self.__success = False
+                self._success = False
         elif arg.startswith('--height='):
             try:
-                self.__displaySize = (self.__displaySize[0], int(arg[9:]))
+                self._displaySize = (self._displaySize[0], int(arg[9:]))
             except:
                 print('Failed to parse height argument - ' + arg + '!')
-                self.__success = False
+                self._success = False
         elif arg.startswith('--startx='):
             try:
-                self.__startPos = (int(arg[9:]), self.__startPos[1])
-                self.__startPosChanged = (True, self.__startPosChanged[1])
+                self._startPos = (int(arg[9:]), self._startPos[1])
+                self._startPosChanged = (True, self._startPosChanged[1])
             except:
                 print('Failed to parse start x argument - ' + arg + '!')
-                self.__success = False
+                self._success = False
         elif arg.startswith('--starty='):
             try:
-                self.__startPos = (self.__startPos[0], int(arg[9:]))
-                self.__startPosChanged = (self.__startPosChanged[0], True)
+                self._startPos = (self._startPos[0], int(arg[9:]))
+                self._startPosChanged = (self._startPosChanged[0], True)
             except:
                 print('Failed to parse start y argument - ' + arg + '!')
-                self.__success = False
+                self._success = False
+        elif arg.startswith('--disp='):
+            outputType = ''
+            try:
+                outputType = arg[7:]
+            except:
+                print('Failed to parse output argument - ' + arg + '!')
+                self._success = False
+            
+            if outputType == 'cli' or outputType == 'matrix':
+                self._outputHandler = outputType
+            else:
+                print('Unexpected output type given: ' + outputType)
+                self._success = False
         elif arg.startswith('--input='):
             inputType = ''
             try:
                 inputType = arg[8:]
             except:
                 print('Failed to parse input argument - ' + arg + '!')
-                self.__success = False
+                self._success = False
             
-            if inputType == 'cli' or inputType == 'pushbtn':
-                self.__inputHandler = inputType
+            if inputType == 'cli' or inputType == 'pushbtn' \
+            or inputType == 'encoder':
+                self._inputHandler = inputType
             else:
                 print('Unexpected input type given: ' + inputType)
-                self.__success = False
+                self._success = False
         elif arg == '--help':
-            self.__printHelp()
-            self.__success = False
+            self._printHelp()
+            self._success = False
         else:
             print('Unknown option - ' + arg)
-            self.__printHelp()
+            self._printHelp()
             
-            self.__success = False
+            self._success = False
 
     # Just the help menu
-    def __printHelp(self):
+    def _printHelp(self):
         print('./etch-sketch.py [OPTIONS]')
         print('Options:')
         print('  --width=#             --> sets the width of the display')

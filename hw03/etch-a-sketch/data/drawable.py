@@ -6,27 +6,27 @@ to the display.
 """
 class DrawBuffer:
     def __init__(self, size):
-        self.__buff = []
-        self.__size = size
+        self._buff = []
+        self._size = size
         self.shouldUpdate = False
 
         # Populate buffer
-        for row in range(self.__size[1]):
+        for row in range(self._size[1]):
             colBuf = []
-            for col in range(self.__size[0]):
+            for col in range(self._size[0]):
                 colBuf.append(False)
-            self.__buff.append(colBuf)
+            self._buff.append(colBuf)
         
     def size(self):
-        return self.__size
+        return self._size
     
     def setPoint(self, point, value):
-        self.__buff[point[1]][point[0]] = value
+        self._buff[point[1]][point[0]] = value
     
     def getPoint(self, point):
-        return self.__buff[point[1]][point[0]]
+        return self._buff[point[1]][point[0]]
     
     def clear(self):
-         for row in range(self.__size[1]):
-            for col in range(self.__size[0]):
-                self.__buff[row][col] = False
+         for row in range(self._size[1]):
+            for col in range(self._size[0]):
+                self._buff[row][col] = False

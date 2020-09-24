@@ -63,7 +63,6 @@ The following instructions are from the hw03 document.
 
    This program is `hw03/temp101/pyth/threshtemps.py`
 
-
 ## TMP006
 
 > You also have a TMP006 i2c sensor in your kit. Wire it up and see what you can do with it.
@@ -77,3 +76,5 @@ The program is `hw03/etch-a-sketch/etch-a-sketch.py`
 ## Rotary encoders
 
 > Modify your Etch-a-Sketch to use two rotary encoders.
+
+The program is `hw03/etch-a-sketch/etch-a-sketch.py`
