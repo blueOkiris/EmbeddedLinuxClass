@@ -21,7 +21,7 @@ The following instructions are from the hw03 document.
 
 3. Write a python program to read the temperature of each.
 
-   This program is `hw03/temp101/pyth/gettemps.py`
+   This program is `hw03/tmp101/gettemps.py`
 
 4. Use the i2cset command to set the temperature limits THIGH and TLOW. Test that they are working.
 
@@ -61,11 +61,15 @@ The following instructions are from the hw03 document.
 
 5. Write a python program that sets the temperature limits on each TMP101 and waits for an interrupt on the ALERT pin, then pri
 
-   This program is `hw03/temp101/pyth/threshtemps.py`
+   This program is `hw03/tmp101/threshtemps.py`
 
 ## TMP006
 
 > You also have a TMP006 i2c sensor in your kit. Wire it up and see what you can do with it.
+
+I decided to port my "threshtemps.py" program over, as it sets the threshold and reads the temp, so it kind of does everything.
+
+This port is `hw03/tmp006/threshtemps.py`
 
 ## Etch-a-sketch
 
