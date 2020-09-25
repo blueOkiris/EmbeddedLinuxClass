@@ -4,3 +4,4 @@ obj/
 libbeagleaccess.a
 test-access
 measure
+blink-mmap
