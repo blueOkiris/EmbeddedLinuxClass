@@ -5,17 +5,65 @@
 
 void testBlink();
 void testMultiBlink();
+void testVerifyRead();
+
+void blinkWithBtns();
 
 int main(int argc, char **args) {
     //testBlink();
-    testMultiBlink();
+    //testMultiBlink();
+    testVerifyRead();
+    //void blinkWithBtns();
 
     return 0;
 }
 
-void testBlink() {
-    gpio.sysfs_disable_led_triggers();
+void blinkWithBtns() {
     if(gpio.init()) {
+        gpio.sysfs_disable_led_triggers();
+
+    }
+}
+
+void testVerifyRead() {
+    if(gpio.init()) {
+        gpio.sysfs_disable_led_triggers();
+        gpio_value_t val = 0;
+        while(1) {
+            printf("Turning on USR0...\n");
+            gpio.set_value(USR3, LOW);
+            gpio.set_value(USR0, HIGH);
+            val = gpio.read_value(USR3);
+            printf("Val %d\n", val);
+            usleep(1000000);
+
+            printf("Turning on USR1...\n");
+            gpio.set_value(USR0, LOW);
+            gpio.set_value(USR1, HIGH);
+            val = gpio.read_value(USR3);
+            printf("Val %d\n", val);
+            usleep(1000000);
+
+            printf("Turning on USR2...\n");
+            gpio.set_value(USR1, LOW);
+            gpio.set_value(USR2, HIGH);
+            val = gpio.read_value(USR3);
+            printf("Val %d\n", val);
+            usleep(1000000);
+
+            printf("Turning on USR3...\n");
+            gpio.set_value(USR2, LOW);
+            gpio.set_value(USR3, HIGH);
+            val = gpio.read_value(USR3);
+            printf("Val %d\n", val);
+            usleep(1000000);
+        }
+    }
+}
+
+void testBlink() {
+    if(gpio.init()) {
+        gpio.sysfs_disable_led_triggers();
         while(1) {
             printf("Turning on...\n");
             gpio.set_value(USR3, HIGH);

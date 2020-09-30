@@ -67,3 +67,11 @@ void gpio__set_value(unsigned int addr, gpio_value_t value) {
         *gpio_cleardataout_addr = addr;
     }
 }
+
+gpio_value_t gpio__read_value(unsigned int addr) {
+    if(*((unsigned int *)(gpio_addr + 0x013C)) & addr) {
+        return HIGH;
+    } else {
+        return LOW;
+    }
+}
