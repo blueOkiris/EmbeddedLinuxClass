@@ -47,8 +47,11 @@ class Display:
                 self.copyDrawBuffer(buff)
                 self.print()
 
-        self._inp.quit()
         self.clear()
+        if not (self._inp is inp.WebInputHandler):
+            self._inp.quit()
+        else:
+            print('You\'re running a web server. You have to Ctrl+C.')
 
     def size(self):
         return self._size

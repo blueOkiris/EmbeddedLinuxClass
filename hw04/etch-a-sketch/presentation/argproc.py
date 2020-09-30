@@ -9,7 +9,7 @@ class CliProcessor:
         self._startPos = (4, 4)
         self._success = True
         self._startPosChanged = (False, False)
-        self._inputHandler = 'encoder'
+        self._inputHandler = 'web'
         self._outputHandler = 'matrix'
 
         for arg in self._args[1:]:
@@ -56,6 +56,8 @@ class CliProcessor:
                     'vert' : 2
                 }
             )
+        elif self._inputHandler == 'web':
+            return inp.WebInputHandler()
         else:
             return None
     
@@ -121,7 +123,7 @@ class CliProcessor:
                 self._success = False
             
             if inputType == 'cli' or inputType == 'pushbtn' \
-            or inputType == 'encoder':
+            or inputType == 'encoder' or inputType == 'web':
                 self._inputHandler = inputType
             else:
                 print('Unexpected input type given: ' + inputType)
@@ -155,16 +157,18 @@ class CliProcessor:
             '  --starty=#                    ' \
             + '--> sets the starting y of the cursor'
         )
-        print('  --input=[pushbtn|cli|encoder] --> sets input handler type')
-        print('  --disp=[cli|matrix]           --> sets display type')
-        print('  --help                        --> display this message')
+        print('  --input=[pushbtn|cli|encoder|web] --> sets input handler type')
+        print('  --disp=[cli|matrix]               --> sets display type')
+        print('  --help                            --> display this message')
         print('Game control:')
-        print('  wasd, dir btns, encoders      --> up, down, left, and right')
         print(
-            '  e or yellow btn               ' \
+            '  wasd, dir btns, encoders          --> up, down, left, and right'
+        )
+        print(
+            '  e or yellow btn                   ' \
             + '--> reset cursor position and clear'
         )
         print(
-            '  q or red btn                  ' \
+            '  q or red btn                      ' \
             + '--> quit the etch-a-sketch program'
         )

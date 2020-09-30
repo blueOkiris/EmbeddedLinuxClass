@@ -4,7 +4,9 @@ import time
 import typing
 import gpiod
 import os
+import signal
 import Adafruit_BBIO.Encoder
+import flask
 
 # This just serves to set up and start the input loop (and give it a queue)
 class InputHandler:
@@ -12,9 +14,7 @@ class InputHandler:
         self._queue = multiprocessing.Queue()
         for item in startingQueueItems:
             self._queue.put(item)
-        self._updateThread = multiprocessing.Process(
-            target = updateFunc, args = (self._queue,)
-        )
+        self.updateFunc = updateFunc
     
     def getKey(self):
         if self._queue.empty():
@@ -23,10 +23,72 @@ class InputHandler:
             return self._queue.get()
     
     def start(self):
+        self._updateThread = multiprocessing.Process(
+            target = self.updateFunc, args = (self._queue,)
+        )
         self._updateThread.start()
 
     def quit(self):
         self._updateThread.join()
+    
+class WebInputHandler(InputHandler):
+    def __init__(self):
+        super().__init__(WebInputHandler._webUpdateInput, [])
+    
+    @staticmethod
+    def _webUpdateInput(queue):
+        inputApp = flask.Flask(__name__)
+
+        @inputApp.route('/')
+        def index():
+            templateData = {
+                'title' : 'Etch-A-Sketch Input Handler',
+                'page_title' : 'Etch-A-Sketch Controller',
+                'info' : 
+                    'Click the buttons to control the cursor on the screen!'
+            }
+            return flask.render_template('index.html', **templateData)
+        
+        @inputApp.route('/input/up')
+        def up():
+            queue.put('w')
+            queue.put('')
+            return index()
+
+        @inputApp.route('/input/down')
+        def down():
+            queue.put('s')
+            queue.put('')
+            return index()
+
+        @inputApp.route('/input/left')
+        def left():
+            queue.put('a')
+            queue.put('')
+            return index()
+
+        @inputApp.route('/input/right')
+        def right():
+            queue.put('d')
+            queue.put('')
+            return index()
+
+        @inputApp.route('/input/clear')
+        def clear():
+            queue.put('e')
+            queue.put('')
+            queue.put('e')
+            queue.put('')
+            return index()
+
+        @inputApp.route('/input/quit')
+        def shutdown():
+            shutdown = flask.request.environ.get('werkzeug.server.shutdown')
+            shutdown()
+            queue.put('q')
+            return 'Shutting down...'
+        
+        inputApp.run(host = '0.0.0.0', port = 8081, debug = True)
 
 class RotaryEncoderInputHandler(InputHandler):
     def __init__(self, btns, encoders):
