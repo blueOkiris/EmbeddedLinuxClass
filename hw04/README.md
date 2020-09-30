@@ -13,3 +13,11 @@ From the document:
 2. The program is located in `hw04/mmap/togglefast.c`
 
    The period is 0.29 ms, which is even faster!
+
+## I2C Kernel Driver
+
+From document:
+
+> Follow the directions at EBC_Exercise_12_I2C to read your TMP101 sensors using the kernel driver. Write a program (bash, python or c) that reads the sensor through the driver.
+
+This program is in `hw04/i2c_kernel/temp101.sh`
