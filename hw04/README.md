@@ -21,3 +21,11 @@ From document:
 > Follow the directions at EBC_Exercise_12_I2C to read your TMP101 sensors using the kernel driver. Write a program (bash, python or c) that reads the sensor through the driver.
 
 This program is in `hw04/i2c_kernel/temp101.sh`
+
+## Control LED from Browswer
+
+From document:
+
+> Modify you Etch-a-Sketch to control the LED matrix from a web browser via Flask. Have four buttons on the web page that control up, down, left and right.
+
+The new version is in `hw04/etch-a-sketch/etch-a-sketch.py`
