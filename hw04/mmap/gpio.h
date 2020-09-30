@@ -4,13 +4,13 @@ typedef enum {
     HIGH = 1, LOW = 0
 } gpio_value_t;
 
-char gpio__init();
+char gpio__init(unsigned int gpio_chip, size_t length);
 void gpio__sysfs_disable_led_triggers();
 void gpio__set_value(unsigned int addr, gpio_value_t value);
 gpio_value_t gpio__read_value(unsigned int addr);
 
 static const struct {
-    char (*init)();
+    char (*init)(unsigned int gpio_chip, size_t length);
     void (*sysfs_disable_led_triggers)();
     void (*set_value)(unsigned int addr, gpio_value_t value);
     gpio_value_t (*read_value)(unsigned int addr);

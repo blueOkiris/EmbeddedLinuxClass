@@ -19,14 +19,14 @@ int main(int argc, char **args) {
 }
 
 void blinkWithBtns() {
-    if(gpio.init()) {
+    if(gpio.init(GPIO1_START_ADDR, GPIO1_SIZE)) {
         gpio.sysfs_disable_led_triggers();
 
     }
 }
 
 void testVerifyRead() {
-    if(gpio.init()) {
+    if(gpio.init(GPIO1_START_ADDR, GPIO1_SIZE)) {
         gpio.sysfs_disable_led_triggers();
         gpio_value_t val = 0;
         while(1) {
@@ -62,7 +62,7 @@ void testVerifyRead() {
 }
 
 void testBlink() {
-    if(gpio.init()) {
+    if(gpio.init(GPIO1_START_ADDR, GPIO1_SIZE)) {
         gpio.sysfs_disable_led_triggers();
         while(1) {
             printf("Turning on...\n");
@@ -79,7 +79,7 @@ void testBlink() {
 }
 
 void testMultiBlink() {
-    if(gpio.init()) {
+    if(gpio.init(GPIO1_START_ADDR, GPIO1_SIZE)) {
         gpio.sysfs_disable_led_triggers();
         while(1) {
             printf("Turning on...\n");

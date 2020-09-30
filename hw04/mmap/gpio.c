@@ -10,22 +10,25 @@
 void *gpio_addr;
 unsigned int *gpio_setdataout_addr;
 unsigned int *gpio_cleardataout_addr;
+int fd = -1;
 
 char failed = 1;
 
-char gpio__init() {
+char gpio__init(unsigned int gpio_chip, size_t length) {
     failed = 1;
 
-    int fd = open("/dev/mem", O_RDWR);
     if(fd == -1) {
-        printf("Failed to open /dev/mem. Are you root?\n");
-        return 0;
+        fd = open("/dev/mem", O_RDWR);
+        if(fd == -1) {
+            printf("Failed to open /dev/mem. Are you root?\n");
+            return 0;
+        }
     }
 
     gpio_addr = mmap(
         0, GPIO1_SIZE,
         PROT_READ | PROT_WRITE, MAP_SHARED,
-        fd, GPIO1_START_ADDR
+        fd, gpio_chip
     );
 
     if((int) ((int *) gpio_addr) != -1) {
