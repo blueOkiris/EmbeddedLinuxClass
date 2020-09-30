@@ -15,4 +15,5 @@
 #define USR2                (1 << 23)
 #define USR3                (1 << 24)
 #define P9_21               (1 << 3)
+#define P9_22               (1 << 2)
 #define P9_23               (1 << 17)
