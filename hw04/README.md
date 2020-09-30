@@ -29,3 +29,13 @@ From document:
 > Modify you Etch-a-Sketch to control the LED matrix from a web browser via Flask. Have four buttons on the web page that control up, down, left and right.
 
 The new version is in `hw04/etch-a-sketch/etch-a-sketch.py`
+
+## 2.4" Tft LCD
+
+### Plug in an turn on
+
+Nothing to turn in
+
+### Image of Boris running on my display
+
+
