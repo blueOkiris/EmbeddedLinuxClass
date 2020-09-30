@@ -5,3 +5,4 @@ libbeagleaccess.a
 test-access
 measure
 blink-mmap
+toggle-fast
