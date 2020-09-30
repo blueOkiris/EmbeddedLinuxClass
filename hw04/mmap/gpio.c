@@ -10,14 +10,16 @@
 void *gpio_addr;
 unsigned int *gpio_setdataout_addr;
 unsigned int *gpio_cleardataout_addr;
+unsigned int *gpio_datain_addr;
 int fd = -1;
 
 char failed = 1;
 
-char gpio__init(unsigned int gpio_chip) {
+char gpio__init(unsigned int chip) {
     failed = 1;
 
     if(fd != -1) {
+        munmap(0, GPIO_SIZE);
         close(fd);
     }
     fd = open("/dev/mem", O_RDWR);
@@ -25,16 +27,17 @@ char gpio__init(unsigned int gpio_chip) {
         printf("Failed to open /dev/mem. Are you root?\n");
         return 0;
     }
-    
+
     gpio_addr = mmap(
         0, GPIO_SIZE,
         PROT_READ | PROT_WRITE, MAP_SHARED,
-        fd, gpio_chip
+        fd, chip
     );
 
-    if((int) ((int *) gpio_addr) != -1) {
+    if(gpio_addr != (void *) -1) {
         gpio_setdataout_addr = gpio_addr + GPIO_SETDATAOUT;
         gpio_cleardataout_addr = gpio_addr + GPIO_CLEARDATAOUT;
+        gpio_datain_addr = gpio_addr + GPIO_DATAIN;
 
         failed = 0;
         return 1;
@@ -73,9 +76,13 @@ void gpio__set_value(unsigned int addr, gpio_value_t value) {
 }
 
 gpio_value_t gpio__read_value(unsigned int addr) {
-    if(*((unsigned int *)(gpio_addr + 0x013C)) & addr) {
+    if(*gpio_datain_addr & addr) {
         return HIGH;
     } else {
         return LOW;
     }
+}
+
+unsigned int gpio__read_value_raw() {
+    return *gpio_datain_addr;
 }
