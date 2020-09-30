@@ -29,9 +29,3 @@ View controls and cli options:
    ```
 
    To see command line options and also the controls for the game
-
-## Documentation
-
-Here is a class diagram for the system:
-
-![class diagram](../docs/etch-a-sketch-class.png)
