@@ -12,6 +12,4 @@ From the document:
 
 2. The program is located in `hw04/mmap/togglefast.c`
 
-   The period is .
-
-
+   The period is 0.29 ms, which is even faster!

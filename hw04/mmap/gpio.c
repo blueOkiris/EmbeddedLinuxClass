@@ -14,19 +14,20 @@ int fd = -1;
 
 char failed = 1;
 
-char gpio__init(unsigned int gpio_chip, size_t length) {
+char gpio__init(unsigned int gpio_chip) {
     failed = 1;
 
-    if(fd == -1) {
-        fd = open("/dev/mem", O_RDWR);
-        if(fd == -1) {
-            printf("Failed to open /dev/mem. Are you root?\n");
-            return 0;
-        }
+    if(fd != -1) {
+        close(fd);
     }
-
+    fd = open("/dev/mem", O_RDWR);
+    if(fd == -1) {
+        printf("Failed to open /dev/mem. Are you root?\n");
+        return 0;
+    }
+    
     gpio_addr = mmap(
-        0, GPIO1_SIZE,
+        0, GPIO_SIZE,
         PROT_READ | PROT_WRITE, MAP_SHARED,
         fd, gpio_chip
     );

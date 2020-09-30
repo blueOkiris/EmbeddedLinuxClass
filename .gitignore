@@ -6,3 +6,5 @@ test-access
 measure
 blink-mmap
 toggle-fast
+gpio-tests
+*.o
