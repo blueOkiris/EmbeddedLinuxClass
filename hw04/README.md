@@ -1,3 +1,19 @@
+# hw04 grading
+
+| Points      | Description |
+| ----------- | ----------- |
+|  2 | Memory map 
+|  4 | mmap()
+|  4 | i2c via Kernel
+|  4 | Etch-a-Sketch via flask
+|  4 | LCD display
+|  1 | Extras
+| 19 | **Total**
+
+*My comments are in italics. --may*
+
+*Well done.  Nice use of markdown.*
+
 # HW04
 
 ## GPIO with MMAP
