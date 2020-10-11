@@ -1,115 +1,321 @@
-/**
- * @file   gpio_test.c
- * @author Derek Molloy
- * @date   19 April 2015
- * @brief  A kernel module for controlling a GPIO LED/button pair. The device mounts devices via
- * sysfs /sys/class/gpio/gpio115 and gpio49. Therefore, this test LKM circuit assumes that an LED
- * is attached to GPIO 49 which is on P9_23 and the button is attached to GPIO 115 on P9_27. There
- * is no requirement for a custom overlay, as the pins are in their default mux mode states.
- * @see http://www.derekmolloy.ie/
-*/
-
+#include <stdint.h>
+#include <stddef.h> // For <signedness>int<number>_t constructions
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
-#include <linux/gpio.h>                 // Required for the GPIO functions
-#include <linux/interrupt.h>            // Required for the IRQ code
+#include <linux/gpio.h> // Required for the GPIO functions
+#include <linux/interrupt.h> // Required for the IRQ code
 
+/*
+ * Licensing stuff
+ *
+ * I'd say author Derek Molloy modified by me,
+ * but at this point I've rewritten everything,
+ * so I'm saying based-on the old file instead
+ */
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Derek Molloy");
-MODULE_DESCRIPTION("A Button/LED test driver for the BBB");
+MODULE_AUTHOR("Dylan Turner (based on gpio_test.c by Derek Molloy)");
+MODULE_DESCRIPTION(
+    "A driver to map P9_15 to P9_16"
+    " and turn on P9_12 and P9_14 from P9_15 and P9_18"
+);
 MODULE_VERSION("0.1");
 
-static unsigned int gpioLED = 49;       ///< hard coding the LED gpio for this example to P9_23 (GPIO49)
-static unsigned int gpioButton = 115;   ///< hard coding the button gpio for this example to P9_27 (GPIO115)
-static unsigned int irqNumber;          ///< Used to share the IRQ number within this file
-static unsigned int numberPresses = 0;  ///< For information, store the number of button presses
-static bool	    ledOn = 0;          ///< Is the LED on or off? Used to invert its state (off by default)
+// Some stucts to make code cleaner/more obvious hopefully
+typedef struct {
+    const uint32_t pin;
+    const uint32_t irq_num;
+    uint32_t num_triggers; // keep track of presses for info
+} button_t;
 
-/// Function prototype for the custom IRQ handler function -- see below for the implementation
-static irq_handler_t  ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs);
+typedef struct {
+    const uint32_t pin;
+    bool is_on;
+} led_t; // keep track of current state
 
-/** @brief The LKM initialization function
- *  The static keyword restricts the visibility of the function to within this C file. The __init
- *  macro means that for a built-in driver (not a LKM) the function is only used at initialization
- *  time and that it can be discarded and its memory freed up after that point. In this example this
- *  function sets up the GPIOs and the IRQ
- *  @return returns 0 if successful
+static led_t gpio_map_output_g = { 51, 0 }; // P9_16
+static button_t gpio_map_input_g = { 48, 0, 0 }; // P9_15
+static led_t gpio_leds_g[2] = {
+    { 60, 0 }, // P9_12
+    { 50, 0 } // P9_14
+};
+static button_t gpio_ctrl_btns_g[2] = {
+    { 47, 0, 0 }, // P8_15
+    { 65, 0, 0 } // P8_18
+};
+
+/*
+ * Custom IRQ handlers
+ * 
+ * inline for SPEEEEEEEEDDDD
  */
-static int __init ebbgpio_init(void){
-   int result = 0;
-   printk(KERN_INFO "GPIO_TEST: Initializing the GPIO_TEST LKM\n");
-   // Is the GPIO a valid GPIO number (e.g., the BBB has 4x32 but not all available)
-   if (!gpio_is_valid(gpioLED)){
-      printk(KERN_INFO "GPIO_TEST: invalid LED GPIO\n");
-      return -ENODEV;
-   }
-   // Going to set up the LED. It is a GPIO in output mode and will be on by default
-   ledOn = true;
-   gpio_request(gpioLED, "sysfs");          // gpioLED is hardcoded to 49, request it
-   gpio_direction_output(gpioLED, ledOn);   // Set the gpio to be in output mode and on
-// gpio_set_value(gpioLED, ledOn);          // Not required as set by line above (here for reference)
-   gpio_export(gpioLED, false);             // Causes gpio49 to appear in /sys/class/gpio
-			                    // the bool argument prevents the direction from being changed
-   gpio_request(gpioButton, "sysfs");       // Set up the gpioButton
-   gpio_direction_input(gpioButton);        // Set the button GPIO to be an input
-   gpio_set_debounce(gpioButton, 200);      // Debounce the button with a delay of 200ms
-   gpio_export(gpioButton, false);          // Causes gpio115 to appear in /sys/class/gpio
-			                    // the bool argument prevents the direction from being changed
-   // Perform a quick test to see that the button is working as expected on LKM load
-   printk(KERN_INFO "GPIO_TEST: The button state is currently: %d\n", gpio_get_value(gpioButton));
-
-   // GPIO numbers and IRQ numbers are not the same! This function performs the mapping for us
-   irqNumber = gpio_to_irq(gpioButton);
-   printk(KERN_INFO "GPIO_TEST: The button is mapped to IRQ: %d\n", irqNumber);
-
-   // This next call requests an interrupt line
-   result = request_irq(irqNumber,             // The interrupt number requested
-                        (irq_handler_t) ebbgpio_irq_handler, // The pointer to the handler function below
-                        IRQF_TRIGGER_RISING,   // Interrupt on rising edge (button press, not release)
-                        "ebb_gpio_handler",    // Used in /proc/interrupts to identify the owner
-                        NULL);                 // The *dev_id for shared interrupt lines, NULL is okay
-
-   printk(KERN_INFO "GPIO_TEST: The interrupt request result is: %d\n", result);
-   return result;
+inline irq_handler_t map_irq_handler(
+        uint32_t irq, void *dev_id, struct pt_regs *regs) {
+    gpio_map_input_g.num_triggers++;
+    bool input_val = gpio_get_value(gpio_map_input_g.pin);
+    
+    // Copy the state of the input to the state of the output
+    gpio_map_output_g.is_on = input_val;
+    gpio_set_value(gpio_map_output_g.pin, gpio_map_output_g.is_on);
+    
+    // Print about it
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " 'map input' set to 'map output' with value %d\n",
+        input_val
+    );
+    
+    return (irq_handler_t) IRQ_HANDLED;
 }
 
-/** @brief The LKM cleanup function
- *  Similar to the initialization function, it is static. The __exit macro notifies that if this
- *  code is used for a built-in driver (not a LKM) that this function is not required. Used to release the
- *  GPIOs and display cleanup messages.
- */
-static void __exit ebbgpio_exit(void){
-   printk(KERN_INFO "GPIO_TEST: The button state is currently: %d\n", gpio_get_value(gpioButton));
-   printk(KERN_INFO "GPIO_TEST: The button was pressed %d times\n", numberPresses);
-   gpio_set_value(gpioLED, 0);              // Turn the LED off, makes it clear the device was unloaded
-   gpio_unexport(gpioLED);                  // Unexport the LED GPIO
-   free_irq(irqNumber, NULL);               // Free the IRQ number, no *dev_id required in this case
-   gpio_unexport(gpioButton);               // Unexport the Button GPIO
-   gpio_free(gpioLED);                      // Free the LED GPIO
-   gpio_free(gpioButton);                   // Free the Button GPIO
-   printk(KERN_INFO "GPIO_TEST: Goodbye from the LKM!\n");
+inline irq_handler_t led_ctrl_handler(
+        uint32_t irq, void *dev_id, struct pt_regs *regs) {
+    int index = irq == gpio_ctrl_btns_g[0].irq_num ? 0 : 1;
+    gpio_ctrl_btns_g[index].num_triggers++;
+    
+    // Toggle LED
+    gpio_leds_g[index].is_on = !gpio_leds_g[index].is_on;
+    gpio_set_value(gpio_leds_g[index].pin, gpio_leds_g[index].is_on);
+    
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " Toggled 'led %d' to value %d\n",
+        index,
+        gpio_leds_g[index].is_on
+    );
+    return (irq_handler_t) IRQ_HANDLED;
 }
 
-/** @brief The GPIO IRQ Handler function
- *  This function is a custom interrupt handler that is attached to the GPIO above. The same interrupt
- *  handler cannot be invoked concurrently as the interrupt line is masked out until the function is complete.
- *  This function is static as it should not be invoked directly from outside of this file.
- *  @param irq    the IRQ number that is associated with the GPIO -- useful for logging.
- *  @param dev_id the *dev_id that is provided -- can be used to identify which device caused the interrupt
- *  Not used in this example as NULL is passed.
- *  @param regs   h/w specific register values -- only really ever used for debugging.
- *  return returns IRQ_HANDLED if successful -- should return IRQ_NONE otherwise.
+/*
+ * LKM initialization function
+ * 
+ * __init indicates built-in driver (not LKM)
+ * Only used at initialization and freed up after
+ * Returns 0 on success
  */
-static irq_handler_t ebbgpio_irq_handler(unsigned int irq, void *dev_id, struct pt_regs *regs){
-   ledOn = !ledOn;                          // Invert the LED state on each button press
-   gpio_set_value(gpioLED, ledOn);          // Set the physical LED accordingly
-   printk(KERN_INFO "GPIO_TEST: Interrupt! (button state is %d)\n", gpio_get_value(gpioButton));
-   numberPresses++;                         // Global counter, will be outputted when the module is unloaded
-   return (irq_handler_t) IRQ_HANDLED;      // Announce that the IRQ has been handled correctly
+inline int __init copy_and_btns_init() {
+    int result = 0;
+    printk(KERN_INFO "GPIO Mapping and LED Control: Initializing!\n");
+    
+    // Initialize the outputs. Apparently don't have to do this for inputs?
+    if (!gpio_is_valid(gpio_map_output_g.pin)) {
+        printk(
+            KERN_INFO
+                "GPIO Mapping and LED Control: Invalid 'mapped gpio': %d\n",
+            gpio_map_output_g.pin
+        );
+        return -ENODEV;
+    }
+    if (!gpio_is_valid(gpio_leds_g[0].pin)) {
+        printk(
+            KERN_INFO "GPIO Mapping and LED Control: Invalid 'led pin 0': %d\n",
+            gpio_leds_g[0].pin
+        );
+        return -ENODEV;
+    }
+    if (!gpio_is_valid(gpio_leds_g[1].pin)) {
+        printk(
+            KERN_INFO "GPIO Mapping and LED Control: Invalid 'led pin 1': %d\n",
+            gpio_leds_g[1].pin
+        );
+        return -ENODEV;
+    }
+   
+    /*
+     * Set up all the LEDs
+     * GPIO in output mode and will be on by default
+     * 
+     * Request them, set them as output, and turn them on
+     * Also tell them to appear in /sys/class/gpio
+     * Note the false in the export means it can't dissapear
+     */
+    
+    gpio_map_output_g.is_on = true;
+    gpio_request(gpio_map_output_g.pin, "sysfs");
+    gpio_direction_output(gpio_map_output_g.pin, gpio_map_output_g.is_on);
+    gpio_export(gpio_map_output_g.pin, false);
+    
+    gpio_leds_g[0].is_on = true;
+    gpio_request(gpio_leds_g[0].pin, "sysfs");
+    gpio_direction_output(gpio_leds_g[0].pin, gpio_leds_g[0].is_on);
+    gpio_export(gpio_leds_g[0].pin, false);
+    
+    gpio_leds_g[1].is_on = true;
+    gpio_request(gpio_leds_g[1].pin, "sysfs");
+    gpio_direction_output(gpio_leds_g[1].pin, gpio_leds_g[1].is_on);
+    gpio_export(gpio_leds_g[1].pin, false);
+    
+    /*
+     * Set up inputs
+     * 
+     * Request them, set output direction, and turn on debounce
+     * Also tell them to appear in /sys/class/gpio
+     * Note the false in the export means it can't dissapear
+     */
+    
+    gpio_request(gpio_map_input_g.pin, "sysfs");
+    gpio_direction_input(gpio_map_input_g.pin);
+    gpio_set_debounce(gpio_map_input_g.pin, 200); // delay of 200ms
+    gpio_export(gpio_map_input_g.pin, false);
+    
+    gpio_request(gpio_ctrl_btns_g[0].pin, "sysfs");
+    gpio_direction_input(gpio_ctrl_btns_g[0].pin);
+    gpio_set_debounce(gpio_ctrl_btns_g[0].pin, 200);
+    gpio_export(gpio_ctrl_btns_g[0].pin, false);
+    
+    gpio_request(gpio_ctrl_btns_g[1].pin, "sysfs");
+    gpio_direction_input(gpio_ctrl_btns_g[1].pin);
+    gpio_set_debounce(gpio_ctrl_btns_g[1].pin, 200);
+    gpio_export(gpio_ctrl_btns_g[1].pin, false);
+    
+    // Perform a quick test to see that the buttons are working as expected
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'map button' state is currently: %d\n",
+        gpio_get_value(gpio_map_input_g.pin)
+    );
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'ctrl button 0' state is currently: %d\n",
+        gpio_get_value(gpio_ctrl_btns_g[0].pin)
+    );
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'ctrl button 1' state is currently: %d\n",
+        gpio_get_value(gpio_ctrl_btns_g[1].pin)
+    );
+    
+    // NOTE: GPIO numbers and IRQ numbers are not the same!
+    uint32_t irq_num = gpio_to_irq(gpio_map_input_g.pin);
+    gpio_map_input_g = { gpio_map_input_g.pin, irq_num_g, 0 };
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'map button' is mapped to IRQ: %d\n",
+        irq_num
+    );
+    
+    irq_num = gpio_to_irq(gpio_ctrl_btns_g[0].pin);
+    gpio_ctrl_btns_g[0] = { gpio_ctrl_btns_g[0].pin, irq_num, 0 };
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'control button 0' is mapped to IRQ: %d\n",
+        irq_num
+    );
+    
+    irq_num = gpio_to_irq(gpio_ctrl_btns_g[1].pin);
+    gpio_ctrl_btns_g[1] = { gpio_ctrl_btns_g[1].pin, irq_num, 0 };
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'control button 1' is mapped to IRQ: %d\n",
+        irq_num
+    );
+    
+    // Request irqs for each input
+    result = request_irq(
+        gpio_map_input_g.irq_num, (irq_handler_t) map_irq_handler,
+        IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING,
+        "map_irq_handler", // /proc/interrupts id
+        NULL
+    );
+    result |= request_irq(
+        gpio_ctrl_btns_g[0].irq_num, (irq_handler_t) led_ctrl_handler,
+        IRQF_TRIGGER_HIGH, "led_ctrl_irq_handler0", // /proc/interrupts id
+        NULL
+    );
+    result |= request_irq(
+        gpio_ctrl_btns_g[1].irq_num, (irq_handler_t) led_ctrl_handler,
+        IRQF_TRIGGER_HIGH, "led_ctrl_irq_handler1", // /proc/interrupts id
+        NULL
+    );
+
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The interrupt request result is: %d\n",
+        result
+    );
+    return result;
 }
 
-/// This next calls are  mandatory -- they identify the initialization function
-/// and the cleanup function (as above).
-module_init(ebbgpio_init);
-module_exit(ebbgpio_exit);
+// Clean up function
+inline void __exit copy_and_btns_exit(void){
+    // Remove the buttons
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'map button' state is currently: %d\n", 
+        gpio_get_value(gpio_map_input_g.pin);
+    );
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'map button' was triggered %d times\n",
+        gpio_map_input_g.num_triggers
+    );
+    free_irq(gpio_map_input_g.irq, NULL);
+    gpio_unexport(gpio_map_input_g.pin);
+    gpio_free(gpio_map_input_g.pin);
+    
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'control button 0' state is currently: %d\n", 
+        gpio_get_value(gpio_ctrl_btns_g[0].pin);
+    );
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'control button 0' was triggered %d times\n",
+        gpio_ctrl_btns_g[0].num_triggers
+    );
+    free_irq(gpio_ctrl_btns_g[0].irq, NULL);
+    gpio_unexport(gpio_ctrl_btns_g[0].pin);
+    gpio_free(gpio_ctrl_btns_g[0].pin);
+    
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'control button 1' state is currently: %d\n", 
+        gpio_get_value(gpio_ctrl_btns_g[0].pin);
+    );
+    printk(
+        KERN_INFO
+            "GPIO Mapping and LED Control:"
+            " The 'control button 1' was triggered %d times\n",
+        gpio_map_input_g.num_triggers
+    );
+    free_irq(gpio_ctrl_btns_g[1].irq, NULL);
+    gpio_unexport(gpio_ctrl_btns_g[1].pin);
+    gpio_free(gpio_ctrl_btns_g[1].pin);
+    
+    // Remove the leds
+    gpio_set_value(gpio_map_output_g.pin, 0);
+    gpio_unexport(gpio_map_output_g.pin);
+    gpio_free(gpio_map_output_g.pin);
+    
+    gpio_set_value(gpio_leds_g[0].pin, 0);
+    gpio_unexport(gpio_leds_g[0].pin);
+    gpio_free(gpio_leds_g[0].pin);
+    
+    gpio_set_value(gpio_leds_g[1].pin, 0);
+    gpio_unexport(gpio_leds_g[1].pin);
+    gpio_free(gpio_leds_g[1].pin);
+    
+    
+    printk(KERN_INFO "GPIO Mapping and LED Control: Goodbye!\n");
+}
+
+/*
+ * These next calls are mandatory
+ * Identify the initialization function and cleanup functions
+ */
+module_init(copy_and_btns_init);
+module_exit(copy_and_btns_exit);
