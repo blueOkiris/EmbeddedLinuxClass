@@ -10,3 +10,8 @@ gpio-tests
 *.o
 *.arm
 *.ko
+*.cmd
+*.mod
+*.mod.c
+*.symvers
+*.order
