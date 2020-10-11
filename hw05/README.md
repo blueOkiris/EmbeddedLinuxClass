@@ -99,7 +99,24 @@ This address (0x56052c513038) is in our data section
 ### Cross-compiling on host
 
 ```
+dylan@dylanarch ~/Documents/School/2020-21/ECE/434/exercises (master*) $ source ../crossCompileEnv.sh
+dylan@dylanarch ~/Documents/School/2020-21/ECE/434/exercises (master*) $ ${CROSS_COMPILE}gcc helloWorld.c
+dylan@dylanarch ~/Documents/School/2020-21/ECE/434/exercises (master*) $ file a.out
+a.out: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 3.2.0, with debug_info, not stripped
+```
 
+Looks good to go!
+
+### Running on beagle
+
+After scping it over:
+
+```
+debian@beaglebone:~/EmbeddedLinuxClass$ ~/a.out 
+Hello, World! Main is executing at 0x103dd
+This address (0xbe8b50fc) is in our stack frame
+This address (0x21030) is in our bss section
+This address (0x21028) is in our data section
 ```
 
 ## Kernel Modules
