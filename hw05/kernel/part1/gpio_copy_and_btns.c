@@ -32,7 +32,7 @@ typedef struct {
     bool is_on;
 } led_t; // keep track of current state
 
-static led_t gpio_map_output_g = { 51, 0 }; // P9_16
+static led_t gpio_map_output_g = { 4, 0 }; // P9_18 bc P9_16 wasn't working
 static button_t gpio_map_input_g = { 48, 0, 0 }; // P9_15
 static led_t gpio_leds_g[2] = {
     { 60, 0 }, // P9_12
@@ -64,7 +64,7 @@ inline irq_handler_t map_irq_handler(
         KERN_INFO
             "GPIO Mapping and LED Control:"
             " 'map input' set to 'map output' with value %d\n",
-        input_val
+        gpio_map_output_g.is_on
     );
     
     return (irq_handler_t) IRQ_HANDLED;
@@ -228,12 +228,12 @@ inline int __init copy_and_btns_init(void) {
     );
     result |= request_irq(
         gpio_ctrl_btns_g[0].irq_num, (irq_handler_t) led_ctrl_handler,
-        IRQF_TRIGGER_HIGH, "led_ctrl_irq_handler0", // /proc/interrupts id
+        IRQF_TRIGGER_RISING, "led_ctrl_irq_handler0", // /proc/interrupts id
         NULL
     );
     result |= request_irq(
         gpio_ctrl_btns_g[1].irq_num, (irq_handler_t) led_ctrl_handler,
-        IRQF_TRIGGER_HIGH, "led_ctrl_irq_handler1", // /proc/interrupts id
+        IRQF_TRIGGER_RISING, "led_ctrl_irq_handler1", // /proc/interrupts id
         NULL
     );
 
