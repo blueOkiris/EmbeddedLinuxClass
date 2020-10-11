@@ -9,3 +9,4 @@ toggle-fast
 gpio-tests
 *.o
 *.arm
+*.ko
