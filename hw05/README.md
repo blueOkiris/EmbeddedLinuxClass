@@ -30,3 +30,40 @@ I've mentioned some project ideas in class though:
 
     - Moves body to search for and move to ball, playing "fetch"
 
+## Make
+
+> Do the http://elinux.org/EBC_make exercise and put your Makefile in your repo
+
+### Part A
+
+> Build and run “Hello World” from the command line.
+
+`gcc -g -c app.c -o app.o`
+
+> In the above gcc command, name the target, dependency and command.
+
+Target: app.o
+
+Dependency: app.c
+
+Command: `gcc` or I suppose more specifically `gcc -g -c <dependency> -o <target>`
+
+> What does the –c option (from the previous step) tell the compiler to do?
+
+It compiles the c source to an object file
+
+> Link the object file and produce the final executable.
+
+`gcc -g app.o -o app.arm`
+
+The rest is making the Makefile, which is continued and added to in part B
+
+## Part B
+
+The next part requires making a makefile that compiles the `app.arm` file, but using variables, generic rules, phonies, etc.
+
+I've elected to make the program a little more complicated so the Makefile can also be a bit more interesting as well by introducing header files
+
+All I've done is move the C files into a `src` folder and made a second header/c file that has a `print_hello_world` function, nothing super crazy. Also I created a separate folder for object files since there's two of them now
+
+The Makefile and project can be found in `hw05/make/`
