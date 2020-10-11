@@ -1,5 +1,4 @@
-#include <stdint.h>
-#include <stddef.h> // For <signedness>int<number>_t constructions
+#include <linux/types.h>
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -24,7 +23,7 @@ MODULE_VERSION("0.1");
 // Some stucts to make code cleaner/more obvious hopefully
 typedef struct {
     const uint32_t pin;
-    const uint32_t irq_num;
+    uint32_t irq_num;
     uint32_t num_triggers; // keep track of presses for info
 } button_t;
 
@@ -51,8 +50,10 @@ static button_t gpio_ctrl_btns_g[2] = {
  */
 inline irq_handler_t map_irq_handler(
         uint32_t irq, void *dev_id, struct pt_regs *regs) {
+    bool input_val;
+    
     gpio_map_input_g.num_triggers++;
-    bool input_val = gpio_get_value(gpio_map_input_g.pin);
+    input_val = gpio_get_value(gpio_map_input_g.pin);
     
     // Copy the state of the input to the state of the output
     gpio_map_output_g.is_on = input_val;
@@ -71,7 +72,8 @@ inline irq_handler_t map_irq_handler(
 
 inline irq_handler_t led_ctrl_handler(
         uint32_t irq, void *dev_id, struct pt_regs *regs) {
-    int index = irq == gpio_ctrl_btns_g[0].irq_num ? 0 : 1;
+    int index;
+    index = irq == gpio_ctrl_btns_g[0].irq_num ? 0 : 1;
     gpio_ctrl_btns_g[index].num_triggers++;
     
     // Toggle LED
@@ -95,8 +97,10 @@ inline irq_handler_t led_ctrl_handler(
  * Only used at initialization and freed up after
  * Returns 0 on success
  */
-inline int __init copy_and_btns_init() {
-    int result = 0;
+inline int __init copy_and_btns_init(void) {
+    int result;
+    
+    result = 0;
     printk(KERN_INFO "GPIO Mapping and LED Control: Initializing!\n");
     
     // Initialize the outputs. Apparently don't have to do this for inputs?
@@ -191,31 +195,28 @@ inline int __init copy_and_btns_init() {
     );
     
     // NOTE: GPIO numbers and IRQ numbers are not the same!
-    uint32_t irq_num = gpio_to_irq(gpio_map_input_g.pin);
-    gpio_map_input_g = { gpio_map_input_g.pin, irq_num_g, 0 };
+    gpio_map_input_g.irq_num = gpio_to_irq(gpio_map_input_g.pin);
     printk(
         KERN_INFO
             "GPIO Mapping and LED Control:"
             " The 'map button' is mapped to IRQ: %d\n",
-        irq_num
+        gpio_map_input_g.irq_num
     );
     
-    irq_num = gpio_to_irq(gpio_ctrl_btns_g[0].pin);
-    gpio_ctrl_btns_g[0] = { gpio_ctrl_btns_g[0].pin, irq_num, 0 };
+    gpio_ctrl_btns_g[0].irq_num = gpio_to_irq(gpio_ctrl_btns_g[0].pin);
     printk(
         KERN_INFO
             "GPIO Mapping and LED Control:"
             " The 'control button 0' is mapped to IRQ: %d\n",
-        irq_num
+        gpio_ctrl_btns_g[0].irq_num
     );
     
-    irq_num = gpio_to_irq(gpio_ctrl_btns_g[1].pin);
-    gpio_ctrl_btns_g[1] = { gpio_ctrl_btns_g[1].pin, irq_num, 0 };
+    gpio_ctrl_btns_g[1].irq_num = gpio_to_irq(gpio_ctrl_btns_g[1].pin);
     printk(
         KERN_INFO
             "GPIO Mapping and LED Control:"
             " The 'control button 1' is mapped to IRQ: %d\n",
-        irq_num
+        gpio_ctrl_btns_g[1].irq_num
     );
     
     // Request irqs for each input
@@ -246,13 +247,13 @@ inline int __init copy_and_btns_init() {
 }
 
 // Clean up function
-inline void __exit copy_and_btns_exit(void){
+inline void __exit copy_and_btns_exit(void) {
     // Remove the buttons
     printk(
         KERN_INFO
             "GPIO Mapping and LED Control:"
             " The 'map button' state is currently: %d\n", 
-        gpio_get_value(gpio_map_input_g.pin);
+        gpio_get_value(gpio_map_input_g.pin)
     );
     printk(
         KERN_INFO
@@ -260,7 +261,7 @@ inline void __exit copy_and_btns_exit(void){
             " The 'map button' was triggered %d times\n",
         gpio_map_input_g.num_triggers
     );
-    free_irq(gpio_map_input_g.irq, NULL);
+    free_irq(gpio_map_input_g.irq_num, NULL);
     gpio_unexport(gpio_map_input_g.pin);
     gpio_free(gpio_map_input_g.pin);
     
@@ -268,7 +269,7 @@ inline void __exit copy_and_btns_exit(void){
         KERN_INFO
             "GPIO Mapping and LED Control:"
             " The 'control button 0' state is currently: %d\n", 
-        gpio_get_value(gpio_ctrl_btns_g[0].pin);
+        gpio_get_value(gpio_ctrl_btns_g[0].pin)
     );
     printk(
         KERN_INFO
@@ -276,7 +277,7 @@ inline void __exit copy_and_btns_exit(void){
             " The 'control button 0' was triggered %d times\n",
         gpio_ctrl_btns_g[0].num_triggers
     );
-    free_irq(gpio_ctrl_btns_g[0].irq, NULL);
+    free_irq(gpio_ctrl_btns_g[0].irq_num, NULL);
     gpio_unexport(gpio_ctrl_btns_g[0].pin);
     gpio_free(gpio_ctrl_btns_g[0].pin);
     
@@ -284,7 +285,7 @@ inline void __exit copy_and_btns_exit(void){
         KERN_INFO
             "GPIO Mapping and LED Control:"
             " The 'control button 1' state is currently: %d\n", 
-        gpio_get_value(gpio_ctrl_btns_g[0].pin);
+        gpio_get_value(gpio_ctrl_btns_g[0].pin)
     );
     printk(
         KERN_INFO
@@ -292,7 +293,7 @@ inline void __exit copy_and_btns_exit(void){
             " The 'control button 1' was triggered %d times\n",
         gpio_map_input_g.num_triggers
     );
-    free_irq(gpio_ctrl_btns_g[1].irq, NULL);
+    free_irq(gpio_ctrl_btns_g[1].irq_num, NULL);
     gpio_unexport(gpio_ctrl_btns_g[1].pin);
     gpio_free(gpio_ctrl_btns_g[1].pin);
     
@@ -308,7 +309,6 @@ inline void __exit copy_and_btns_exit(void){
     gpio_set_value(gpio_leds_g[1].pin, 0);
     gpio_unexport(gpio_leds_g[1].pin);
     gpio_free(gpio_leds_g[1].pin);
-    
     
     printk(KERN_INFO "GPIO Mapping and LED Control: Goodbye!\n");
 }
