@@ -54,4 +54,13 @@ Nothing to turn in
 
 ### Image of Boris running on my display
 
+![boris](./20200930_172628.jpg)
+
+### Movie
+
+Nothing to turn in
+
+### Text generation
+
+Nothing to turn in
 
