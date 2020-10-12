@@ -250,7 +250,7 @@ static int __init ebbLED_init(void) {
    sprintf(ledName, "led%d", gpioLED); // Create the gpio115 name
    sprintf(ledName2, "led%d", gpioLED2); // Create the gpio115 name
 
-   ebb_kobj = kobject_create_and_add("ebb", kernel_kobj->parent);
+   ebb_kobj = kobject_create_and_add("ebb1", kernel_kobj->parent);
    if(!ebb_kobj) {
       printk(KERN_ALERT "EBB LED: failed to create kobject\n");
       return -ENOMEM;
@@ -273,7 +273,7 @@ static int __init ebbLED_init(void) {
       return PTR_ERR(task);
    }
 
-   ebb_kobj2 = kobject_create_and_add("ebb", kernel_kobj->parent);
+   ebb_kobj2 = kobject_create_and_add("ebb2", kernel_kobj->parent);
    if(!ebb_kobj2) {
       printk(KERN_ALERT "EBB LED: failed to create kobject\n");
       return -ENOMEM;
