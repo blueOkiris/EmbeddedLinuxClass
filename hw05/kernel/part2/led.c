@@ -32,7 +32,7 @@ MODULE_PARM_DESC(
 
 enum modes { OFF, ON, FLASH };
 static char ledName[7] = "ledXXX"; // Null terminated default string
-static char ledName2[7] = "ledXXX";
+static char ledName2[7] = "ledYYY";
 static bool ledOn = 0; // Is the LED on or off? Used for flashing
 static bool ledOn2 = 0;
 static enum modes mode = FLASH;
@@ -305,7 +305,9 @@ static int __init ebbLED_init(void) {
  */
 static void __exit ebbLED_exit(void){
    kthread_stop(task); // Stop the LED flashing thread
+   kthread_stop(task2); // Stop the LED flashing thread
    kobject_put(ebb_kobj); // clean up -- remove the kobject sysfs entry
+   kobject_put(ebb_kobj2); // clean up -- remove the kobject sysfs entry
    gpio_set_value(gpioLED, 0); // Turn the LED off
    gpio_set_value(gpioLED2, 0); // Turn the LED off
    gpio_unexport(gpioLED); // Unexport the Button GPIO
