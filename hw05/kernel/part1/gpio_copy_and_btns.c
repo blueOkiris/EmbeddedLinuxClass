@@ -8,7 +8,7 @@
 /*
  * Licensing stuff
  *
- * I'd say author Derek Molloy modified by me,
+ * I'd say "author Derek Molloy" and "modified by me,"
  * but at this point I've rewritten everything,
  * so I'm saying based-on the old file instead
  */
