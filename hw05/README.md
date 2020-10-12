@@ -4,7 +4,7 @@
 
 > Add a project (or two) to the Project page (see Moodle). Put your name on projects you are interested in doing.
 
-I may change this later, but at the moment I am unable to edit the project page.
+Here's a bit more description on the projects that I posted.
 
 I've mentioned some project ideas in class though:
 
