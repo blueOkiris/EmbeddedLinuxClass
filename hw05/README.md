@@ -1,3 +1,17 @@
+# hw05 grading
+
+| Points      | Description |
+| ----------- | ----------- |
+|  2 | Project - *Android Head is an interesting one.  Why do speech->text->speech?*
+|  2 | Makefile
+|  4 | Kernel Source
+|  2 | Cross-Compiling
+|  8 | Kernel Modules: hello, ebbchar, gpio_test, led
+|  1 | Extras
+| 19 | **Total**
+
+*My comments are in italics. --may*
+
 # HW05 Answers Document
 
 ## Project
