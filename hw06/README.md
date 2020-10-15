@@ -62,5 +62,51 @@ A non-critical IRQ
 
 Non-critical IRQ code has been extracted from the specific IRQ calling part. Thus, the other IRQ can also trigger.
 
-## 
+## PREEMPT_RT
+
+> install and run a real time kernel
+
+### Response Time
+
+> Measure the response time for two cases, one with a heavy load (as suggested in [3]) and one with no load
+
+> Have your histogram run out to at least 500 µs. Create two plots for each case. One for the RT kernel and one for the non-RT kernel.
+
+1. Heavy Load
+
+Rt: 
+
+Non-Rt:
+
+``` 
+real    1m40.203s
+user    0m1.499s
+sys     0m4.002s
+```
+
+Histogram:
+
+[heavy load img](./heavy.png)
+
+2. No Load
+
+Rt:
+
+Non-Rt:
+
+```
+real    1m40.199s
+user    0m0.760s
+sys	    0m2.381s
+```
+
+Histogram:
+
+[no load img](./no-load.png)
+
+### Commentary
+
+> Comment on the plots. Does the RT kernel have a bounded latency? What are you using for a load?
+
+
 
