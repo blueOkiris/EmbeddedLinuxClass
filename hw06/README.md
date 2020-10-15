@@ -74,7 +74,13 @@ Non-critical IRQ code has been extracted from the specific IRQ calling part. Thu
 
 1. Heavy Load
 
-Rt: 
+Rt:
+
+```
+real    1m40.309s
+user    0m1.781s
+sys     0m5.405s
+```
 
 Non-Rt:
 
@@ -91,6 +97,12 @@ Histogram:
 2. No Load
 
 Rt:
+
+```
+real    1m43.593s
+user    0m0.742s
+sys     0m2.050s
+```
 
 Non-Rt:
 
