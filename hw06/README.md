@@ -120,5 +120,9 @@ Histogram:
 
 > Comment on the plots. Does the RT kernel have a bounded latency? What are you using for a load?
 
+The no load doesn't really show anything of interest, the plots are about the same. However in the heavy load, you can see that the RT kernel had a clear drop off in cycles after a certain amount of time.
 
+This means that there is a bounded load.
+
+Also I used the `make` and `make clean` repeated in the modules folder as per the Exercise.
 
