@@ -92,7 +92,7 @@ sys     0m4.002s
 
 Histogram:
 
-[heavy load img](./heavy.png)
+![heavy load img](./heavy.png)
 
 2. No Load
 
@@ -114,7 +114,7 @@ sys	    0m2.381s
 
 Histogram:
 
-[no load img](./no-load.png)
+![no load img](./no-load.png)
 
 ### Commentary
 
