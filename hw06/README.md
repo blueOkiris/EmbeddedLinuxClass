@@ -1,3 +1,17 @@
+# hw06 grading
+
+| Points      | Description |
+| ----------- | ----------- |
+|  2 | Project 
+|  5 | Questions
+|  4 | PREEMPT_RT
+|  2 | Plots to 500 us  *Only went to 400 us*
+|  5 | Plots - Heavy/Light load
+|  2 | Extras
+| 18 | **Total**
+
+*My comments are in italics. --may*
+
 # HW06 Answers
 
 ## Project Page
@@ -8,6 +22,8 @@ Essentially you make the bone appear as a USB HID and send controller inputs bas
 
 One can also place the buttons in a nice wooden enclosure for structure
 
+*I have some big buttons you can borrow.*
+
 ## Watch
 
 > Watch’s Julia’s YouTube video[1] “What Every Driver Developer Should Know about RT”. Be ready to answer questions
@@ -15,6 +31,8 @@ One can also place the buttons in a nice wooden enclosure for structure
 1. Where does Julia Cartwright work?
 
 National Instruments (Hey! That's where I'll be working!)
+
+*I don't think she's there any more.*
 
 2. What is PREEMPT_RT?
 
