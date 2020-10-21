@@ -48,7 +48,7 @@ class BlynkInputHandler(InputHandler):
         # The V* says to response to all virtual pins
         @blynk.handle_event('write V*')
         def writeHandler(pin, value):
-            #print('Current V{} value: {}'.format(pin, value))
+            print('Current V{} value: {}'.format(pin, value))
             if int(value[0]) != 0:
                 queue.put(btns[pin])
                 if btns[pin] == 'q':
