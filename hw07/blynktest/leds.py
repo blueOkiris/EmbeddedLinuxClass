@@ -4,7 +4,7 @@ from blynkapi import Blynk
 import time
 
 # vars
-auth_token = "dc1c083949324ca28fbf393231f8cf09"
+auth_token = "TY24DjD6DOiO7tUavJ7oWwTUZ7Bz8myL"
 
 # create objects
 v0 =  Blynk(auth_token, pin = "V0" )
