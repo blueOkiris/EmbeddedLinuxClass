@@ -130,7 +130,8 @@ class CliProcessor:
                 self._success = False
             
             if inputType == 'cli' or inputType == 'pushbtn' \
-            or inputType == 'encoder' or inputType == 'web':
+            or inputType == 'encoder' or inputType == 'web' \
+            or inputType == 'blynk':
                 self._inputHandler = inputType
             else:
                 print('Unexpected input type given: ' + inputType)
