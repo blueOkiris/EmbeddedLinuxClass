@@ -61,8 +61,8 @@ class CliProcessor:
         elif self._inputHandler == 'blynk':
             return inp.BlynkInputHandler(
                 {
-                    'V0' : 'w', 'V1' : 's', 'V2' : 'a', 'V3' : 'd',
-                    'V4' : 'e', 'V5' : 'q'
+                    '0' : 'w', '1' : 's', '2' : 'a', '3' : 'd',
+                    '4' : 'e', '5' : 'q'
                 }, 'SJd3DGiBaVCOSo4HLtPjq7niVRoqo7aN'
             )
         else:
