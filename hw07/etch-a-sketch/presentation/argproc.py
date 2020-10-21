@@ -9,8 +9,8 @@ class CliProcessor:
         self._startPos = (4, 4)
         self._success = True
         self._startPosChanged = (False, False)
-        self._inputHandler = 'blynk'
-        self._outputHandler = 'matrix'
+        self._inputHandler = 'cli'
+        self._outputHandler = 'cli'
 
         for arg in self._args[1:]:
             self._processArg(arg)
