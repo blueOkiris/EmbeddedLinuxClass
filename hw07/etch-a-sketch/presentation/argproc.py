@@ -9,7 +9,7 @@ class CliProcessor:
         self._startPos = (4, 4)
         self._success = True
         self._startPosChanged = (False, False)
-        self._inputHandler = 'web'
+        self._inputHandler = 'blynk'
         self._outputHandler = 'matrix'
 
         for arg in self._args[1:]:
@@ -58,6 +58,13 @@ class CliProcessor:
             )
         elif self._inputHandler == 'web':
             return inp.WebInputHandler()
+        elif self._inputHandler == 'blynk':
+            return inp.BlynkInputHandler(
+                {
+                    'V0' : 'w', 'V1' : 's', 'V2' : 'a', 'V3' : 'd',
+                    'V4' : 'e', 'V5' : 'q'
+                }, 'SJd3DGiBaVCOSo4HLtPjq7niVRoqo7aN'
+            )
         else:
             return None
     
@@ -142,33 +149,40 @@ class CliProcessor:
         print('./etch-sketch.py [OPTIONS]')
         print('Options:')
         print(
-            '  --width=#                     ' \
+            '  --width=#                           ' \
             + '--> sets the width of the display'
         )
         print(
-            '  --height=#                    ' \
+            '  --height=#                          ' \
             + '--> sets the height of the display'
         )
         print(
-            '  --startx=#                    ' \
+            '  --startx=#                          ' \
             + '--> sets the starting x of the cursor'
         )
         print(
-            '  --starty=#                    ' \
+            '  --starty=#                          ' \
             + '--> sets the starting y of the cursor'
         )
-        print('  --input=[pushbtn|cli|encoder|web] --> sets input handler type')
-        print('  --disp=[cli|matrix]               --> sets display type')
-        print('  --help                            --> display this message')
+        print(
+            '  --input=[pushbtn|cli|encoder|web|blynk] ' \
+            + '--> sets input handler type'
+        )
+        print('  --disp=[cli|matrix]                     --> sets display type')
+        print(
+            '  --help                                  ' \
+            + '--> display this message'
+        )
         print('Game control:')
         print(
-            '  wasd, dir btns, encoders          --> up, down, left, and right'
+            '  wasd, dir btns, encoders                ' \
+            + '--> up, down, left, and right'
         )
         print(
-            '  e or yellow btn                   ' \
+            '  e or yellow btn                         ' \
             + '--> reset cursor position and clear'
         )
         print(
-            '  q or red btn                      ' \
+            '  q or red btn                            ' \
             + '--> quit the etch-a-sketch program'
         )

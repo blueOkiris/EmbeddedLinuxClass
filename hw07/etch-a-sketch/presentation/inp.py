@@ -7,6 +7,7 @@ import os
 import signal
 import Adafruit_BBIO.Encoder
 import flask
+import blynklib
 
 # This just serves to set up and start the input loop (and give it a queue)
 class InputHandler:
@@ -30,7 +31,32 @@ class InputHandler:
 
     def quit(self):
         self._updateThread.join()
+
+class BlynkInputHandler(InputHandler):
+    def __init__(self, btns, auth):
+        super().__init__(BlynkInputHandler._blynkUpdateInput, [ btns, auth ])
     
+    @staticmethod
+    def _blynkUpdateInput(queue):
+        quit = False
+        btns = queue.get()
+        auth = queue.get()
+        
+        blynk = blynklib.Blynk(auth)
+        
+        # Register Virtual Pins
+        # The V* says to response to all virtual pins
+        @blynk.handle_event('write V*')
+        def writeHandler(pin, value):
+            #print('Current V{} value: {}'.format(pin, value))
+            if int(value[0]) != 0:
+                queue.put(btns[pin])
+                if btns[pin] == 'q':
+                    quit = True
+        
+        while not quit:
+            blynk.run()
+
 class WebInputHandler(InputHandler):
     def __init__(self):
         super().__init__(WebInputHandler._webUpdateInput, [])
