@@ -60,10 +60,8 @@ class CliProcessor:
             return inp.WebInputHandler()
         elif self._inputHandler == 'blynk':
             return inp.BlynkInputHandler(
-                {
-                    '0' : 'w', '1' : 's', '2' : 'a', '3' : 'd',
-                    '4' : 'e', '5' : 'q'
-                }, 'SJd3DGiBaVCOSo4HLtPjq7niVRoqo7aN'
+                { 0 : 'w', 1 : 's', 2 : 'a', 3 : 'd', 4 : 'e', 5 : 'q' },
+                'SJd3DGiBaVCOSo4HLtPjq7niVRoqo7aN'
             )
         else:
             return None
