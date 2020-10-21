@@ -3,6 +3,7 @@
 import blynklib
 import blynktimer
 import busio
+import board
 import Adafruit_BBIO.GPIO as GPIO
 
 # Convert raw data to temperature (deg Celsius)
