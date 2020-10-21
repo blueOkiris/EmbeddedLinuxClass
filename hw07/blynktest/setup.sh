@@ -1,4 +1,4 @@
-export BLYNK_AUTH='087e4c21298e413ab9d5f87a5279e5c9'
+export BLYNK_AUTH='TY24DjD6DOiO7tUavJ7oWwTUZ7Bz8myL'
 
 # If useing BMP085 Temp/Pressure sensor
 
