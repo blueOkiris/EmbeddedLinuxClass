@@ -16,7 +16,7 @@ GPIO.setup(button, GPIO.IN)
 # print("button: " + str(GPIO.input(button)))
 
 # Get the autherization code (See setup.sh)
-BLYNK_AUTH = os.getenv('BLYNK_AUTH')
+BLYNK_AUTH = 'TY24DjD6DOiO7tUavJ7oWwTUZ7Bz8myL'#os.getenv('BLYNK_AUTH')
 print('Auth: ' + str(BLYNK_AUTH))
 
 # Initialize Blynk
