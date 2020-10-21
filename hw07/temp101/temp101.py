@@ -59,7 +59,7 @@ rawTemp = bytearray(2)
 # Set up blynk timer
 timer = blynktimer.Timer()
 WRITE_EVENT_PRINT_MSG = "[WRITE_VIRTUAL_WRITE] Pin: V{} Value: '{}'"
-@timer.register(vpin_num=9, interval=4, run_once=False)
+@timer.register(vpin_num=9, interval=0.01, run_once=False)
 def write_to_virtual_pin(vpin_num=1):
     i2c.readfrom_into(addr, rawTemp)
     value = rawToCelsius(rawTemp)
