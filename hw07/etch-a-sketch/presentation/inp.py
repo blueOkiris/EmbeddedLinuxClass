@@ -53,6 +53,7 @@ class BlynkInputHandler(InputHandler):
                 queue.put(btns[pin])
                 if btns[pin] == 'q':
                     quit = True
+                    blynk.disconnect()
         
         while not quit:
             blynk.run()
