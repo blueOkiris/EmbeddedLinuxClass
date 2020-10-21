@@ -149,19 +149,19 @@ class CliProcessor:
         print('./etch-sketch.py [OPTIONS]')
         print('Options:')
         print(
-            '  --width=#                           ' \
+            '  --width=#                               ' \
             + '--> sets the width of the display'
         )
         print(
-            '  --height=#                          ' \
+            '  --height=#                              ' \
             + '--> sets the height of the display'
         )
         print(
-            '  --startx=#                          ' \
+            '  --startx=#                              ' \
             + '--> sets the starting x of the cursor'
         )
         print(
-            '  --starty=#                          ' \
+            '  --starty=#                              ' \
             + '--> sets the starting y of the cursor'
         )
         print(
