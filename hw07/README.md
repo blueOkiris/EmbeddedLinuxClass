@@ -1,3 +1,16 @@
+# hw07 grading
+
+| Points      | Description |
+| ----------- | ----------- |
+|  1 | Project Template - *category ece497 was missing*
+|  2 | | Names
+|  2 | | Executive Summary
+| 10 | Blynk - TMP101
+|  4 | Blynk - Etch-a-sketch - extra
+| 19 | **Total**
+
+*My comments are in italics. --may*
+
 # HW07
 
 ## Project
