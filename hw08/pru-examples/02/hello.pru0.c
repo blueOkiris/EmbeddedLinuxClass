@@ -7,6 +7,7 @@ volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
 #define P8_12	(1 << 12)
+#define P8_15	(1 << 15)
 
 void main(void) {
 	uint32_t *gpio1 = (uint32_t *)GPIO1;
@@ -15,11 +16,11 @@ void main(void) {
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	for(;;) {
-		gpio1[GPIO_SETDATAOUT]   = P8_12;	// The the USR3 LED on
+		gpio1[GPIO_SETDATAOUT]   = P8_15;
 
-		__delay_cycles(0);    	// Wait 1/2 second
+		__delay_cycles(0);
 
-		gpio1[GPIO_CLEARDATAOUT] = P8_12;
+		gpio1[GPIO_CLEARDATAOUT] = P8_15;
 
 		__delay_cycles(0); 
 
