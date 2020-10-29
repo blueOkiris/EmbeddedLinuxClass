@@ -8,7 +8,7 @@ volatile register uint32_t __R31;
 
 void main(void)
 {
-	uint32_t gpio = P9_31;	// Select which pin to toggle.;
+	uint32_t gpio = P8_12;	// Select which pin to toggle.;
 
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
