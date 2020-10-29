@@ -6,6 +6,8 @@
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
+#define P8_12	(1 << 12)
+
 void main(void) {
 	int i;
 
@@ -14,12 +16,12 @@ void main(void) {
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	for(i=0; i<10; i++) {
-		gpio1[GPIO_SETDATAOUT]   = USR3;	// The the USR3 LED on
+	for(i=0; i<1000; i++) {
+		gpio1[GPIO_SETDATAOUT]   = P8_12;	// The the USR3 LED on
 
 		__delay_cycles(500000000/5);    	// Wait 1/2 second
 
-		gpio1[GPIO_CLEARDATAOUT] = USR3;
+		gpio1[GPIO_CLEARDATAOUT] = P8_12;
 
 		__delay_cycles(500000000/5); 
 
