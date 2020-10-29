@@ -4,13 +4,15 @@
 
 > What make command will start your PRU code running?
 
-`START`
+`make TARGET=hello.pru0`
 
 > What will stop it
 
-`STOP`
+`make` which calls `make clean` I believe
 
 > Now modify the code to toggle P9_31 in the same way.
+
+My version is in `hw08/pru-examples/02/hell0.pru0.c`
 
 > Set the __delay_cycles() to 0
 
