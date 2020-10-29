@@ -9,17 +9,17 @@ volatile register unsigned int __R31;
 void main(void) {
 	int i;
 
-	uint32_t *gpio1 = (uint32_t *)GPIO3;
+	uint32_t *gpio3 = (uint32_t *)GPIO3;
 	
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	for(i=0; i<10; i++) {
-		gpio1[GPIO_SETDATAOUT]   = P9_31;	// The the USR3 LED on
+		gpio3[GPIO_SETDATAOUT]   = P9_31;	// The the USR3 LED on
 
 		__delay_cycles(0);
 
-		gpio1[GPIO_CLEARDATAOUT] = P9_31;
+		gpio3[GPIO_CLEARDATAOUT] = P9_31;
 
 		__delay_cycles(0); 
 
