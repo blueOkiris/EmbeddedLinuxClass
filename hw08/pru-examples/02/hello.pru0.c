@@ -19,11 +19,11 @@ void main(void) {
 	for(i=0; i<1000; i++) {
 		gpio1[GPIO_SETDATAOUT]   = P8_12;	// The the USR3 LED on
 
-		__delay_cycles(500000000/5);    	// Wait 1/2 second
+		__delay_cycles(0);    	// Wait 1/2 second
 
 		gpio1[GPIO_CLEARDATAOUT] = P8_12;
 
-		__delay_cycles(500000000/5); 
+		__delay_cycles(0); 
 
 	}
 	__halt();
