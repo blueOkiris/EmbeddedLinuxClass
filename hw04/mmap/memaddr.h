@@ -17,4 +17,3 @@
 #define P9_21               (1 << 3)
 #define P9_22               (1 << 2)
 #define P9_23               (1 << 17)
-#define P9_31               (1 << 14)
