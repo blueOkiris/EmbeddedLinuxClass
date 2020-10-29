@@ -17,8 +17,8 @@ volatile register uint32_t __R31;
 void main(void)
 {
 	uint32_t ch;
-	uint32_t on[]  = {1, 2, 3, 4};	// Number of cycles to stay on
-	uint32_t off[] = {4, 3, 2, 1};	// Number to stay off
+	uint32_t on[]  = {1, 1, 1, 1};	// Number of cycles to stay on
+	uint32_t off[] = {1, 1, 1, 1};	// Number to stay off
 	uint32_t onCount[MAXCH];		// Current count
 	uint32_t offCount[MAXCH];
 

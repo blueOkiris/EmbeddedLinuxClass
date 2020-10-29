@@ -56,6 +56,8 @@ Yes
 
 ## Controlling the PWM Frequency
 
+Note that at this point I've fixed the P9_31 pins, so I can do the rest like I was supposed to.
+
 > Four PWM channels are implemented in this example [7]. Each controlled by a value in the SHARED memory.
 
 > What output pins are being driven? Hint: What bits of __R30 are being used?
