@@ -19,11 +19,11 @@ void main(void) {
 	for(i=0; i<10; i++) {
 		gpio1[GPIO_SETDATAOUT]   = P8_12;
 
-		__delay_cycles(0);
+		__delay_cycles(500000000/5);
 
 		gpio1[GPIO_CLEARDATAOUT] = P8_12;
 
-		__delay_cycles(0); 
+		__delay_cycles(500000000/5); 
 
 	}
 	__halt();
