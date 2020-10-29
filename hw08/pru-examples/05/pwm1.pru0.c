@@ -15,8 +15,8 @@ void main(void)
 
 	while(1) {
 		__R30 |= gpio;		// Set the GPIO pin to 1
-		__delay_cycles(100000000);
+		__delay_cycles(2);
 		__R30 &= ~gpio;		// Clear the GPIO pin
-		__delay_cycles(100000000);
+		__delay_cycles(2);
 	}
 }
