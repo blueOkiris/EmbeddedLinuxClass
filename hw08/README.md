@@ -20,15 +20,15 @@ My version is in `hw08/pru-examples/02/hell0.pru0.c`
 
 > How fast can you toggle the pin?
 
-Slow
+T = 2.96ms
 
 > Is there jitter1?
 
-Maybe
+YES. It's a triangle wave.
 
 > Is it stable?
 
-Possibly
+Mostly. I do see some places where the signal changes, but it's pretty good
 
 ## PWN Generator
 
