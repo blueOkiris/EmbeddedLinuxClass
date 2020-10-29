@@ -34,6 +34,8 @@ Mostly. I do see some places where the signal changes, but it's pretty good
 
 > Now run the example in [6] but move the output pin to P9_31
 
+Once again I'm using P8_12
+
 > Do a ‘scope capture with the delays added to make the waveform symmetric and at 50 MHz.
 
 > Comment on how stable the waveform is
