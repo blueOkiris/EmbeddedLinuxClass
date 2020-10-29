@@ -88,7 +88,25 @@ munmap succeeded
 
 ## Reading an Input at Regular Intervals
 
-My scope/function generator maxes out at 1MHz
+My scope/function generator maxes out at 1MHz, and I was able to stay consistently all the way to there.
+
+## Analog Wave Generator
+
+At first there was kind of an alternation between this wave:
+
+![sine part 1](pru-examples/05/IMG_004.BMP)
+
+And this wave:
+
+![sine part 2](pru-examples/05/IMG_005.BMP)
+
+After adding a 1k resistor & a 1uF cap:
+
+![sine](pru-examples/05/IMG_006.BMP)
+
+Which of course gets much closer to a sine wave.
+
+A great alternative is to do a simple DIY DAC using a resistor ladder. I've found it works very well for low power applications (it's hard to make a "strong" sine wave using it).
 
 ## Results Table
 
@@ -97,3 +115,4 @@ My scope/function generator maxes out at 1MHz
 | Gpiod    |  2.96m |   Stable    |  Yes   |
 | PRU GPIO |   1u   |  Unstable   |  Yes   |
 | PWM      |  1.6u  | Semi-Stable |  Yes   |
+| Input    |   1n   |  Stable     |  Yes   |
