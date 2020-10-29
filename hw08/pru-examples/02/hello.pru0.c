@@ -6,8 +6,6 @@
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
 
-#define P8_12	(1 << 12)
-
 void main(void) {
     uint32_t *gpio1 = (uint32_t *)GPIO1;
     
