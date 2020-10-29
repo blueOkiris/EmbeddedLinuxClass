@@ -64,15 +64,36 @@ Note that at this point I've fixed the P9_31 pins, so I can do the rest like I w
 
 Well, I see this masking being done: `__R30 |= 0x1<<ch;`, and I can see that ch is in a loop where it goes from 0 to `MAXCH` which is 4. So we know that r30 bits of 1, 2, 4, and 8 are being set, which correspond to pins: __P9_31, P9_30, P9_29, and P9_28__
 
-> What’s the highest frequency you can get with four channels? 
+> What’s the highest frequency you can get with four channels?
+
+635kHz
 
 > Is there jitter?
 
+Yes
+
 > Run the pwm-test.c program to change the on and off times. Does it work?
+
+Yes, I think:
+
+```
+Servo tester
+Using /dev/mem.
+countOn: 1, countOff: 19, count: 20
+countOn: 2, countOff: 18, count: 20
+countOn: 3, countOff: 17, count: 20
+countOn: 4, countOff: 16, count: 20
+munmap succeeded
+```
+
+## Reading an Input at Regular Intervals
+
+My scope/function generator maxes out at 1MHz
 
 ## Results Table
 
-| Method   | Period | Stability | Jitter |
-|:--------:|:------:|:---------:|:------:|
-| Gpiod    |  2.96m |   Stable  |  Yes   |
-| PRU GPIO |   1u   |  Unstable |  Yes   |
+| Method   | Period | Stability   | Jitter |
+|:--------:|:------:|:-----------:|:------:|
+| Gpiod    |  2.96m |   Stable    |  Yes   |
+| PRU GPIO |   1u   |  Unstable   |  Yes   |
+| PWM      |  1.6u  | Semi-Stable |  Yes   |
