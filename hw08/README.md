@@ -34,7 +34,7 @@ Mostly. I do see some places where the signal changes, but it's pretty good
 
 > Now run the example in [6] but move the output pin to P9_31
 
-Once again I'm using P8_12
+Once again I'm using P8_12. Modified program is in `hw08/pru-examples/05/pwm1.pru0.c`
 
 > Do a ‘scope capture with the delays added to make the waveform symmetric and at 50 MHz.
 
@@ -53,6 +53,20 @@ It's not very stable, though that may just be due to my limited oscilloscope
 > Is there jitter.
 
 Yes
+
+## Controlling the PWM Frequency
+
+> Four PWM channels are implemented in this example [7]. Each controlled by a value in the SHARED memory.
+
+> What output pins are being driven? Hint: What bits of __R30 are being used?
+
+Well, I see this masking being done: `__R30 |= 0x1<<ch;`, and I can see that ch is in a loop where it goes from 0 to `MAXCH` which is 4. So we know that r30 bits of 1, 2, 4, and 8 are being set, which correspond to pins: __P9_31, P9_30, P9_29, and P9_28__
+
+> What’s the highest frequency you can get with four channels? 
+
+> Is there jitter?
+
+> Run the pwm-test.c program to change the on and off times. Does it work?
 
 ## Results Table
 
