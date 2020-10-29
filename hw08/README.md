@@ -38,16 +38,18 @@ Once again I'm using P8_12
 
 > Do a ‘scope capture with the delays added to make the waveform symmetric and at 50 MHz.
 
-So... my oscilloscope can only measure to around 350kHz, and as far as I know, I don't have access to one of the school's. However, I can still look at the symmetry of a wave with delay decently low. The lowest I get a reasonable signal at is 1.3MHz. I set the delay to 10 to get that.
+So... my oscilloscope can only measure to around 350kHz, and as far as I know, I don't have access to one of the school's. However, I can still look at the symmetry of a wave with delay decently low. The lowest I get a reasonable signal at is 1MHz. I set the delay to 100 to get that.
+
+![plot](pru-examples/05/IMG_003.BMP)
 
 > Comment on how stable the waveform is
 
-Stable
+It's not very stable, though that may just be due to my limited oscilloscope
 
 > What’s the Std Dev?
 
-1
+1 or 2 us
 
 > Is there jitter.
 
-Maybe
+Yes
