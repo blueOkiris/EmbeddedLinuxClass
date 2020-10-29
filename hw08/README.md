@@ -4,11 +4,11 @@
 
 > What make command will start your PRU code running?
 
-`make TARGET=hello.pru0`
+`make TARGET=hello.pru0 start`
 
 > What will stop it
 
-`make` which calls `make clean` I believe
+`make TARGET=hello.pru0 stop`
 
 > Now modify the code to toggle P9_31 in the same way.
 
