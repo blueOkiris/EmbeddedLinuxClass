@@ -53,3 +53,10 @@ It's not very stable, though that may just be due to my limited oscilloscope
 > Is there jitter.
 
 Yes
+
+## Results Table
+
+| Method   | Period | Stability | Jitter |
+|:--------:|:------:|:---------:|:------:|
+| Gpiod    |  2.96m |   Stable  |  Yes   |
+| PRU GPIO |   1u   |  Unstable |  Yes   |
