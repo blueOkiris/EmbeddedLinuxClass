@@ -15,11 +15,11 @@ void main(void) {
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	for(i=0; i<10; i++) {
-		gpio1[GPIO_SETDATAOUT]   = P9_21;
+		gpio1[GPIO_SETDATAOUT]   = P9_14;
 
 		__delay_cycles(0);
 
-		gpio1[GPIO_CLEARDATAOUT] = P9_21;
+		gpio1[GPIO_CLEARDATAOUT] = P9_14;
 
 		__delay_cycles(0); 
 
