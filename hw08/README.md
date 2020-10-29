@@ -12,7 +12,7 @@
 
 > Now modify the code to toggle P9_31 in the same way.
 
-Couldn't get some GPIO to work (P9_31 included), so I'm using P9_23.
+Couldn't get some GPIO to work (P9_31 included), so I'm using P8_12 bc I can consistently get it to work.
 
 My version is in `hw08/pru-examples/02/hell0.pru0.c`
 

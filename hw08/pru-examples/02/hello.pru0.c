@@ -3,7 +3,7 @@
 #include "resource_table_empty.h"
 #include "prugpio.h"
 
-#define P9_23	(1 << 17)
+#define P8_12	(1 << 12)
 
 volatile register unsigned int __R30;
 volatile register unsigned int __R31;
@@ -17,11 +17,11 @@ void main(void) {
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
 	for(i=0; i<10; i++) {
-		gpio1[GPIO_SETDATAOUT]   = P9_23;
+		gpio1[GPIO_SETDATAOUT]   = P8_12;
 
 		__delay_cycles(0);
 
-		gpio1[GPIO_CLEARDATAOUT] = P9_23;
+		gpio1[GPIO_CLEARDATAOUT] = P8_12;
 
 		__delay_cycles(0); 
 
