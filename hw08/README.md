@@ -1,3 +1,19 @@
+# hw08 grading
+
+| Points      | Description |
+| ----------- | ----------- |
+| 14 | PRU
+|  2 | Controlling the PWM Frequency - optional
+|  2 | Reading an Input at Regular Intervals - optional
+|  2 | Analog Wave Generator - optional
+| 20 | **Total**
+
+*My comments are in italics. --may*
+
+*I think your results are OK, considering your 'scope could measure high enough
+frequencies.  If you have a chance, try using the lab 'scope when you are back.*
+
+
 # HW08
 
 ## Blinking an LED
@@ -14,6 +30,8 @@
 
 Couldn't get some GPIO to work (P9_31 included), so I'm using P8_12 bc I can consistently get it to work.
 
+*Have you disabled hdmi?*
+
 My version is in `hw08/pru-examples/02/hell0.pru0.c`
 
 > Set the __delay_cycles() to 0
@@ -22,15 +40,19 @@ My version is in `hw08/pru-examples/02/hell0.pru0.c`
 
 T = 2.96ms
 
+*This seems really slow.  It should be less than 1 microsecond.*
+
 > Is there jitter1?
 
 YES. It's a triangle wave.
+
+*There shouldn't be any jitter.*
 
 > Is it stable?
 
 Mostly. I do see some places where the signal changes, but it's pretty good
 
-## PWN Generator
+## PWM Generator
 
 > Now run the example in [6] but move the output pin to P9_31
 
@@ -39,6 +61,8 @@ Once again I'm using P8_12. Modified program is in `hw08/pru-examples/05/pwm1.pr
 > Do a ‘scope capture with the delays added to make the waveform symmetric and at 50 MHz.
 
 So... my oscilloscope can only measure to around 350kHz, and as far as I know, I don't have access to one of the school's. However, I can still look at the symmetry of a wave with delay decently low. The lowest I get a reasonable signal at is 1MHz. I set the delay to 100 to get that.
+
+*You need a better 'scope to see what the PRU is doing.*
 
 ![plot](pru-examples/05/IMG_003.BMP)
 
@@ -95,6 +119,8 @@ My scope/function generator maxes out at 1MHz, and I was able to stay consistent
 At first there was kind of an alternation between this wave:
 
 ![sine part 1](pru-examples/05/IMG_004.BMP)
+
+*I think your 'scope is  doing some filering.*
 
 And this wave:
 
