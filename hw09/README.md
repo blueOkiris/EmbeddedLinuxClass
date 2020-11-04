@@ -36,7 +36,11 @@ My timeline was essentially:
 
 > Select a sensor of your choice (the temperature sensor from an earlier homework is a good choice). Write a program to read the sensor and log the results on a Google Sheet
 
-I chose a simple button because it's easier to verify the results are correct.
+I'm choosing to take speech from a microphone as my project is already attached to one :)
+
+I have a python speech recognition library I can use
+
+The program I've written is `hw09/sheets/miclogger.py`
 
 ## ThingSpeak
 
