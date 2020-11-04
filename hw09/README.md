@@ -42,6 +42,8 @@ I have a python speech recognition library I can use
 
 The program I've written is `hw09/sheets/miclogger.py`
 
+[Link to the google sheet](https://docs.google.com/spreadsheets/d/1kBSJDmjRba7FHl_Y5KjrU7RE55wsCS9AJkZoBocIjUE/edit?usp=sharing)
+
 ## ThingSpeak
 
 > Repeat the exercise using ThingSpeak

@@ -39,19 +39,20 @@ def main():
     service = build('sheets', 'v4', credentials=creds)
 
     # Call the Sheets API
-    sheet = service.spreadsheets()
-    values = [
-        [
-            time.time() / 60 / 60 / 24 + 25569 - 4 / 24,
-            listen()
+    while True:
+        sheet = service.spreadsheets()
+        values = [
+            [
+                time.time() / 60 / 60 / 24 + 25569 - 4 / 24,
+                listen()
+            ]
         ]
-    ]
-    body = { 'values' : values }
-    result = sheet.values().append(
-        spreadsheetId = SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME,
-        valueInputOption = 'USER_ENTERED', body = body
-    ).execute()
-    print(result)
+        body = { 'values' : values }
+        result = sheet.values().append(
+            spreadsheetId = SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME,
+            valueInputOption = 'USER_ENTERED', body = body
+        ).execute()
+        print(result)
 
 # Retrieve audio from a microphone and return a string represtending the speech
 def listen():
