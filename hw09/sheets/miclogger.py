@@ -16,13 +16,10 @@ SAMPLE_SPREADSHEET_ID = '1kBSJDmjRba7FHl_Y5KjrU7RE55wsCS9AJkZoBocIjUE'
 SAMPLE_RANGE_NAME = 'A2'
 
 def main():
-    """Shows basic usage of the Sheets API.
-    Prints values from a sample spreadsheet.
-    """
     creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
+    
+    # token.pickle stores user access & refresh tokens
+    # Created automatically on authorization flow completion.
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
@@ -43,13 +40,17 @@ def main():
 
     # Call the Sheets API
     sheet = service.spreadsheets()
-    values = [ [time.time()/60/60/24+ 25569 - 4/24, sys.argv[1], sys.argv[2]]]
-    body = {'values': values}
-    result = sheet.values().append(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-                                range=SAMPLE_RANGE_NAME,
-                                valueInputOption='USER_ENTERED', 
-                                body=body
-                                ).execute()
+    values = [
+        [
+            time.time() / 60 / 60 / 24 + 25569 - 4 / 24,
+            listen()
+        ]
+    ]
+    body = { 'values' : values }
+    result = sheet.values().append(
+        spreadsheetId = SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME,
+        valueInputOption = 'USER_ENTERED', body = body
+    ).execute()
     print(result)
 
 # Retrieve audio from a microphone and return a string represtending the speech
