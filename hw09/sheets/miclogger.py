@@ -56,7 +56,10 @@ def main():
 # Retrieve audio from a microphone and return a string represtending the speech
 def listen():
     recognizer = speech_recognition.Recognizer()
-    mic = speech_recognition.Microphone()
+    mic = None
+    for i, micName in enumerate(speech_recognition.Microphone.list_microphone_names()):
+        if micName.startswith('Logitech USB Microphone'):
+            mic = speech_recognition.Microphone(device_index = i)
     
     with mic as source:
         recognizer.adjust_for_ambient_noise(source)
