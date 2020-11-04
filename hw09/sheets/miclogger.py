@@ -67,15 +67,15 @@ def listen():
         response = recognizer.recognize_google(audio)
     except speech_recognition.RequestError:
         print('Speech Recognition API Unavailable!')
-        return ''
+        return '~Api unavailable'
     except speech_recognition.UnknownValueError:
         print('Unable to recognize speech!')
-        return ''
+        return '~No speech Recognized'
     except OSError as e:
         print(e.args)
     except:
         print('Unknown error occurred: ', sys.exc_info()[0])
-        return ''
+        return '~Unknown error'
     return response
 
 if __name__ == '__main__':
