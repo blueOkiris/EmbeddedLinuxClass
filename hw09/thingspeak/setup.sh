@@ -29,4 +29,4 @@ cat "$dev/$BUS-00$ADDR1/hwmon/hwmon0/temp1_input"
 cat "$dev/$BUS-00$ADDR2/hwmon/hwmon1/temp1_input"
 
 # https://thingspeak.com/channels/538706/api_keys
-export THING_KEY=VKBLZME68539A9HX
+export THING_KEY=YHFPOTS3NYB9EJQA
