@@ -49,3 +49,7 @@ The program I've written is `hw09/sheets/miclogger.py`
 > Repeat the exercise using ThingSpeak
 
 My files for this are in `hw09/thingspeak`
+
+I made the [channel public](https://thingspeak.com/channels/1220165). Since my data isn't a number the visualization doesn't work great, but I think it just makes it unique
+
+I also sped it up to get data more quickly

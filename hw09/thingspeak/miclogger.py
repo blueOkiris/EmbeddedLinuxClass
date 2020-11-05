@@ -54,4 +54,4 @@ while(1):
     print(r)
     print(r.text)
 
-    time.sleep(15*60)
+    time.sleep(1*60)
