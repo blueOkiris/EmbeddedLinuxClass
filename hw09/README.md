@@ -48,4 +48,4 @@ The program I've written is `hw09/sheets/miclogger.py`
 
 > Repeat the exercise using ThingSpeak
 
-
+My files for this are in `hw09/thingspeak`
