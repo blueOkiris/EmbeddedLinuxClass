@@ -1,3 +1,17 @@
+# hw09 grading
+
+| Points      | Description |
+| ----------- | ----------- |
+|  5 | Project Timeline
+| 10 | Logging to Sheets
+|  3 | Logging to ThingSpeak - optional
+|  2 | Extras
+| 20 | **Total**
+
+*Interesting sensor to use.*
+
+*My comments are in italics. --may*
+
 # HW09 Answers
 
 ## Project
